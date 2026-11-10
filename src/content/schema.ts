@@ -62,8 +62,22 @@ export const roleSchema = z
     }
   });
 
+/**
+ * The public contact details. Only these three channels are published; a phone
+ * number is deliberately absent because it is injected at build time and never
+ * tracked (see `src/content/contact.ts`).
+ */
+export const profileSchema = z
+  .object({
+    email: z.email(),
+    linkedin: z.url(),
+    github: z.url(),
+  })
+  .strict();
+
 export const careerSchema = z
   .object({
+    profile: profileSchema,
     roles: z.array(roleSchema).min(1),
   })
   .strict();
@@ -104,6 +118,7 @@ export const uiSchema = z
 export type Bilingual = z.infer<typeof bilingualSchema>;
 export type Bullet = z.infer<typeof bulletSchema>;
 export type Role = z.infer<typeof roleSchema>;
+export type Profile = z.infer<typeof profileSchema>;
 export type Career = z.infer<typeof careerSchema>;
 export type UiStrings = z.infer<typeof uiSchema>;
 

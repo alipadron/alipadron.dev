@@ -1,5 +1,10 @@
 import type { Language } from '../src/content/language';
-import type { Role, UiStrings } from '../src/content/schema';
+import type { Career, Role, UiStrings } from '../src/content/schema';
+import {
+  phoneForOutput,
+  publicContactLinks,
+  type ContactOptions,
+} from '../src/content/contact';
 import {
   formatDateRange,
   formatLocationModel,
@@ -13,6 +18,19 @@ function escapeHtml(value: string): string {
     .replaceAll('>', '&gt;')
     .replaceAll('"', '&quot;')
     .replaceAll("'", '&#39;');
+}
+
+function renderContact(career: Career, options: ContactOptions): string {
+  const channels = publicContactLinks(career.profile).map(
+    (link) => `<a href="${escapeHtml(link.href)}">${escapeHtml(link.text)}</a>`,
+  );
+  const phone = phoneForOutput(options);
+
+  if (phone) {
+    channels.push(`<span class="phone">${escapeHtml(phone)}</span>`);
+  }
+
+  return channels.join(' · ');
 }
 
 function renderRole(role: Role, language: Language): string {
@@ -32,14 +50,17 @@ function renderRole(role: Role, language: Language): string {
 
 /**
  * Single-column, ATS-friendly HTML for the Full-Stack + AI CV. It is printed to
- * PDF by Playwright; the same content module feeds the site page.
+ * PDF by Playwright; the same content module feeds the site page. The phone
+ * number comes only from build-time options and is dropped from published
+ * output.
  */
 export function renderCvHtml(
-  roles: readonly Role[],
+  career: Career,
   language: Language,
   ui: UiStrings,
+  options: ContactOptions = {},
 ): string {
-  const renderedRoles = roles
+  const renderedRoles = career.roles
     .map((role) => renderRole(role, language))
     .join('\n      ');
 
@@ -77,6 +98,12 @@ export function renderCvHtml(
       .variant {
         color: #444;
         font-size: 12pt;
+        margin-bottom: 0.25rem;
+      }
+
+      .contact {
+        color: #444;
+        font-size: 10pt;
         margin-bottom: 1.5rem;
       }
 
@@ -99,6 +126,7 @@ export function renderCvHtml(
     <header>
       <h1>${escapeHtml(ui.siteName[language])}</h1>
       <p class="variant">${escapeHtml(ui.cv.variantName[language])}</p>
+      <p class="contact">${renderContact(career, options)}</p>
     </header>
 
     <main>

@@ -3,6 +3,7 @@ import path from 'node:path';
 
 import { chromium, type Browser } from 'playwright';
 
+import { isPublished } from '../src/content/contact';
 import { LANGUAGES } from '../src/content/language';
 import { loadCareer, loadUi, resolveContentFile } from '../src/content/load';
 import { renderCvHtml } from './cv-html';
@@ -11,6 +12,10 @@ const OUTPUT_DIR = path.resolve('output');
 
 const career = loadCareer(resolveContentFile());
 const ui = loadUi();
+const contact = {
+  phone: process.env['CV_PHONE'],
+  published: isPublished(process.env['CV_PUBLISHED']),
+};
 
 mkdirSync(OUTPUT_DIR, { recursive: true });
 
@@ -32,7 +37,7 @@ try {
     const htmlPath = path.join(OUTPUT_DIR, `${baseName}.html`);
     const pdfPath = path.join(OUTPUT_DIR, `${baseName}.pdf`);
 
-    const html = renderCvHtml(career.roles, language, ui);
+    const html = renderCvHtml(career, language, ui, contact);
     writeFileSync(htmlPath, html);
 
     await page.setContent(html, { waitUntil: 'load' });
