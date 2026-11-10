@@ -11,28 +11,49 @@ PDF generation needs Chromium: `npx playwright install chromium`.
 - `npm run build` — validates the career and UI content and prerenders `/`,
   `/es`, `/experience` and `/es/experience` into `dist/analog/public`. Every
   page exists in English at the root and in Spanish under `/es`.
-- `npm run test` — build-level tests. They run the build and the PDF command
-  and assert on the generated HTML/PDF text; invalid-content fixtures must fail
-  the build.
-- `npm run pdf` — writes the three English CVs (`cv-en-fullstack-ai`,
-  `cv-en-tech-lead`, `cv-en-freelance`) and the Spanish Full-Stack + AI CV
-  (`cv-es-fullstack-ai`), plus their HTML intermediates, to `output/`. Set
+- `npm run test` — build-level tests. They run the build and the document
+  pipeline and assert on the generated HTML, PDF and DOCX text; invalid-content
+  fixtures must fail the build.
+- `npm run documents` — the one command that writes all six CV documents
+  (`fullstack-ai`, `tech-lead`, `freelance` × `en`, `es`) to `output/` as PDF,
+  DOCX and HTML intermediates. It then copies only the two Full-Stack + AI PDFs
+  into `dist/analog/public/cv/`, which is the site output. Run `npm run build`
+  first so the site pages and their links are present.
+- `npm run pdf` — the same six PDFs and their HTML intermediates, without DOCX
+  and without publishing, for quick local iteration. Set
   `CONTENT_DIR`/`OUTPUT_DIR` to build fixtures into another directory.
 - `npm run typecheck` — TypeScript checks for the app, scripts and tests.
-- `npm run build && npx wrangler@4.160.0 pages deploy dist/analog/public
-  --project-name=alipadron-dev --branch=main` — deploys manually to the
-  Cloudflare Pages project `alipadron-dev` (`https://alipadron-dev.pages.dev`).
-  Needs `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` in the environment.
+- `npm run build && npm run documents && npx wrangler@4.160.0 pages deploy
+  dist/analog/public --project-name=alipadron-dev --branch=main` — deploys
+  manually to the Cloudflare Pages project `alipadron-dev`
+  (`https://alipadron-dev.pages.dev`). Needs `CLOUDFLARE_API_TOKEN` and
+  `CLOUDFLARE_ACCOUNT_ID` in the environment.
 
 CI (`.github/workflows/ci.yml`) runs typecheck, build and tests on every push
 and pull request.
 
 `Deploy` (`.github/workflows/deploy.yml`) publishes every push to `main` to the
 Cloudflare Pages project `alipadron-dev`, whose production branch is `main`. It
-is a direct-upload project: the build command (`npm run build`) and output
-directory (`dist/analog/public`) live in that workflow, not in the Cloudflare
-dashboard. It authenticates with the repository secrets `CLOUDFLARE_API_TOKEN`
-and `CLOUDFLARE_ACCOUNT_ID`. DNS and custom domains are out of its scope.
+is a direct-upload project: the build commands (`npm run build`, then
+`npm run documents`) and output directory (`dist/analog/public`) live in that
+workflow, not in the Cloudflare dashboard. It authenticates with the repository
+secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`. DNS and custom
+domains are out of its scope.
+
+## Documents and publication
+
+The six CV documents are `(variant, language)` pairs: `fullstack-ai`,
+`tech-lead` and `freelance`, each in English and Spanish. Every document is
+built from the same content module (`src/content/documents.ts`) and rendered
+once into a format-neutral model, so the PDF and the DOCX carry the same text in
+the same reading order. The PDF layout is single-column and ATS-friendly.
+
+Only the Full-Stack + AI PDFs (`cv-en-fullstack-ai`, `cv-es-fullstack-ai`) are
+public. `npm run documents` writes exactly those two into
+`dist/analog/public/cv/` and the site links each language's home page to its own
+copy. Tech Lead and Freelance exist only in `output/`. The published copies are
+always rendered as published output, so a phone number from `CV_PHONE` can never
+reach the site.
 
 ## Content
 

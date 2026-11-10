@@ -1,18 +1,8 @@
-import {
-  phoneForOutput,
-  publicContactLinks,
-  type ContactOptions,
-} from '../src/content/contact';
-import type { Language } from '../src/content/language';
-import {
-  CONCURRENT_LABEL,
-  formatDateRange,
-  formatLocationModel,
-  VARIANT_LABELS,
-  type SelectedEntry,
-  type VariantCv,
-} from '../src/content/presentation';
-import type { Profile, UiStrings } from '../src/content/schema';
+import type {
+  CvDocumentModel,
+  CvEntryModel,
+  CvSectionModel,
+} from '../src/content/documents';
 
 function escapeHtml(value: string): string {
   return value
@@ -23,25 +13,24 @@ function escapeHtml(value: string): string {
     .replaceAll("'", '&#39;');
 }
 
-function renderContact(profile: Profile, options: ContactOptions): string {
-  const channels = publicContactLinks(profile).map(
+function renderContact(document: CvDocumentModel): string {
+  const channels = document.contact.map(
     (link) => `<a href="${escapeHtml(link.href)}">${escapeHtml(link.text)}</a>`,
   );
-  const phone = phoneForOutput(options);
 
-  if (phone) {
-    channels.push(`<span class="phone">${escapeHtml(phone)}</span>`);
+  if (document.phone) {
+    channels.push(`<span class="phone">${escapeHtml(document.phone)}</span>`);
   }
 
   return channels.join(' · ');
 }
 
-function renderEntry(entry: SelectedEntry, language: Language): string {
+function renderEntry(entry: CvEntryModel): string {
   const bullets = entry.bullets
-    .map((bullet) => `<li>${escapeHtml(bullet.text[language])}</li>`)
+    .map((bullet) => `<li>${escapeHtml(bullet)}</li>`)
     .join('\n            ');
   const concurrent = entry.concurrent
-    ? `\n        <p class="concurrent">${escapeHtml(CONCURRENT_LABEL[language])}</p>`
+    ? `\n        <p class="concurrent">${escapeHtml(entry.concurrent)}</p>`
     : '';
   const bulletList =
     entry.bullets.length > 0
@@ -52,57 +41,34 @@ function renderEntry(entry: SelectedEntry, language: Language): string {
       : '';
 
   return `<section>
-        <h3>${escapeHtml(entry.company[language])}</h3>
-        <p><strong>${escapeHtml(entry.title[language])}</strong></p>
-        <p class="entry-meta">${escapeHtml(formatDateRange(entry, language))} · ${escapeHtml(formatLocationModel(entry.locationModel, language))} · ${escapeHtml(entry.stack.join(', '))}</p>${concurrent}${bulletList}
+        <h3>${escapeHtml(entry.company)}</h3>
+        <p><strong>${escapeHtml(entry.title)}</strong></p>
+        <p class="entry-meta">${escapeHtml(entry.meta)}</p>${concurrent}${bulletList}
       </section>`;
 }
 
-function renderSection(
-  title: string,
-  entries: readonly SelectedEntry[],
-  language: Language,
-): string {
-  const renderedEntries = entries
-    .map((entry) => renderEntry(entry, language))
-    .join('\n      ');
-  return `<h2>${escapeHtml(title)}</h2>
+function renderSection(section: CvSectionModel): string {
+  const renderedEntries = section.entries.map(renderEntry).join('\n      ');
+
+  return `<h2>${escapeHtml(section.heading)}</h2>
       ${renderedEntries}`;
 }
 
 /**
  * Single-column, ATS-friendly HTML for one CV document. It is printed to PDF by
- * Playwright; the same selected content feeds the site pages. The phone number
- * comes only from build-time options and is dropped from published output.
+ * Playwright. The text comes from the shared document model, so the DOCX renderer
+ * carries exactly the same content in the same order.
  */
-export function renderCvHtml(
-  cv: VariantCv,
-  profile: Profile,
-  language: Language,
-  ui: UiStrings,
-  options: ContactOptions = {},
-): string {
-  const variantLabel = VARIANT_LABELS[cv.variant][language];
-  const sections = [
-    ...(cv.experience.length > 0
-      ? [
-          renderSection(
-            ui.experience.heading[language],
-            cv.experience,
-            language,
-          ),
-        ]
-      : []),
-    ...(cv.projects.length > 0
-      ? [renderSection(ui.projects.heading[language], cv.projects, language)]
-      : []),
-  ].join('\n\n      ');
+export function renderCvHtml(document: CvDocumentModel): string {
+  const sections = document.sections
+    .map(renderSection)
+    .join('\n\n      ');
 
   return `<!doctype html>
-<html lang="${language}">
+<html lang="${document.language}">
   <head>
     <meta charset="utf-8" />
-    <title>${escapeHtml(ui.siteName[language])} — ${escapeHtml(variantLabel)}</title>
+    <title>${escapeHtml(document.name)} — ${escapeHtml(document.variantLabel)}</title>
     <style>
       @page {
         margin: 18mm;
@@ -167,9 +133,9 @@ export function renderCvHtml(
   </head>
   <body>
     <header>
-      <h1>${escapeHtml(ui.siteName[language])}</h1>
-      <p class="variant">${escapeHtml(variantLabel)}</p>
-      <p class="contact">${renderContact(profile, options)}</p>
+      <h1>${escapeHtml(document.name)}</h1>
+      <p class="variant">${escapeHtml(document.variantLabel)}</p>
+      <p class="contact">${renderContact(document)}</p>
     </header>
 
     <main>

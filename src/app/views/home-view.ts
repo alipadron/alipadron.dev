@@ -2,6 +2,10 @@ import { Component, computed, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { publicContactLinks } from '../../content/contact';
+import {
+  publishedCvHref,
+  publishedDocumentFor,
+} from '../../content/documents';
 import { content, ui } from '../../content/index';
 import type { Language } from '../../content/language';
 import { localizedPath } from '../routes';
@@ -17,6 +21,11 @@ import { localizedPath } from '../routes';
           ui.home.experienceLink[language()]
         }}</a>
       </p>
+      @if (cvHref(); as href) {
+        <p class="cv">
+          <a [href]="href" download>{{ ui.cv.download[language()] }}</a>
+        </p>
+      }
       <p class="contact">
         @for (link of contact; track link.href) {
           <a [href]="link.href">{{ link.text }}</a>
@@ -36,4 +45,9 @@ export class HomeView {
   protected readonly experienceLink = computed(() =>
     localizedPath('/experience', this.language()),
   );
+  protected readonly cvHref = computed(() => {
+    const document = publishedDocumentFor(this.language());
+
+    return document ? publishedCvHref(document) : null;
+  });
 }

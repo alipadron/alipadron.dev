@@ -1,13 +1,15 @@
 import { z } from 'zod';
 
+import { CV_VARIANTS, type Variant } from './variants';
+
 /**
  * The CV variants. A content entry without `variants` belongs to every variant.
  */
-export const CV_VARIANTS = ['fullstack-ai', 'tech-lead', 'freelance'] as const;
+export { CV_VARIANTS, type Variant } from './variants';
+
 export const variantSchema = z.enum(CV_VARIANTS, {
   error: `unknown variant; expected one of ${CV_VARIANTS.join(', ')}`,
 });
-export type Variant = z.infer<typeof variantSchema>;
 
 /** How an entry is presented in a CV. */
 export const placementSchema = z.enum(['experience', 'project']);
@@ -201,6 +203,7 @@ export const uiSchema = z
     cv: z
       .object({
         variantName: bilingualSchema,
+        download: bilingualSchema,
       })
       .strict(),
   })
