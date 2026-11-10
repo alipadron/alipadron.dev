@@ -68,7 +68,7 @@
       "endDate": "2026-05",
       "locationModel": "remote",
       "stack": ["Laravel", "Filament"],
-      "concurrent": true,
+      "concurrentIn": ["freelance"],
       "bullets": [
         {
           "id": "zignox-venture",
@@ -112,6 +112,32 @@
           "text": {
             "en": "Tuapplicaya pre-launch bullet.",
             "es": "Viñeta de prelanzamiento de Tuapplicaya."
+          }
+        }
+      ]
+    },
+    {
+      "id": "fixture-tagged-entry",
+      "company": {
+        "en": "Tagged Only Company",
+        "es": "Empresa Solo Etiquetada"
+      },
+      "title": {
+        "en": "Tagged Only Role",
+        "es": "Rol Solo Etiquetado"
+      },
+      "startDate": "2022",
+      "endDate": "2023",
+      "locationModel": "remote",
+      "stack": ["Go"],
+      "variants": ["tech-lead"],
+      "bullets": [
+        {
+          "id": "tagged-only-bullet",
+          "order": 1,
+          "text": {
+            "en": "Tagged-only entry bullet.",
+            "es": "Viñeta de entrada solo etiquetada."
           }
         }
       ]

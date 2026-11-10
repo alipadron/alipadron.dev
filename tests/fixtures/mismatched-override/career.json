@@ -1,0 +1,33 @@
+{
+  "entries": [
+    {
+      "id": "fixture-role",
+      "company": {
+        "en": "Fixture Company",
+        "es": "Empresa de Prueba"
+      },
+      "title": {
+        "en": "Senior Full-Stack Engineer",
+        "es": "Ingeniero Full-Stack Senior"
+      },
+      "startDate": "2020",
+      "endDate": null,
+      "locationModel": "remote",
+      "stack": ["AngularJS", "Laravel"],
+      "variants": ["tech-lead"],
+      "placementByVariant": {
+        "fullstack-ai": "project"
+      },
+      "bullets": [
+        {
+          "id": "fixture-bullet",
+          "order": 1,
+          "text": {
+            "en": "Built production software.",
+            "es": "Construyó software en producción."
+          }
+        }
+      ]
+    }
+  ]
+}
