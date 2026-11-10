@@ -1,4 +1,9 @@
 import type { Role } from '../src/content/schema';
+import {
+  formatDateRange,
+  formatLocationModel,
+  orderedBullets,
+} from '../src/content/presentation';
 
 function escapeHtml(value: string): string {
   return value
@@ -9,19 +14,27 @@ function escapeHtml(value: string): string {
     .replaceAll("'", '&#39;');
 }
 
-function formatDates(role: Role): string {
-  return `${role.startDate} – ${role.endDate ?? 'Present'}`;
+function renderRole(role: Role): string {
+  const bullets = orderedBullets(role)
+    .map((bullet) => `<li>${escapeHtml(bullet.text.en)}</li>`)
+    .join('\n            ');
+
+  return `<section>
+        <h2>${escapeHtml(role.company.en)}</h2>
+        <p><strong>${escapeHtml(role.title.en)}</strong></p>
+        <p class="role-meta">${escapeHtml(formatDateRange(role))} · ${escapeHtml(formatLocationModel(role.locationModel))} · ${escapeHtml(role.stack.join(', '))}</p>
+        <ul>
+            ${bullets}
+        </ul>
+      </section>`;
 }
 
 /**
  * Single-column, ATS-friendly HTML for the Full-Stack + AI CV. It is printed to
  * PDF by Playwright; the same content module feeds the site page.
  */
-export function renderCvHtml(role: Role): string {
-  const bullets = [...role.bullets]
-    .sort((left, right) => left.order - right.order)
-    .map((bullet) => `<li>${escapeHtml(bullet.text.en)}</li>`)
-    .join('\n          ');
+export function renderCvHtml(roles: readonly Role[]): string {
+  const renderedRoles = roles.map(renderRole).join('\n      ');
 
   return `<!doctype html>
 <html lang="en">
@@ -65,6 +78,10 @@ export function renderCvHtml(role: Role): string {
         margin-bottom: 0.5rem;
       }
 
+      section + section {
+        margin-top: 1rem;
+      }
+
       ul {
         margin: 0.4rem 0 0;
         padding-left: 1.2rem;
@@ -78,14 +95,8 @@ export function renderCvHtml(role: Role): string {
     </header>
 
     <main>
-      <section>
-        <h2>Experience</h2>
-        <p><strong>${escapeHtml(role.title.en)}</strong> · ${escapeHtml(role.company.en)}</p>
-        <p class="role-meta">${escapeHtml(formatDates(role))} · ${escapeHtml(role.locationModel)} · ${escapeHtml(role.stack.join(', '))}</p>
-        <ul>
-          ${bullets}
-        </ul>
-      </section>
+      <h2>Experience</h2>
+      ${renderedRoles}
     </main>
   </body>
 </html>

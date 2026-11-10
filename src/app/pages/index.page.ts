@@ -7,7 +7,6 @@ import { RouterLink } from '@angular/router';
   template: `
     <main>
       <h1>Alí Padrón</h1>
-      <p>Senior full-stack engineer who ships with agentic workflows.</p>
       <p><a routerLink="/experience">Read the experience</a></p>
     </main>
   `,

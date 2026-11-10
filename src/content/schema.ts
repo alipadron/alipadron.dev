@@ -13,6 +13,12 @@ const monthOrYearSchema = z
     'must be a year (YYYY) or a month (YYYY-MM)',
   );
 
+/** Sortable month index; a year-only date means January of that year. */
+function dateKey(value: string): number {
+  const [year, month = '01'] = value.split('-');
+  return Number(year) * 12 + Number(month) - 1;
+}
+
 const bilingualSchema = z
   .object({
     en: z.string().trim().min(1, 'missing English translation'),
@@ -44,7 +50,10 @@ export const roleSchema = z
   })
   .strict()
   .superRefine((role, context) => {
-    if (role.endDate !== null && role.endDate < role.startDate) {
+    if (
+      role.endDate !== null &&
+      dateKey(role.endDate) < dateKey(role.startDate)
+    ) {
       context.addIssue({
         code: 'custom',
         path: ['endDate'],
