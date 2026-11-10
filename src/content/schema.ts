@@ -3,8 +3,15 @@ import { z } from 'zod';
 /**
  * The CV variants. A content entry without `variants` belongs to every variant.
  */
-export const variantSchema = z.enum(['fullstack-ai', 'tech-lead', 'freelance']);
+export const CV_VARIANTS = ['fullstack-ai', 'tech-lead', 'freelance'] as const;
+export const variantSchema = z.enum(CV_VARIANTS, {
+  error: `unknown variant; expected one of ${CV_VARIANTS.join(', ')}`,
+});
 export type Variant = z.infer<typeof variantSchema>;
+
+/** How an entry is presented in a CV. */
+export const placementSchema = z.enum(['experience', 'project']);
+export type Placement = z.infer<typeof placementSchema>;
 
 const monthOrYearSchema = z
   .string()
@@ -26,33 +33,54 @@ const bilingualSchema = z
   })
   .strict();
 
+/**
+ * A per-variant value. Unknown variant keys are rejected by `partialRecord`, so
+ * a typo such as `techlead` fails the build instead of silently doing nothing.
+ */
+function variantRecord<T extends z.ZodType>(value: T) {
+  return z.partialRecord(variantSchema, value);
+}
+
 export const bulletSchema = z
   .object({
     id: z.string().trim().min(1),
     order: z.number().int().nonnegative(),
     text: bilingualSchema,
     variants: z.array(variantSchema).min(1).optional(),
+    /** Reorders this bullet in specific variants without duplicating its text. */
+    orderByVariant: variantRecord(z.number().int().nonnegative()).optional(),
   })
   .strict();
 
-export const roleSchema = z
+export const entrySchema = z
   .object({
     id: z.string().trim().min(1),
     company: bilingualSchema,
     title: bilingualSchema,
+    /** A role title that changes between CV variants. */
+    titleByVariant: variantRecord(bilingualSchema).optional(),
     startDate: monthOrYearSchema,
-    /** `null` means the role is current. */
+    /** `null` means the entry is current. */
     endDate: monthOrYearSchema.nullable(),
     locationModel: z.enum(['remote', 'hybrid', 'onsite']),
     stack: z.array(z.string().trim().min(1)).min(1),
     bullets: z.array(bulletSchema).min(1),
     variants: z.array(variantSchema).min(1).optional(),
+    /** Where the entry belongs by default. */
+    placement: placementSchema.optional(),
+    /** An entry can be an experience in some variants and a project in others. */
+    placementByVariant: variantRecord(placementSchema).optional(),
+    /**
+     * Variants in which the entry is labelled a "concurrent engagement".
+     * A per-variant override, like `placementByVariant` and `titleByVariant`.
+     */
+    concurrentIn: z.array(variantSchema).min(1).optional(),
   })
   .strict()
-  .superRefine((role, context) => {
+  .superRefine((entry, context) => {
     if (
-      role.endDate !== null &&
-      dateKey(role.endDate) < dateKey(role.startDate)
+      entry.endDate !== null &&
+      dateKey(entry.endDate) < dateKey(entry.startDate)
     ) {
       context.addIssue({
         code: 'custom',
@@ -60,11 +88,69 @@ export const roleSchema = z
         message: 'must not be earlier than startDate',
       });
     }
+
+    if (entry.variants !== undefined) {
+      for (const variant of CV_VARIANTS) {
+        if (
+          entry.titleByVariant?.[variant] !== undefined &&
+          !entry.variants.includes(variant)
+        ) {
+          context.addIssue({
+            code: 'custom',
+            path: ['titleByVariant', variant],
+            message: 'must belong to one of the entry variants',
+          });
+        }
+
+        if (
+          entry.placementByVariant?.[variant] !== undefined &&
+          !entry.variants.includes(variant)
+        ) {
+          context.addIssue({
+            code: 'custom',
+            path: ['placementByVariant', variant],
+            message: 'must belong to one of the entry variants',
+          });
+        }
+
+        if (
+          entry.concurrentIn?.includes(variant) === true &&
+          !entry.variants.includes(variant)
+        ) {
+          context.addIssue({
+            code: 'custom',
+            path: ['concurrentIn', variant],
+            message: 'must belong to one of the entry variants',
+          });
+        }
+      }
+    }
+
+    entry.bullets.forEach((bullet, index) => {
+      const bulletVariants = bullet.variants ?? entry.variants;
+
+      if (bulletVariants === undefined) {
+        return;
+      }
+
+      for (const variant of CV_VARIANTS) {
+        if (
+          bullet.orderByVariant?.[variant] !== undefined &&
+          !bulletVariants.includes(variant)
+        ) {
+          context.addIssue({
+            code: 'custom',
+            path: ['bullets', index, 'orderByVariant', variant],
+            message: 'must belong to one of the bullet variants',
+          });
+        }
+      }
+    });
   });
 
 export const careerSchema = z
   .object({
-    roles: z.array(roleSchema).min(1),
+    entries: z.array(entrySchema).min(1),
   })
   .strict();
 
@@ -87,6 +173,11 @@ export const uiSchema = z
         heading: bilingualSchema,
       })
       .strict(),
+    projects: z
+      .object({
+        heading: bilingualSchema,
+      })
+      .strict(),
     languageSwitcher: z
       .object({
         label: bilingualSchema,
@@ -103,7 +194,7 @@ export const uiSchema = z
 
 export type Bilingual = z.infer<typeof bilingualSchema>;
 export type Bullet = z.infer<typeof bulletSchema>;
-export type Role = z.infer<typeof roleSchema>;
+export type Entry = z.infer<typeof entrySchema>;
 export type Career = z.infer<typeof careerSchema>;
 export type UiStrings = z.infer<typeof uiSchema>;
 

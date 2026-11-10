@@ -14,8 +14,10 @@ PDF generation needs Chromium: `npx playwright install chromium`.
 - `npm run test` — build-level tests. They run the build and the PDF command
   and assert on the generated HTML/PDF text; invalid-content fixtures must fail
   the build.
-- `npm run pdf` — writes `output/cv-en-fullstack-ai.pdf` and
-  `output/cv-es-fullstack-ai.pdf`, plus their HTML intermediates.
+- `npm run pdf` — writes the three English CVs (`cv-en-fullstack-ai`,
+  `cv-en-tech-lead`, `cv-en-freelance`) and the Spanish Full-Stack + AI CV
+  (`cv-es-fullstack-ai`), plus their HTML intermediates, to `output/`. Set
+  `CONTENT_DIR`/`OUTPUT_DIR` to build fixtures into another directory.
 - `npm run typecheck` — TypeScript checks for the app, scripts and tests.
 - `npm run build && npx wrangler@4.160.0 pages deploy dist/analog/public
   --project-name=alipadron-dev --branch=main` — deploys manually to the
