@@ -3,3 +3,9 @@ declare module 'virtual:career' {
 
   export const career: Career;
 }
+
+declare module 'virtual:ui' {
+  import type { UiStrings } from './content/schema';
+
+  export const ui: UiStrings;
+}

@@ -1,14 +1,15 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+
+import { HomeView } from '../views/home-view';
+import { PageLayout } from '../views/page-layout';
 
 @Component({
-  selector: 'app-home',
-  imports: [RouterLink],
+  selector: 'app-home-page',
+  imports: [PageLayout, HomeView],
   template: `
-    <main>
-      <h1>Alí Padrón</h1>
-      <p><a routerLink="/experience">Read the experience</a></p>
-    </main>
+    <app-page-layout path="/" language="en">
+      <app-home-view language="en" />
+    </app-page-layout>
   `,
 })
 export default class HomePage {}

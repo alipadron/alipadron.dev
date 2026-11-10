@@ -1,0 +1,42 @@
+{
+  "siteName": {
+    "en": "Alí Padrón",
+    "es": "Alí Padrón"
+  },
+  "home": {
+    "heading": {
+      "en": "Alí Padrón",
+      "es": "Alí Padrón"
+    },
+    "experienceLink": {
+      "en": "Read the experience",
+      "es": "Leer la experiencia"
+    }
+  },
+  "experience": {
+    "heading": {
+      "en": "Experience",
+      "es": "Experiencia"
+    }
+  },
+  "languageSwitcher": {
+    "label": {
+      "en": "Choose language",
+      "es": "Elegir idioma"
+    },
+    "switchTo": {
+      "en": "Switch to",
+      "es": "Cambiar a"
+    }
+  },
+  "cv": {
+    "variantName": {
+      "en": "Full-Stack + AI",
+      "es": "Full-Stack + AI"
+    },
+    "experienceHeading": {
+      "en": "Experience",
+      "es": "Experiencia"
+    }
+  }
+}

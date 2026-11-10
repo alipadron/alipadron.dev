@@ -3,18 +3,16 @@ import path from 'node:path';
 
 import { chromium, type Browser } from 'playwright';
 
-import { loadCareer, resolveContentFile } from '../src/content/load';
+import { LANGUAGES } from '../src/content/language';
+import { loadCareer, loadUi, resolveContentFile } from '../src/content/load';
 import { renderCvHtml } from './cv-html';
 
 const OUTPUT_DIR = path.resolve('output');
-const HTML_PATH = path.join(OUTPUT_DIR, 'cv-en-fullstack-ai.html');
-const PDF_PATH = path.join(OUTPUT_DIR, 'cv-en-fullstack-ai.pdf');
 
 const career = loadCareer(resolveContentFile());
-const html = renderCvHtml(career.roles);
+const ui = loadUi();
 
 mkdirSync(OUTPUT_DIR, { recursive: true });
-writeFileSync(HTML_PATH, html);
 
 let browser: Browser;
 try {
@@ -28,15 +26,25 @@ try {
 
 try {
   const page = await browser.newPage();
-  await page.setContent(html, { waitUntil: 'load' });
-  await page.pdf({
-    path: PDF_PATH,
-    format: 'A4',
-    printBackground: true,
-  });
+
+  for (const language of LANGUAGES) {
+    const baseName = `cv-${language}-fullstack-ai`;
+    const htmlPath = path.join(OUTPUT_DIR, `${baseName}.html`);
+    const pdfPath = path.join(OUTPUT_DIR, `${baseName}.pdf`);
+
+    const html = renderCvHtml(career.roles, language, ui);
+    writeFileSync(htmlPath, html);
+
+    await page.setContent(html, { waitUntil: 'load' });
+    await page.pdf({
+      path: pdfPath,
+      format: 'A4',
+      printBackground: true,
+    });
+
+    console.log(`PDF written: ${pdfPath}`);
+    console.log(`HTML written: ${htmlPath}`);
+  }
 } finally {
   await browser.close();
 }
-
-console.log(`PDF written: ${PDF_PATH}`);
-console.log(`HTML written: ${HTML_PATH}`);
