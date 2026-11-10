@@ -3,6 +3,7 @@ import path from 'node:path';
 
 import { chromium, type Browser } from 'playwright';
 
+import { isPublished } from '../src/content/contact';
 import { LANGUAGES, type Language } from '../src/content/language';
 import { loadCareer, loadUi, resolveContentFile } from '../src/content/load';
 import {
@@ -24,6 +25,13 @@ const VARIANTS_BY_LANGUAGE: Record<Language, readonly Variant[]> = {
 const career = loadCareer(resolveContentFile());
 const ui = loadUi();
 
+// The local/published seam is per invocation, so every document in one run
+// shares it. The phone is never part of the tracked content.
+const contact = {
+  phone: process.env['CV_PHONE'],
+  published: isPublished(process.env['CV_PUBLISHED']),
+};
+
 mkdirSync(OUTPUT_DIR, { recursive: true });
 
 const documents = LANGUAGES.flatMap((language) =>
@@ -31,7 +39,13 @@ const documents = LANGUAGES.flatMap((language) =>
     const baseName = `cv-${language}-${variant}`;
     const htmlPath = path.join(OUTPUT_DIR, `${baseName}.html`);
     const pdfPath = path.join(OUTPUT_DIR, `${baseName}.pdf`);
-    const html = renderCvHtml(selectVariant(career, variant), language, ui);
+    const html = renderCvHtml(
+      selectVariant(career, variant),
+      career.profile,
+      language,
+      ui,
+      contact,
+    );
 
     writeFileSync(htmlPath, html);
 

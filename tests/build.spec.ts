@@ -1,4 +1,3 @@
-import { spawnSync } from 'node:child_process';
 import {
   copyFileSync,
   existsSync,
@@ -9,10 +8,15 @@ import {
 import os from 'node:os';
 import path from 'node:path';
 
-import { extractText, getDocumentProxy } from 'unpdf';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
-const PROJECT_ROOT = path.resolve(import.meta.dirname, '..');
+import {
+  PROJECT_ROOT,
+  extractPdfText,
+  runNpmOrThrow,
+  runNpmScript,
+} from './support/build-harness';
+
 const PRERENDER_DIR = path.join(PROJECT_ROOT, 'dist/analog/public');
 const ARTIFACTS_DIR = path.join(os.tmpdir(), `alipadron-variants-${process.pid}`);
 const VARIANT_FIXTURE_DIR = path.join(PROJECT_ROOT, 'tests/fixtures/variants');
@@ -65,47 +69,6 @@ const PAGES = [
 
 type NpmResult = ReturnType<typeof runNpmScript>;
 
-function runNpmScript(script: string, extraEnv: Record<string, string> = {}) {
-  // Vitest sets VITEST/NODE_ENV=test, and Analog disables prerendering in that
-  // mode. Child builds must behave exactly like CI builds.
-  const env: NodeJS.ProcessEnv = {
-    ...process.env,
-    NODE_ENV: 'production',
-    ...extraEnv,
-  };
-  delete env['VITEST'];
-
-  const result = spawnSync('npm', ['run', script], {
-    cwd: PROJECT_ROOT,
-    encoding: 'utf8',
-    env,
-    timeout: 240_000,
-  });
-
-  return {
-    status: result.status,
-    output: `${result.stdout ?? ''}\n${result.stderr ?? ''}`.trim(),
-    error: result.error,
-  };
-}
-
-function runNpmOrThrow(
-  script: string,
-  extraEnv: Record<string, string> = {},
-): void {
-  const result = runNpmScript(script, extraEnv);
-
-  if (result.status !== 0) {
-    throw new Error(
-      `npm run ${script} failed with status ${result.status}${result.error ? ` (${result.error.message})` : ''}:\n${result.output}`,
-    );
-  }
-}
-
-function normalize(text: string): string {
-  return text.replace(/\s+/g, ' ').trim();
-}
-
 function readArtifact(name: string): string {
   return readFileSync(path.join(ARTIFACTS_DIR, name), 'utf8');
 }
@@ -137,16 +100,8 @@ function prerenderedFile(href: string): string {
   return path.join(PRERENDER_DIR, relative, 'index.html');
 }
 
-async function readPdfText(file: string): Promise<string> {
-  const pdf = new Uint8Array(readFileSync(file));
-  const document = await getDocumentProxy(pdf);
-  const { text } = await extractText(document, { mergePages: true });
-
-  return normalize(text);
-}
-
 function artifactPdfText(name: string): Promise<string> {
-  return readPdfText(path.join(ARTIFACTS_DIR, name));
+  return extractPdfText(path.join(ARTIFACTS_DIR, name));
 }
 
 function countOccurrences(text: string, needle: string): number {
@@ -354,7 +309,7 @@ describe('variant engine with fixture content', () => {
     });
 
     for (const variant of CV_VARIANTS) {
-      pdfTexts[variant] = await readPdfText(
+      pdfTexts[variant] = await extractPdfText(
         path.join(VARIANT_OUTPUT_DIR, `cv-en-${variant}.pdf`),
       );
     }

@@ -1,3 +1,8 @@
+import {
+  phoneForOutput,
+  publicContactLinks,
+  type ContactOptions,
+} from '../src/content/contact';
 import type { Language } from '../src/content/language';
 import {
   CONCURRENT_LABEL,
@@ -7,7 +12,7 @@ import {
   type SelectedEntry,
   type VariantCv,
 } from '../src/content/presentation';
-import type { UiStrings } from '../src/content/schema';
+import type { Profile, UiStrings } from '../src/content/schema';
 
 function escapeHtml(value: string): string {
   return value
@@ -16,6 +21,19 @@ function escapeHtml(value: string): string {
     .replaceAll('>', '&gt;')
     .replaceAll('"', '&quot;')
     .replaceAll("'", '&#39;');
+}
+
+function renderContact(profile: Profile, options: ContactOptions): string {
+  const channels = publicContactLinks(profile).map(
+    (link) => `<a href="${escapeHtml(link.href)}">${escapeHtml(link.text)}</a>`,
+  );
+  const phone = phoneForOutput(options);
+
+  if (phone) {
+    channels.push(`<span class="phone">${escapeHtml(phone)}</span>`);
+  }
+
+  return channels.join(' · ');
 }
 
 function renderEntry(entry: SelectedEntry, language: Language): string {
@@ -54,12 +72,15 @@ function renderSection(
 
 /**
  * Single-column, ATS-friendly HTML for one CV document. It is printed to PDF by
- * Playwright; the same selected content feeds the site pages.
+ * Playwright; the same selected content feeds the site pages. The phone number
+ * comes only from build-time options and is dropped from published output.
  */
 export function renderCvHtml(
   cv: VariantCv,
+  profile: Profile,
   language: Language,
   ui: UiStrings,
+  options: ContactOptions = {},
 ): string {
   const variantLabel = VARIANT_LABELS[cv.variant][language];
   const sections = [
@@ -116,6 +137,12 @@ export function renderCvHtml(
       .variant {
         color: #444;
         font-size: 12pt;
+        margin-bottom: 0.25rem;
+      }
+
+      .contact {
+        color: #444;
+        font-size: 10pt;
         margin-bottom: 1.5rem;
       }
 
@@ -142,6 +169,7 @@ export function renderCvHtml(
     <header>
       <h1>${escapeHtml(ui.siteName[language])}</h1>
       <p class="variant">${escapeHtml(variantLabel)}</p>
+      <p class="contact">${renderContact(profile, options)}</p>
     </header>
 
     <main>

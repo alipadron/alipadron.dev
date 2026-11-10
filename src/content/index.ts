@@ -9,6 +9,7 @@ export type {
   Career,
   Entry,
   Placement,
+  Profile,
   UiStrings,
   Variant,
 } from './schema';

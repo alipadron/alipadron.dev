@@ -1,4 +1,9 @@
 {
+  "profile": {
+    "email": "hola@alipadron.dev",
+    "linkedin": "https://www.linkedin.com/in/alipadron",
+    "github": "https://github.com/alipadron"
+  },
   "entries": [
     {
       "id": "fixture-gofeels",
