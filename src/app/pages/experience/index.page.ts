@@ -1,12 +1,19 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 import { roles, type Role } from '../../../content/index';
+import {
+  formatDateRange,
+  formatLocationModel,
+  orderedBullets,
+} from '../../../content/presentation';
 
 @Component({
   selector: 'app-experience',
+  imports: [RouterLink],
   template: `
     <main>
-      <nav><a href="/">Alí Padrón</a></nav>
+      <nav><a routerLink="/">Alí Padrón</a></nav>
       <h1>Experience</h1>
 
       @for (role of roles; track role.id) {
@@ -14,11 +21,11 @@ import { roles, type Role } from '../../../content/index';
           <h2>{{ role.company.en }}</h2>
           <p>{{ role.title.en }}</p>
           <p>
-            {{ dates(role) }} · {{ role.locationModel }} ·
+            {{ dateRange(role) }} · {{ location(role) }} ·
             {{ role.stack.join(', ') }}
           </p>
           <ul>
-            @for (bullet of orderedBullets(role); track bullet.id) {
+            @for (bullet of bullets(role); track bullet.id) {
               <li>{{ bullet.text.en }}</li>
             }
           </ul>
@@ -30,11 +37,15 @@ import { roles, type Role } from '../../../content/index';
 export default class ExperiencePage {
   readonly roles = roles;
 
-  dates(role: Role): string {
-    return `${role.startDate} – ${role.endDate ?? 'Present'}`;
+  dateRange(role: Role): string {
+    return formatDateRange(role);
   }
 
-  orderedBullets(role: Role) {
-    return [...role.bullets].sort((left, right) => left.order - right.order);
+  location(role: Role): string {
+    return formatLocationModel(role.locationModel);
+  }
+
+  bullets(role: Role) {
+    return orderedBullets(role);
   }
 }

@@ -4,4 +4,3 @@ dist/
 output/
 .env
 *.tsbuildinfo
-test-results/

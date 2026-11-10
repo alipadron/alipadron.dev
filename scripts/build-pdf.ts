@@ -10,15 +10,8 @@ const OUTPUT_DIR = path.resolve('output');
 const HTML_PATH = path.join(OUTPUT_DIR, 'cv-en-fullstack-ai.html');
 const PDF_PATH = path.join(OUTPUT_DIR, 'cv-en-fullstack-ai.pdf');
 
-const contentFile = resolveContentFile();
-const career = loadCareer(contentFile);
-const role = career.roles[0];
-
-if (!role) {
-  throw new Error(`No roles found in ${contentFile}`);
-}
-
-const html = renderCvHtml(role);
+const career = loadCareer(resolveContentFile());
+const html = renderCvHtml(career.roles);
 
 mkdirSync(OUTPUT_DIR, { recursive: true });
 writeFileSync(HTML_PATH, html);

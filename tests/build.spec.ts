@@ -17,7 +17,7 @@ const EXPECTED_ROLE = {
   bullet: 'Built and maintained production web applications used by hotels.',
 };
 
-function runNpm(script: string, extraEnv: Record<string, string> = {}) {
+function runNpmScript(script: string, extraEnv: Record<string, string> = {}) {
   // Vitest sets VITEST/NODE_ENV=test, and Analog disables prerendering in that
   // mode. Child builds must behave exactly like CI builds.
   const env: NodeJS.ProcessEnv = {
@@ -42,7 +42,7 @@ function runNpm(script: string, extraEnv: Record<string, string> = {}) {
 }
 
 function runNpmOrThrow(script: string) {
-  const result = runNpm(script);
+  const result = runNpmScript(script);
 
   if (result.status !== 0) {
     throw new Error(
@@ -102,19 +102,32 @@ describe('build-level outputs', () => {
     expect(normalized).toContain(EXPECTED_ROLE.bullet);
   });
 
+  it('accepts mixed year and month date granularity', () => {
+    const result = runNpmScript('build', {
+      CONTENT_DIR: path.join(
+        PROJECT_ROOT,
+        'tests/fixtures/valid-mixed-dates',
+      ),
+    });
+
+    expect(result.status, result.output).toBe(0);
+  });
+
   it.each([
     {
       fixture: 'invalid-date',
       expectedDetail: 'startDate',
+      expectedMessage: 'must be a year (YYYY) or a month (YYYY-MM)',
     },
     {
       fixture: 'invalid-translation',
       expectedDetail: 'title.es',
+      expectedMessage: 'missing Spanish translation',
     },
   ])(
     'fails the build with a clear message for the $fixture fixture',
-    ({ fixture, expectedDetail }) => {
-      const result = runNpm('build', {
+    ({ fixture, expectedDetail, expectedMessage }) => {
+      const result = runNpmScript('build', {
         CONTENT_DIR: path.join(PROJECT_ROOT, 'tests/fixtures', fixture),
       });
 
@@ -122,6 +135,7 @@ describe('build-level outputs', () => {
       expect(result.output).toContain('Invalid content in');
       expect(result.output).toContain('career.json');
       expect(result.output).toContain(expectedDetail);
+      expect(result.output).toContain(expectedMessage);
     },
   );
 });
