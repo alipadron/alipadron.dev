@@ -39,6 +39,35 @@ for structured career data and `ui.json` for site labels. Both are bilingual
 `{ en, es }` and validated at build time, so a missing translation fails the
 build naming the entry (for example `home.experienceLink.es`).
 
+## Contact policy and privacy
+
+Public output — the site HTML and any published PDF — carries exactly three
+contact channels from `content/career.json`: `hola@alipadron.dev`, LinkedIn and
+GitHub. The site build never reads the variables below, so a phone number cannot
+reach the site.
+
+A phone number is injected only at PDF build time, and only from the
+environment. It is never stored in a tracked file: the strict content schema
+rejects a `phone` field.
+
+- `CV_PHONE` — the phone number to print in a local PDF. Unset means no phone
+  anywhere.
+- `CV_PUBLISHED` — the seam between local and published output. Unset (the
+  default) means local. Any other value except `0`, `false`, `no` or `off`
+  marks the build as published, so a typo fails closed; a published PDF drops
+  `CV_PHONE` even when it is set.
+
+```sh
+# Local copy you send yourself, with the phone number
+CV_PHONE="+1 555 0100" npm run pdf
+
+# PDF for public download, never with the phone number
+CV_PUBLISHED=true CV_PHONE="+1 555 0100" npm run pdf
+```
+
+`tests/contact-privacy.spec.ts` exercises both sides of the seam and asserts the
+phone never reaches site HTML or a published PDF.
+
 ## Agent skills
 
 ### Issue tracker
