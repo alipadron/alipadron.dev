@@ -25,11 +25,11 @@ CI (`.github/workflows/ci.yml`) runs typecheck, build and tests on every push
 and pull request.
 
 `Deploy` (`.github/workflows/deploy.yml`) publishes every push to `main` to the
-Cloudflare Pages project `alipadron-dev`. It is a direct-upload project: the
-build command (`npm run build`) and output directory (`dist/analog/public`) live
-in that workflow, not in the Cloudflare dashboard. It authenticates with the
-repository secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`. DNS and
-custom domains are out of its scope.
+Cloudflare Pages project `alipadron-dev`, whose production branch is `main`. It
+is a direct-upload project: the build command (`npm run build`) and output
+directory (`dist/analog/public`) live in that workflow, not in the Cloudflare
+dashboard. It authenticates with the repository secrets `CLOUDFLARE_API_TOKEN`
+and `CLOUDFLARE_ACCOUNT_ID`. DNS and custom domains are out of its scope.
 
 ## Agent skills
 
