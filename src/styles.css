@@ -1,0 +1,44 @@
+:root {
+  color-scheme: light dark;
+  font-family:
+    ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.6;
+}
+
+body {
+  margin: 0;
+  background: canvas;
+  color: canvastext;
+}
+
+main {
+  margin: 0 auto;
+  max-width: 48rem;
+  padding: 2rem 1.25rem 4rem;
+}
+
+nav {
+  margin-bottom: 2rem;
+}
+
+article + article {
+  margin-top: 2.5rem;
+}
+
+h1,
+h2 {
+  line-height: 1.2;
+}
+
+h2 {
+  margin-bottom: 0.25rem;
+}
+
+ul {
+  padding-left: 1.25rem;
+}
+
+a {
+  color: inherit;
+}
