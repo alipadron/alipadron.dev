@@ -19,6 +19,12 @@
       "es": "Experiencia"
     }
   },
+  "projects": {
+    "heading": {
+      "en": "Projects",
+      "es": "Proyectos"
+    }
+  },
   "languageSwitcher": {
     "label": {
       "en": "Choose language",

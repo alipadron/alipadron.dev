@@ -1,15 +1,18 @@
-import type { Language } from '../src/content/language';
-import type { Career, Role, UiStrings } from '../src/content/schema';
 import {
   phoneForOutput,
   publicContactLinks,
   type ContactOptions,
 } from '../src/content/contact';
+import type { Language } from '../src/content/language';
 import {
+  CONCURRENT_LABEL,
   formatDateRange,
   formatLocationModel,
-  orderedBullets,
+  VARIANT_LABELS,
+  type SelectedEntry,
+  type VariantCv,
 } from '../src/content/presentation';
+import type { Profile, UiStrings } from '../src/content/schema';
 
 function escapeHtml(value: string): string {
   return value
@@ -20,8 +23,8 @@ function escapeHtml(value: string): string {
     .replaceAll("'", '&#39;');
 }
 
-function renderContact(career: Career, options: ContactOptions): string {
-  const channels = publicContactLinks(career.profile).map(
+function renderContact(profile: Profile, options: ContactOptions): string {
+  const channels = publicContactLinks(profile).map(
     (link) => `<a href="${escapeHtml(link.href)}">${escapeHtml(link.text)}</a>`,
   );
   const phone = phoneForOutput(options);
@@ -33,42 +36,73 @@ function renderContact(career: Career, options: ContactOptions): string {
   return channels.join(' · ');
 }
 
-function renderRole(role: Role, language: Language): string {
-  const bullets = orderedBullets(role)
+function renderEntry(entry: SelectedEntry, language: Language): string {
+  const bullets = entry.bullets
     .map((bullet) => `<li>${escapeHtml(bullet.text[language])}</li>`)
     .join('\n            ');
-
-  return `<section>
-        <h2>${escapeHtml(role.company[language])}</h2>
-        <p><strong>${escapeHtml(role.title[language])}</strong></p>
-        <p class="role-meta">${escapeHtml(formatDateRange(role, language))} · ${escapeHtml(formatLocationModel(role.locationModel, language))} · ${escapeHtml(role.stack.join(', '))}</p>
+  const concurrent = entry.concurrent
+    ? `\n        <p class="concurrent">${escapeHtml(CONCURRENT_LABEL[language])}</p>`
+    : '';
+  const bulletList =
+    entry.bullets.length > 0
+      ? `
         <ul>
             ${bullets}
-        </ul>
+        </ul>`
+      : '';
+
+  return `<section>
+        <h3>${escapeHtml(entry.company[language])}</h3>
+        <p><strong>${escapeHtml(entry.title[language])}</strong></p>
+        <p class="entry-meta">${escapeHtml(formatDateRange(entry, language))} · ${escapeHtml(formatLocationModel(entry.locationModel, language))} · ${escapeHtml(entry.stack.join(', '))}</p>${concurrent}${bulletList}
       </section>`;
 }
 
+function renderSection(
+  title: string,
+  entries: readonly SelectedEntry[],
+  language: Language,
+): string {
+  const renderedEntries = entries
+    .map((entry) => renderEntry(entry, language))
+    .join('\n      ');
+  return `<h2>${escapeHtml(title)}</h2>
+      ${renderedEntries}`;
+}
+
 /**
- * Single-column, ATS-friendly HTML for the Full-Stack + AI CV. It is printed to
- * PDF by Playwright; the same content module feeds the site page. The phone
- * number comes only from build-time options and is dropped from published
- * output.
+ * Single-column, ATS-friendly HTML for one CV document. It is printed to PDF by
+ * Playwright; the same selected content feeds the site pages. The phone number
+ * comes only from build-time options and is dropped from published output.
  */
 export function renderCvHtml(
-  career: Career,
+  cv: VariantCv,
+  profile: Profile,
   language: Language,
   ui: UiStrings,
   options: ContactOptions = {},
 ): string {
-  const renderedRoles = career.roles
-    .map((role) => renderRole(role, language))
-    .join('\n      ');
+  const variantLabel = VARIANT_LABELS[cv.variant][language];
+  const sections = [
+    ...(cv.experience.length > 0
+      ? [
+          renderSection(
+            ui.experience.heading[language],
+            cv.experience,
+            language,
+          ),
+        ]
+      : []),
+    ...(cv.projects.length > 0
+      ? [renderSection(ui.projects.heading[language], cv.projects, language)]
+      : []),
+  ].join('\n\n      ');
 
   return `<!doctype html>
 <html lang="${language}">
   <head>
     <meta charset="utf-8" />
-    <title>${escapeHtml(ui.siteName[language])} — ${escapeHtml(ui.cv.variantName[language])}</title>
+    <title>${escapeHtml(ui.siteName[language])} — ${escapeHtml(variantLabel)}</title>
     <style>
       @page {
         margin: 18mm;
@@ -87,6 +121,11 @@ export function renderCvHtml(
       }
 
       h2 {
+        font-size: 14pt;
+        margin: 1.25rem 0 0.5rem;
+      }
+
+      h3 {
         font-size: 13pt;
         margin: 0 0 0.15rem;
       }
@@ -107,8 +146,12 @@ export function renderCvHtml(
         margin-bottom: 1.5rem;
       }
 
-      .role-meta {
+      .entry-meta,
+      .concurrent {
         color: #444;
+      }
+
+      .entry-meta {
         margin-bottom: 0.5rem;
       }
 
@@ -125,13 +168,12 @@ export function renderCvHtml(
   <body>
     <header>
       <h1>${escapeHtml(ui.siteName[language])}</h1>
-      <p class="variant">${escapeHtml(ui.cv.variantName[language])}</p>
-      <p class="contact">${renderContact(career, options)}</p>
+      <p class="variant">${escapeHtml(variantLabel)}</p>
+      <p class="contact">${renderContact(profile, options)}</p>
     </header>
 
     <main>
-      <h2>${escapeHtml(ui.experience.heading[language])}</h2>
-      ${renderedRoles}
+      ${sections}
     </main>
   </body>
 </html>

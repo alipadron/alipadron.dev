@@ -1,0 +1,151 @@
+{
+  "profile": {
+    "email": "hola@alipadron.dev",
+    "linkedin": "https://www.linkedin.com/in/alipadron",
+    "github": "https://github.com/alipadron"
+  },
+  "entries": [
+    {
+      "id": "fixture-gofeels",
+      "company": {
+        "en": "GoFeels",
+        "es": "GoFeels"
+      },
+      "title": {
+        "en": "Senior Full-Stack Engineer",
+        "es": "Ingeniero Full-Stack Senior"
+      },
+      "startDate": "2020",
+      "endDate": null,
+      "locationModel": "remote",
+      "stack": ["AngularJS", "Laravel"],
+      "bullets": [
+        {
+          "id": "shared-primary",
+          "order": 1,
+          "text": {
+            "en": "Shared engagement bullet shown in every CV.",
+            "es": "Viñeta compartida que aparece en todos los CV."
+          }
+        },
+        {
+          "id": "shared-reordered",
+          "order": 2,
+          "text": {
+            "en": "Shared engagement bullet moved first for Tech Lead.",
+            "es": "Viñeta compartida que pasa primero en Tech Lead."
+          },
+          "orderByVariant": {
+            "tech-lead": 0
+          }
+        },
+        {
+          "id": "freelance-only",
+          "order": 3,
+          "text": {
+            "en": "Freelance-only contract audit bullet.",
+            "es": "Viñeta de auditoría de contratos solo para Freelance."
+          },
+          "variants": ["freelance"]
+        },
+        {
+          "id": "tech-lead-only",
+          "order": 4,
+          "text": {
+            "en": "Tech-Lead-only release ownership bullet.",
+            "es": "Viñeta de propiedad de releases solo para Tech Lead."
+          },
+          "variants": ["tech-lead"]
+        }
+      ]
+    },
+    {
+      "id": "fixture-zignox",
+      "company": {
+        "en": "Zignox",
+        "es": "Zignox"
+      },
+      "title": {
+        "en": "Co-founder",
+        "es": "Cofundador"
+      },
+      "startDate": "2021-02",
+      "endDate": "2026-05",
+      "locationModel": "remote",
+      "stack": ["Laravel", "Filament"],
+      "concurrentIn": ["freelance"],
+      "bullets": [
+        {
+          "id": "zignox-venture",
+          "order": 1,
+          "text": {
+            "en": "Concurrent venture bullet.",
+            "es": "Viñeta de emprendimiento simultáneo."
+          }
+        }
+      ]
+    },
+    {
+      "id": "fixture-tuapplicaya",
+      "company": {
+        "en": "Tuapplicaya",
+        "es": "Tuapplicaya"
+      },
+      "title": {
+        "en": "Co-founder",
+        "es": "Cofundador"
+      },
+      "titleByVariant": {
+        "tech-lead": {
+          "en": "Co-founder & Technical Lead",
+          "es": "Cofundador y líder técnico"
+        }
+      },
+      "startDate": "2024",
+      "endDate": null,
+      "locationModel": "remote",
+      "stack": ["Angular", "Laravel"],
+      "placement": "experience",
+      "placementByVariant": {
+        "fullstack-ai": "project"
+      },
+      "variants": ["fullstack-ai", "tech-lead", "freelance"],
+      "bullets": [
+        {
+          "id": "tuapplicaya-prelaunch",
+          "order": 1,
+          "text": {
+            "en": "Tuapplicaya pre-launch bullet.",
+            "es": "Viñeta de prelanzamiento de Tuapplicaya."
+          }
+        }
+      ]
+    },
+    {
+      "id": "fixture-tagged-entry",
+      "company": {
+        "en": "Tagged Only Company",
+        "es": "Empresa Solo Etiquetada"
+      },
+      "title": {
+        "en": "Tagged Only Role",
+        "es": "Rol Solo Etiquetado"
+      },
+      "startDate": "2022",
+      "endDate": "2023",
+      "locationModel": "remote",
+      "stack": ["Go"],
+      "variants": ["tech-lead"],
+      "bullets": [
+        {
+          "id": "tagged-only-bullet",
+          "order": 1,
+          "text": {
+            "en": "Tagged-only entry bullet.",
+            "es": "Viñeta de entrada solo etiquetada."
+          }
+        }
+      ]
+    }
+  ]
+}

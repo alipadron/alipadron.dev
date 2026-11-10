@@ -1,13 +1,15 @@
 import { career as validatedCareer } from 'virtual:career';
 import { ui as validatedUi } from 'virtual:ui';
 
-import type { Career, Role, UiStrings } from './schema';
+import type { Career, UiStrings } from './schema';
 
 export type {
+  Bilingual,
   Bullet,
   Career,
+  Entry,
+  Placement,
   Profile,
-  Role,
   UiStrings,
   Variant,
 } from './schema';
@@ -19,5 +21,3 @@ export type {
  */
 export const content: Career = validatedCareer;
 export const ui: UiStrings = validatedUi;
-
-export const roles: readonly Role[] = content.roles;
