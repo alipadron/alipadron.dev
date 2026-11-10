@@ -47,8 +47,10 @@ GitHub. The site build never reads the variables below, so a phone number cannot
 reach the site.
 
 A phone number is injected only at PDF build time, and only from the
-environment. It is never stored in a tracked file: the strict content schema
-rejects a `phone` field.
+environment. It is never part of the tracked content: the strict content schema
+rejects a `phone` field. The only tracked phone-looking value is the reserved
+fictional number in the rejection fixture under
+`tests/fixtures/content-with-phone/`.
 
 - `CV_PHONE` — the phone number to print in a local PDF. Unset means no phone
   anywhere.

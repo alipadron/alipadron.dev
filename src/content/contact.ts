@@ -7,6 +7,14 @@ export interface ContactLink {
   text: string;
 }
 
+/** Build-time contact inputs that are not part of the tracked content. */
+export interface ContactOptions {
+  /** Phone number from `CV_PHONE`; never part of the tracked content. */
+  phone?: string;
+  /** Whether this output is published; a published output never shows a phone. */
+  published?: boolean;
+}
+
 /**
  * The seam between local and published output.
  *
@@ -32,10 +40,7 @@ export function isPublished(value: string | undefined): boolean {
  * is never part of the tracked content. Published output drops it even when it
  * is provided, so a published PDF cannot leak it.
  */
-export function phoneForOutput(options: {
-  phone?: string;
-  published?: boolean;
-}): string | undefined {
+export function phoneForOutput(options: ContactOptions): string | undefined {
   if (options.published) {
     return undefined;
   }

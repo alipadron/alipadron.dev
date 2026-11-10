@@ -1,80 +1,46 @@
-import { spawnSync } from 'node:child_process';
-import { copyFileSync, mkdirSync, readFileSync, rmSync } from 'node:fs';
+import { copyFileSync, mkdirSync, readdirSync, readFileSync, rmSync } from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 
-import { extractText, getDocumentProxy } from 'unpdf';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
-const PROJECT_ROOT = path.resolve(import.meta.dirname, '..');
+import {
+  PROJECT_ROOT,
+  extractPdfText,
+  runNpmOrThrow,
+  runNpmScript,
+} from './support/build-harness';
+
 const ARTIFACTS_DIR = path.join(os.tmpdir(), `alipadron-t5-${process.pid}`);
+const PUBLIC_DIR = path.join(PROJECT_ROOT, 'dist/analog/public');
 
 // A reserved fictional number (555-0100 range), never a real phone number.
 const FAKE_PHONE = '+1 555 0100';
 
 // Kept as literals on purpose: these tests observe build outputs and never
 // import the content module or its schema.
-const PUBLIC_CONTACT = ['hola@alipadron.dev', 'linkedin.com/in/alipadron', 'github.com/alipadron'];
+const PUBLIC_CONTACT = [
+  'hola@alipadron.dev',
+  'linkedin.com/in/alipadron',
+  'github.com/alipadron',
+];
 
-const SITE_HOME = path.join(PROJECT_ROOT, 'dist/analog/public/index.html');
-const SITE_EXPERIENCE = path.join(
-  PROJECT_ROOT,
-  'dist/analog/public/experience/index.html',
-);
 const PDF = path.join(PROJECT_ROOT, 'output/cv-en-fullstack-ai.pdf');
 const PDF_HTML = path.join(PROJECT_ROOT, 'output/cv-en-fullstack-ai.html');
 
-function runNpmScript(script: string, extraEnv: Record<string, string> = {}) {
-  // Vitest sets VITEST/NODE_ENV=test, and Analog disables prerendering in that
-  // mode. Child builds must behave exactly like CI builds.
-  const env: NodeJS.ProcessEnv = {
-    ...process.env,
-    NODE_ENV: 'production',
-    ...extraEnv,
-  };
-  delete env['VITEST'];
-  delete env['CONTENT_DIR'];
-  delete env['CV_PHONE'];
-  delete env['CV_PUBLISHED'];
-  Object.assign(env, extraEnv);
-
-  const result = spawnSync('npm', ['run', script], {
-    cwd: PROJECT_ROOT,
-    encoding: 'utf8',
-    env,
-    timeout: 240_000,
-  });
-
-  return {
-    status: result.status,
-    output: `${result.stdout ?? ''}\n${result.stderr ?? ''}`.trim(),
-    error: result.error,
-  };
-}
-
-function runNpmOrThrow(
-  script: string,
-  extraEnv: Record<string, string> = {},
-): void {
-  const result = runNpmScript(script, extraEnv);
-
-  if (result.status !== 0) {
-    throw new Error(
-      `npm run ${script} failed with status ${result.status}${result.error ? ` (${result.error.message})` : ''}:\n${result.output}`,
-    );
+function expectPublicContacts(output: string): void {
+  for (const contact of PUBLIC_CONTACT) {
+    expect(output).toContain(contact);
   }
 }
 
-function normalize(text: string): string {
-  return text.replace(/\s+/g, ' ').trim();
-}
-
-async function extractPdfText(file: string): Promise<string> {
-  const pdf = new Uint8Array(readFileSync(file));
-  const document = await getDocumentProxy(pdf);
-  const { text } = await extractText(document, { mergePages: true });
-
-  return normalize(text);
+function readPublicOutput(): string {
+  return readdirSync(PUBLIC_DIR, { withFileTypes: true, recursive: true })
+    .filter((entry) => entry.isFile())
+    .map((entry) =>
+      readFileSync(path.join(entry.parentPath, entry.name), 'utf8'),
+    )
+    .join('\n');
 }
 
 function keep(artifact: string, name: string): string {
@@ -100,22 +66,14 @@ describe('contact policy and privacy', () => {
   it('publishes only email, LinkedIn and GitHub on the site, even when a phone is provided', () => {
     runNpmOrThrow('build', { CV_PHONE: FAKE_PHONE });
 
-    const home = readFileSync(keep(SITE_HOME, 'home.html'), 'utf8');
-    const experience = readFileSync(
-      keep(SITE_EXPERIENCE, 'experience.html'),
-      'utf8',
-    );
+    const site = readPublicOutput();
 
-    for (const contact of PUBLIC_CONTACT) {
-      expect(home).toContain(contact);
-    }
-
-    expect(home).not.toContain(FAKE_PHONE);
-    expect(experience).not.toContain(FAKE_PHONE);
+    expectPublicContacts(site);
+    expect(site).not.toContain(FAKE_PHONE);
   });
 
   it('injects the phone into a local PDF when the phone variable is set', async () => {
-    runNpmOrThrow('pdf', { CV_PHONE: FAKE_PHONE });
+    runNpmOrThrow('pdf', { CV_PHONE: FAKE_PHONE, CV_PUBLISHED: 'false' });
 
     const html = readFileSync(
       keep(PDF_HTML, 'local-with-phone.html'),
@@ -123,11 +81,8 @@ describe('contact policy and privacy', () => {
     );
     const text = await extractPdfText(keep(PDF, 'local-with-phone.pdf'));
 
-    for (const contact of PUBLIC_CONTACT) {
-      expect(html).toContain(contact);
-      expect(text).toContain(contact);
-    }
-
+    expectPublicContacts(html);
+    expectPublicContacts(text);
     expect(html).toContain(FAKE_PHONE);
     expect(text).toContain(FAKE_PHONE);
   });
@@ -141,11 +96,24 @@ describe('contact policy and privacy', () => {
     );
     const text = await extractPdfText(keep(PDF, 'published-with-phone.pdf'));
 
-    for (const contact of PUBLIC_CONTACT) {
-      expect(html).toContain(contact);
-      expect(text).toContain(contact);
-    }
+    expectPublicContacts(html);
+    expectPublicContacts(text);
+    expect(html).not.toContain(FAKE_PHONE);
+    expect(text).not.toContain(FAKE_PHONE);
+  });
 
+  it('treats any non-false published value as published, so a typo cannot leak', async () => {
+    runNpmOrThrow('pdf', { CV_PHONE: FAKE_PHONE, CV_PUBLISHED: 'enabled' });
+
+    const html = readFileSync(
+      keep(PDF_HTML, 'unexpected-published-value.html'),
+      'utf8',
+    );
+    const text = await extractPdfText(
+      keep(PDF, 'unexpected-published-value.pdf'),
+    );
+
+    expectPublicContacts(text);
     expect(html).not.toContain(FAKE_PHONE);
     expect(text).not.toContain(FAKE_PHONE);
   });
@@ -156,11 +124,8 @@ describe('contact policy and privacy', () => {
     const html = readFileSync(keep(PDF_HTML, 'no-phone.html'), 'utf8');
     const text = await extractPdfText(keep(PDF, 'no-phone.pdf'));
 
-    for (const contact of PUBLIC_CONTACT) {
-      expect(html).toContain(contact);
-      expect(text).toContain(contact);
-    }
-
+    expectPublicContacts(html);
+    expectPublicContacts(text);
     expect(html).not.toContain(FAKE_PHONE);
     expect(text).not.toContain(FAKE_PHONE);
   });

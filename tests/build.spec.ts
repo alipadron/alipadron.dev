@@ -1,12 +1,17 @@
-import { spawnSync } from 'node:child_process';
 import { copyFileSync, existsSync, mkdirSync, readFileSync, rmSync } from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 
-import { extractText, getDocumentProxy } from 'unpdf';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
-const PROJECT_ROOT = path.resolve(import.meta.dirname, '..');
+import {
+  PROJECT_ROOT,
+  extractPdfText,
+  normalize,
+  runNpmOrThrow,
+  runNpmScript,
+} from './support/build-harness';
+
 const PRERENDER_DIR = path.join(PROJECT_ROOT, 'dist/analog/public');
 const ARTIFACTS_DIR = path.join(os.tmpdir(), `alipadron-bilingual-${process.pid}`);
 
@@ -40,44 +45,6 @@ const PAGES = [
   { source: 'es/experience/index.html', artifact: 'experience-es.html' },
 ];
 
-function runNpmScript(script: string, extraEnv: Record<string, string> = {}) {
-  // Vitest sets VITEST/NODE_ENV=test, and Analog disables prerendering in that
-  // mode. Child builds must behave exactly like CI builds.
-  const env: NodeJS.ProcessEnv = {
-    ...process.env,
-    NODE_ENV: 'production',
-    ...extraEnv,
-  };
-  delete env['VITEST'];
-
-  const result = spawnSync('npm', ['run', script], {
-    cwd: PROJECT_ROOT,
-    encoding: 'utf8',
-    env,
-    timeout: 240_000,
-  });
-
-  return {
-    status: result.status,
-    output: `${result.stdout ?? ''}\n${result.stderr ?? ''}`.trim(),
-    error: result.error,
-  };
-}
-
-function runNpmOrThrow(script: string) {
-  const result = runNpmScript(script);
-
-  if (result.status !== 0) {
-    throw new Error(
-      `npm run ${script} failed with status ${result.status}${result.error ? ` (${result.error.message})` : ''}:\n${result.output}`,
-    );
-  }
-}
-
-function normalize(text: string): string {
-  return text.replace(/\s+/g, ' ').trim();
-}
-
 function readArtifact(name: string): string {
   return readFileSync(path.join(ARTIFACTS_DIR, name), 'utf8');
 }
@@ -107,14 +74,6 @@ function prerenderedFile(href: string): string {
   const relative = cleanPath.replace(/^\/|\/$/g, '');
 
   return path.join(PRERENDER_DIR, relative, 'index.html');
-}
-
-async function pdfText(name: string): Promise<string> {
-  const pdf = new Uint8Array(readFileSync(path.join(ARTIFACTS_DIR, name)));
-  const document = await getDocumentProxy(pdf);
-  const { text } = await extractText(document, { mergePages: true });
-
-  return normalize(text);
 }
 
 describe('build-level outputs', () => {
@@ -208,7 +167,9 @@ describe('build-level outputs', () => {
   });
 
   it('produces the English Full-Stack + AI PDF with the role text', async () => {
-    const text = await pdfText('cv-en-fullstack-ai.pdf');
+    const text = await extractPdfText(
+      path.join(ARTIFACTS_DIR, 'cv-en-fullstack-ai.pdf'),
+    );
 
     expect(text).toContain(EXPECTED.company);
     expect(text).toContain(EXPECTED.en.title);
@@ -219,7 +180,9 @@ describe('build-level outputs', () => {
   });
 
   it('produces the Spanish Full-Stack + AI PDF with the role text', async () => {
-    const text = await pdfText('cv-es-fullstack-ai.pdf');
+    const text = await extractPdfText(
+      path.join(ARTIFACTS_DIR, 'cv-es-fullstack-ai.pdf'),
+    );
 
     expect(text).toContain(EXPECTED.company);
     expect(text).toContain(EXPECTED.es.title);

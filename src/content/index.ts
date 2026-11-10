@@ -3,7 +3,14 @@ import { ui as validatedUi } from 'virtual:ui';
 
 import type { Career, Role, UiStrings } from './schema';
 
-export type { Bullet, Career, Role, UiStrings, Variant } from './schema';
+export type {
+  Bullet,
+  Career,
+  Profile,
+  Role,
+  UiStrings,
+  Variant,
+} from './schema';
 
 /**
  * The content module used by the site. The virtual modules are produced at
