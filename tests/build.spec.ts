@@ -76,6 +76,11 @@ describe('build-level outputs', () => {
 
   afterAll(() => {
     rmSync(ARTIFACTS_DIR, { recursive: true, force: true });
+
+    // Fixture builds above write into the real dist/ directory, so the last
+    // fixture would be what a local preview or a deploy sees. Restore the real
+    // content once the assertions are done.
+    runNpmScript('build');
   });
 
   it('prerenders the Experience page with the role', () => {
