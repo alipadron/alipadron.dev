@@ -19,6 +19,7 @@ const EXPECTED = {
     bullet: 'Built and maintained production web applications used by hotels.',
     experienceHeading: 'Experience',
     present: 'Present',
+    location: 'Remote',
     homeLink: 'Read the experience',
   },
   es: {
@@ -26,6 +27,7 @@ const EXPECTED = {
     bullet: 'Construyó y mantuvo aplicaciones web en producción usadas por hoteles.',
     experienceHeading: 'Experiencia',
     present: 'Actualidad',
+    location: 'Remoto',
     homeLink: 'Leer la experiencia',
   },
 };
@@ -211,6 +213,9 @@ describe('build-level outputs', () => {
     expect(text).toContain(EXPECTED.company);
     expect(text).toContain(EXPECTED.en.title);
     expect(text).toContain(EXPECTED.en.bullet);
+    expect(text).toContain(EXPECTED.en.experienceHeading);
+    expect(text).toContain(EXPECTED.en.present);
+    expect(text).toContain(EXPECTED.en.location);
   });
 
   it('produces the Spanish Full-Stack + AI PDF with the role text', async () => {
@@ -219,6 +224,9 @@ describe('build-level outputs', () => {
     expect(text).toContain(EXPECTED.company);
     expect(text).toContain(EXPECTED.es.title);
     expect(text).toContain(EXPECTED.es.bullet);
+    expect(text).toContain(EXPECTED.es.experienceHeading);
+    expect(text).toContain(EXPECTED.es.present);
+    expect(text).toContain(EXPECTED.es.location);
   });
 
   it('accepts mixed year and month date granularity', () => {

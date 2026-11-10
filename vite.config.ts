@@ -7,6 +7,7 @@ import {
   resolveContentFile,
   resolveUiFile,
 } from './src/content/load.ts';
+import { siteRoutes } from './src/app/routes.ts';
 
 const VIRTUAL_CAREER_ID = 'virtual:career';
 const RESOLVED_VIRTUAL_CAREER_ID = '\0' + VIRTUAL_CAREER_ID;
@@ -66,7 +67,7 @@ export default defineConfig({
     contentPlugin(),
     analog({
       prerender: {
-        routes: ['/', '/es', '/experience', '/es/experience'],
+        routes: siteRoutes(),
       },
     }),
   ],

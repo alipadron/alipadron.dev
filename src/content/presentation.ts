@@ -1,12 +1,12 @@
 import type { Language } from './language';
-import type { Role } from './schema';
+import type { Bilingual, Role } from './schema';
 
-const PRESENT_LABEL: Record<Language, string> = {
+const PRESENT_LABEL: Bilingual = {
   en: 'Present',
   es: 'Actualidad',
 };
 
-const LOCATION_LABEL: Record<Role['locationModel'], Record<Language, string>> = {
+const LOCATION_LABEL: Record<Role['locationModel'], Bilingual> = {
   remote: { en: 'Remote', es: 'Remoto' },
   hybrid: { en: 'Hybrid', es: 'Híbrido' },
   onsite: { en: 'On-site', es: 'Presencial' },

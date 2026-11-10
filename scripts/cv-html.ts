@@ -102,7 +102,7 @@ export function renderCvHtml(
     </header>
 
     <main>
-      <h2>${escapeHtml(ui.cv.experienceHeading[language])}</h2>
+      <h2>${escapeHtml(ui.experience.heading[language])}</h2>
       ${renderedRoles}
     </main>
   </body>

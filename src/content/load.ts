@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import path from 'node:path';
 
 import {
@@ -12,37 +12,27 @@ const DEFAULT_CONTENT_DIR = 'content';
 
 /**
  * The content directory can be overridden with `CONTENT_DIR` so the build-level
- * tests can point the build at invalid fixtures. Normal builds use `content/`.
+ * tests can point the build at fixtures. Normal builds use `content/`.
  */
-function configuredContentDir(): string | undefined {
+export function resolveContentDir(): string {
   const configuredDir = process.env['CONTENT_DIR'];
-  return configuredDir ? path.resolve(configuredDir) : undefined;
-}
 
-export function resolveContentFile(): string {
-  const contentDir =
-    configuredContentDir() ?? path.resolve(process.cwd(), DEFAULT_CONTENT_DIR);
-
-  return path.join(contentDir, 'career.json');
+  return configuredDir
+    ? path.resolve(configuredDir)
+    : path.resolve(process.cwd(), DEFAULT_CONTENT_DIR);
 }
 
 /**
- * The UI strings follow `CONTENT_DIR` when that directory provides a `ui.json`
- * of its own. Fixtures that only replace the career file keep the real UI
- * strings; a fixture that ships `ui.json` replaces them too.
+ * A fixture directory is a complete content snapshot: it provides both
+ * `career.json` and `ui.json`, so testing one file never silently falls back to
+ * the real content.
  */
+export function resolveContentFile(): string {
+  return path.join(resolveContentDir(), 'career.json');
+}
+
 export function resolveUiFile(): string {
-  const overrideDir = configuredContentDir();
-
-  if (overrideDir) {
-    const candidate = path.join(overrideDir, 'ui.json');
-
-    if (existsSync(candidate)) {
-      return candidate;
-    }
-  }
-
-  return path.join(path.resolve(process.cwd(), DEFAULT_CONTENT_DIR), 'ui.json');
+  return path.join(resolveContentDir(), 'ui.json');
 }
 
 function readJson<T>(

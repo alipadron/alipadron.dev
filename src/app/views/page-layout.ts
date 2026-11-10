@@ -4,7 +4,7 @@ import { RouterLink } from '@angular/router';
 
 import { ui } from '../../content/index';
 import type { Language } from '../../content/language';
-import { localizedPath } from '../i18n';
+import { localizedPath, type SitePath } from '../routes';
 import { LanguageSwitcher } from '../components/language-switcher';
 
 /**
@@ -26,7 +26,7 @@ import { LanguageSwitcher } from '../components/language-switcher';
   `,
 })
 export class PageLayout implements OnInit {
-  readonly path = input.required<string>();
+  readonly path = input.required<SitePath>();
   readonly language = input.required<Language>();
 
   protected readonly ui = ui;

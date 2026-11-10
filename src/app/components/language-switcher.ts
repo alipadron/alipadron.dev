@@ -3,7 +3,8 @@ import { RouterLink } from '@angular/router';
 
 import type { Language } from '../../content/language';
 import { ui } from '../../content/index';
-import { languageName, localizedPath, otherLanguage } from '../i18n';
+import { languageName, otherLanguage } from '../i18n';
+import { localizedPath, type SitePath } from '../routes';
 
 /**
  * Links to the equivalent page in the other language. The page passes its
@@ -25,7 +26,7 @@ import { languageName, localizedPath, otherLanguage } from '../i18n';
   `,
 })
 export class LanguageSwitcher {
-  readonly path = input.required<string>();
+  readonly path = input.required<SitePath>();
   readonly language = input.required<Language>();
 
   protected readonly ui = ui;
