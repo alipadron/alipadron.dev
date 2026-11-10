@@ -25,8 +25,13 @@ const PUBLIC_CONTACT = [
   'github.com/alipadron',
 ];
 
-const PDF = path.join(PROJECT_ROOT, 'output/cv-en-fullstack-ai.pdf');
-const PDF_HTML = path.join(PROJECT_ROOT, 'output/cv-en-fullstack-ai.html');
+function pdf(language: 'en' | 'es'): string {
+  return path.join(PROJECT_ROOT, `output/cv-${language}-fullstack-ai.pdf`);
+}
+
+function pdfHtml(language: 'en' | 'es'): string {
+  return path.join(PROJECT_ROOT, `output/cv-${language}-fullstack-ai.html`);
+}
 
 function expectPublicContacts(output: string): void {
   for (const contact of PUBLIC_CONTACT) {
@@ -76,58 +81,78 @@ describe('contact policy and privacy', () => {
     runNpmOrThrow('pdf', { CV_PHONE: FAKE_PHONE, CV_PUBLISHED: 'false' });
 
     const html = readFileSync(
-      keep(PDF_HTML, 'local-with-phone.html'),
+      keep(pdfHtml('en'), 'local-with-phone.html'),
       'utf8',
     );
-    const text = await extractPdfText(keep(PDF, 'local-with-phone.pdf'));
+    const text = await extractPdfText(keep(pdf('en'), 'local-with-phone.pdf'));
+    const spanish = await extractPdfText(
+      keep(pdf('es'), 'local-with-phone-es.pdf'),
+    );
 
     expectPublicContacts(html);
     expectPublicContacts(text);
+    expectPublicContacts(spanish);
     expect(html).toContain(FAKE_PHONE);
     expect(text).toContain(FAKE_PHONE);
+    expect(spanish).toContain(FAKE_PHONE);
   });
 
   it('keeps the phone out of a published PDF even when the phone variable is set', async () => {
     runNpmOrThrow('pdf', { CV_PHONE: FAKE_PHONE, CV_PUBLISHED: 'true' });
 
     const html = readFileSync(
-      keep(PDF_HTML, 'published-with-phone.html'),
+      keep(pdfHtml('en'), 'published-with-phone.html'),
       'utf8',
     );
-    const text = await extractPdfText(keep(PDF, 'published-with-phone.pdf'));
+    const text = await extractPdfText(
+      keep(pdf('en'), 'published-with-phone.pdf'),
+    );
+    const spanish = await extractPdfText(
+      keep(pdf('es'), 'published-with-phone-es.pdf'),
+    );
 
     expectPublicContacts(html);
     expectPublicContacts(text);
+    expectPublicContacts(spanish);
     expect(html).not.toContain(FAKE_PHONE);
     expect(text).not.toContain(FAKE_PHONE);
+    expect(spanish).not.toContain(FAKE_PHONE);
   });
 
   it('treats any non-false published value as published, so a typo cannot leak', async () => {
     runNpmOrThrow('pdf', { CV_PHONE: FAKE_PHONE, CV_PUBLISHED: 'enabled' });
 
     const html = readFileSync(
-      keep(PDF_HTML, 'unexpected-published-value.html'),
+      keep(pdfHtml('en'), 'unexpected-published-value.html'),
       'utf8',
     );
     const text = await extractPdfText(
-      keep(PDF, 'unexpected-published-value.pdf'),
+      keep(pdf('en'), 'unexpected-published-value.pdf'),
+    );
+    const spanish = await extractPdfText(
+      keep(pdf('es'), 'unexpected-published-value-es.pdf'),
     );
 
     expectPublicContacts(text);
+    expectPublicContacts(spanish);
     expect(html).not.toContain(FAKE_PHONE);
     expect(text).not.toContain(FAKE_PHONE);
+    expect(spanish).not.toContain(FAKE_PHONE);
   });
 
   it('leaves the phone out when the phone variable is unset', async () => {
     runNpmOrThrow('pdf');
 
-    const html = readFileSync(keep(PDF_HTML, 'no-phone.html'), 'utf8');
-    const text = await extractPdfText(keep(PDF, 'no-phone.pdf'));
+    const html = readFileSync(keep(pdfHtml('en'), 'no-phone.html'), 'utf8');
+    const text = await extractPdfText(keep(pdf('en'), 'no-phone.pdf'));
+    const spanish = await extractPdfText(keep(pdf('es'), 'no-phone-es.pdf'));
 
     expectPublicContacts(html);
     expectPublicContacts(text);
+    expectPublicContacts(spanish);
     expect(html).not.toContain(FAKE_PHONE);
     expect(text).not.toContain(FAKE_PHONE);
+    expect(spanish).not.toContain(FAKE_PHONE);
   });
 
   it('rejects a phone number stored in the tracked content', () => {
