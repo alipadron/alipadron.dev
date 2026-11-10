@@ -1,0 +1,42 @@
+name: Deploy
+
+# Publishes the prerendered site to the Cloudflare Pages project `alipadron-dev`
+# (https://alipadron-dev.pages.dev) on every push to `main`. The project is a
+# direct-upload one: the build command and output directory live here, not in
+# the Cloudflare dashboard. DNS and custom domains are not touched.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: pages-deploy-main
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      deployments: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run build
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist/analog/public --project-name=alipadron-dev --branch=main
+          wranglerVersion: "4.160.0"
