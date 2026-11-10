@@ -1,5 +1,11 @@
 import { spawnSync } from 'node:child_process';
-import { copyFileSync, existsSync, mkdirSync, readFileSync, rmSync } from 'node:fs';
+import {
+  copyFileSync,
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  rmSync,
+} from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 
@@ -8,7 +14,12 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 const PROJECT_ROOT = path.resolve(import.meta.dirname, '..');
 const PRERENDER_DIR = path.join(PROJECT_ROOT, 'dist/analog/public');
-const ARTIFACTS_DIR = path.join(os.tmpdir(), `alipadron-bilingual-${process.pid}`);
+const ARTIFACTS_DIR = path.join(os.tmpdir(), `alipadron-variants-${process.pid}`);
+const VARIANT_FIXTURE_DIR = path.join(PROJECT_ROOT, 'tests/fixtures/variants');
+const VARIANT_OUTPUT_DIR = path.join(ARTIFACTS_DIR, 'variant-fixture');
+
+const CV_VARIANTS = ['fullstack-ai', 'tech-lead', 'freelance'] as const;
+type CvVariant = (typeof CV_VARIANTS)[number];
 
 // Kept as literals on purpose: these tests observe build outputs and never
 // import the content module or its schema.
@@ -32,6 +43,18 @@ const EXPECTED = {
   },
 };
 
+const FIXTURE_TEXT = {
+  shared: 'Shared engagement bullet shown in every CV.',
+  reordered: 'Shared engagement bullet moved first for Tech Lead.',
+  freelanceOnly: 'Freelance-only contract audit bullet.',
+  techLeadOnly: 'Tech-Lead-only release ownership bullet.',
+  concurrent: 'Concurrent venture bullet.',
+  tuapplicaya: 'Tuapplicaya pre-launch bullet.',
+  taggedEntry: 'Tagged Only Company',
+  techLeadTitle: 'Co-founder & Technical Lead',
+  concurrentLabel: 'Concurrent engagement',
+};
+
 /** Prerendered pages, copied out of `dist/` before the fixtures rebuild it. */
 const PAGES = [
   { source: 'index.html', artifact: 'home-en.html' },
@@ -39,6 +62,8 @@ const PAGES = [
   { source: 'experience/index.html', artifact: 'experience-en.html' },
   { source: 'es/experience/index.html', artifact: 'experience-es.html' },
 ];
+
+type NpmResult = ReturnType<typeof runNpmScript>;
 
 function runNpmScript(script: string, extraEnv: Record<string, string> = {}) {
   // Vitest sets VITEST/NODE_ENV=test, and Analog disables prerendering in that
@@ -64,8 +89,11 @@ function runNpmScript(script: string, extraEnv: Record<string, string> = {}) {
   };
 }
 
-function runNpmOrThrow(script: string) {
-  const result = runNpmScript(script);
+function runNpmOrThrow(
+  script: string,
+  extraEnv: Record<string, string> = {},
+): void {
+  const result = runNpmScript(script, extraEnv);
 
   if (result.status !== 0) {
     throw new Error(
@@ -109,12 +137,26 @@ function prerenderedFile(href: string): string {
   return path.join(PRERENDER_DIR, relative, 'index.html');
 }
 
-async function pdfText(name: string): Promise<string> {
-  const pdf = new Uint8Array(readFileSync(path.join(ARTIFACTS_DIR, name)));
+async function readPdfText(file: string): Promise<string> {
+  const pdf = new Uint8Array(readFileSync(file));
   const document = await getDocumentProxy(pdf);
   const { text } = await extractText(document, { mergePages: true });
 
   return normalize(text);
+}
+
+function artifactPdfText(name: string): Promise<string> {
+  return readPdfText(path.join(ARTIFACTS_DIR, name));
+}
+
+function countOccurrences(text: string, needle: string): number {
+  return text.split(needle).length - 1;
+}
+
+function expectFailure(result: NpmResult): void {
+  expect(result.status, result.output).not.toBe(0);
+  expect(result.output).toContain('Invalid content in');
+  expect(result.output).toContain('career.json');
 }
 
 describe('build-level outputs', () => {
@@ -132,12 +174,17 @@ describe('build-level outputs', () => {
 
     runNpmOrThrow('pdf');
 
-    for (const language of ['en', 'es']) {
+    for (const variant of CV_VARIANTS) {
       copyFileSync(
-        path.join(PROJECT_ROOT, `output/cv-${language}-fullstack-ai.pdf`),
-        path.join(ARTIFACTS_DIR, `cv-${language}-fullstack-ai.pdf`),
+        path.join(PROJECT_ROOT, `output/cv-en-${variant}.pdf`),
+        path.join(ARTIFACTS_DIR, `cv-en-${variant}.pdf`),
       );
     }
+
+    copyFileSync(
+      path.join(PROJECT_ROOT, 'output/cv-es-fullstack-ai.pdf'),
+      path.join(ARTIFACTS_DIR, 'cv-es-fullstack-ai.pdf'),
+    );
   });
 
   afterAll(() => {
@@ -207,8 +254,18 @@ describe('build-level outputs', () => {
     }
   });
 
+  it('produces the three English CVs from the same content', async () => {
+    for (const variant of CV_VARIANTS) {
+      const text = await artifactPdfText(`cv-en-${variant}.pdf`);
+
+      expect(text, variant).toContain(EXPECTED.company);
+      expect(text, variant).toContain(EXPECTED.en.title);
+      expect(text, variant).toContain(EXPECTED.en.bullet);
+    }
+  });
+
   it('produces the English Full-Stack + AI PDF with the role text', async () => {
-    const text = await pdfText('cv-en-fullstack-ai.pdf');
+    const text = await artifactPdfText('cv-en-fullstack-ai.pdf');
 
     expect(text).toContain(EXPECTED.company);
     expect(text).toContain(EXPECTED.en.title);
@@ -219,7 +276,7 @@ describe('build-level outputs', () => {
   });
 
   it('produces the Spanish Full-Stack + AI PDF with the role text', async () => {
-    const text = await pdfText('cv-es-fullstack-ai.pdf');
+    const text = await artifactPdfText('cv-es-fullstack-ai.pdf');
 
     expect(text).toContain(EXPECTED.company);
     expect(text).toContain(EXPECTED.es.title);
@@ -259,6 +316,18 @@ describe('build-level outputs', () => {
       expectedDetail: 'home.experienceLink.es',
       expectedMessage: 'missing Spanish translation',
     },
+    {
+      fixture: 'unknown-variant',
+      expectedFile: 'career.json',
+      expectedDetail: 'entries.0.variants.0',
+      expectedMessage: 'unknown variant',
+    },
+    {
+      fixture: 'mismatched-override',
+      expectedFile: 'career.json',
+      expectedDetail: 'entries.0.placementByVariant.fullstack-ai',
+      expectedMessage: 'must belong to one of the entry variants',
+    },
   ])(
     'fails the build with a clear message for the $fixture fixture',
     ({ fixture, expectedFile, expectedDetail, expectedMessage }) => {
@@ -266,11 +335,107 @@ describe('build-level outputs', () => {
         CONTENT_DIR: path.join(PROJECT_ROOT, 'tests/fixtures', fixture),
       });
 
-      expect(result.status).not.toBe(0);
+      expect(result.status, result.output).not.toBe(0);
       expect(result.output).toContain('Invalid content in');
       expect(result.output).toContain(expectedFile);
       expect(result.output).toContain(expectedDetail);
       expect(result.output).toContain(expectedMessage);
     },
   );
+});
+
+describe('variant engine with fixture content', () => {
+  const pdfTexts = {} as Record<CvVariant, string>;
+
+  beforeAll(async () => {
+    runNpmOrThrow('pdf', {
+      CONTENT_DIR: VARIANT_FIXTURE_DIR,
+      OUTPUT_DIR: VARIANT_OUTPUT_DIR,
+    });
+
+    for (const variant of CV_VARIANTS) {
+      pdfTexts[variant] = await readPdfText(
+        path.join(VARIANT_OUTPUT_DIR, `cv-en-${variant}.pdf`),
+      );
+    }
+  });
+
+  it('includes entries and bullets without a variants field in every variant', () => {
+    for (const variant of CV_VARIANTS) {
+      expect(pdfTexts[variant], variant).toContain(EXPECTED.company);
+      expect(pdfTexts[variant], variant).toContain(FIXTURE_TEXT.shared);
+      expect(pdfTexts[variant], variant).toContain(FIXTURE_TEXT.concurrent);
+    }
+  });
+
+  it('includes tagged entries only in the variants they name', () => {
+    expect(pdfTexts['tech-lead']).toContain(FIXTURE_TEXT.taggedEntry);
+    expect(pdfTexts['fullstack-ai']).not.toContain(FIXTURE_TEXT.taggedEntry);
+    expect(pdfTexts.freelance).not.toContain(FIXTURE_TEXT.taggedEntry);
+  });
+
+  it('includes tagged bullets only in the variants they name', () => {
+    expect(pdfTexts.freelance).toContain(FIXTURE_TEXT.freelanceOnly);
+    expect(pdfTexts['fullstack-ai']).not.toContain(FIXTURE_TEXT.freelanceOnly);
+    expect(pdfTexts['tech-lead']).not.toContain(FIXTURE_TEXT.freelanceOnly);
+
+    expect(pdfTexts['tech-lead']).toContain(FIXTURE_TEXT.techLeadOnly);
+    expect(pdfTexts['fullstack-ai']).not.toContain(FIXTURE_TEXT.techLeadOnly);
+    expect(pdfTexts.freelance).not.toContain(FIXTURE_TEXT.techLeadOnly);
+  });
+
+  it('places Tuapplicaya as a project in Full-Stack + AI and an experience elsewhere', () => {
+    const fullstack = pdfTexts['fullstack-ai'];
+    expect(fullstack.indexOf('Projects')).toBeGreaterThanOrEqual(0);
+    expect(fullstack.indexOf('Tuapplicaya')).toBeGreaterThan(
+      fullstack.indexOf('Projects'),
+    );
+
+    for (const variant of ['tech-lead', 'freelance'] as const) {
+      const text = pdfTexts[variant];
+      expect(text, variant).not.toContain('Projects');
+      expect(text.indexOf('Tuapplicaya'), variant).toBeGreaterThan(
+        text.indexOf('Experience'),
+      );
+    }
+  });
+
+  it('applies per-variant role titles', () => {
+    expect(pdfTexts['tech-lead']).toContain(FIXTURE_TEXT.techLeadTitle);
+    expect(pdfTexts['fullstack-ai']).not.toContain(
+      FIXTURE_TEXT.techLeadTitle,
+    );
+    expect(pdfTexts.freelance).not.toContain(FIXTURE_TEXT.techLeadTitle);
+  });
+
+  it('renders the concurrent engagement label only in Freelance', () => {
+    expect(pdfTexts.freelance).toContain(FIXTURE_TEXT.concurrentLabel);
+    expect(pdfTexts['fullstack-ai']).not.toContain(
+      FIXTURE_TEXT.concurrentLabel,
+    );
+    expect(pdfTexts['tech-lead']).not.toContain(FIXTURE_TEXT.concurrentLabel);
+  });
+
+  it('respects per-variant bullet order without duplicating text', () => {
+    const fullstack = pdfTexts['fullstack-ai'];
+    expect(fullstack.indexOf(FIXTURE_TEXT.shared)).toBeLessThan(
+      fullstack.indexOf(FIXTURE_TEXT.reordered),
+    );
+
+    const techLead = pdfTexts['tech-lead'];
+    expect(techLead.indexOf(FIXTURE_TEXT.reordered)).toBeLessThan(
+      techLead.indexOf(FIXTURE_TEXT.shared),
+    );
+
+    for (const variant of CV_VARIANTS) {
+      expect(
+        countOccurrences(pdfTexts[variant], FIXTURE_TEXT.shared),
+        variant,
+      ).toBe(1);
+      expect(
+        countOccurrences(pdfTexts[variant], FIXTURE_TEXT.reordered),
+        variant,
+      ).toBe(1);
+    }
+  });
 });

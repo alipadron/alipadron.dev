@@ -1,5 +1,5 @@
 {
-  "roles": [
+  "entries": [
     {
       "id": "gofeels",
       "company": {
@@ -13,8 +13,15 @@
       "startDate": "2020",
       "endDate": null,
       "locationModel": "remote",
-      "stack": ["AngularJS", "Laravel"],
-      "variants": ["fullstack-ai", "tech-lead", "freelance"],
+      "stack": [
+        "AngularJS",
+        "Laravel"
+      ],
+      "variants": [
+        "fullstack-ai",
+        "tech-lead",
+        "freelance"
+      ],
       "bullets": [
         {
           "id": "gofeels-production-software",
@@ -23,7 +30,10 @@
             "en": "Built and maintained production web applications used by hotels.",
             "es": "Construyó y mantuvo aplicaciones web en producción usadas por hoteles."
           },
-          "variants": ["fullstack-ai", "tech-lead"]
+          "variants": [
+            "fullstack-ai",
+            "tech-lead"
+          ]
         }
       ]
     }
