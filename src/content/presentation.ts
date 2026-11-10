@@ -1,17 +1,16 @@
+import type { Language } from './language';
 import type { Role } from './schema';
 
-const PRESENT_LABEL = {
+const PRESENT_LABEL: Record<Language, string> = {
   en: 'Present',
   es: 'Actualidad',
-} as const;
+};
 
-const LOCATION_LABEL = {
-  remote: 'Remote',
-  hybrid: 'Hybrid',
-  onsite: 'On-site',
-} as const;
-
-export type ContentLanguage = keyof typeof PRESENT_LABEL;
+const LOCATION_LABEL: Record<Role['locationModel'], Record<Language, string>> = {
+  remote: { en: 'Remote', es: 'Remoto' },
+  hybrid: { en: 'Hybrid', es: 'Híbrido' },
+  onsite: { en: 'On-site', es: 'Presencial' },
+};
 
 /**
  * Presentation selectors shared by the site page and the PDF renderer so both
@@ -23,11 +22,14 @@ export function orderedBullets(role: Role) {
 
 export function formatDateRange(
   role: Role,
-  language: ContentLanguage = 'en',
+  language: Language = 'en',
 ): string {
   return `${role.startDate} – ${role.endDate ?? PRESENT_LABEL[language]}`;
 }
 
-export function formatLocationModel(locationModel: Role['locationModel']): string {
-  return LOCATION_LABEL[locationModel];
+export function formatLocationModel(
+  locationModel: Role['locationModel'],
+  language: Language = 'en',
+): string {
+  return LOCATION_LABEL[locationModel][language];
 }

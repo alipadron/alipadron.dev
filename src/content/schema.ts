@@ -68,10 +68,45 @@ export const careerSchema = z
   })
   .strict();
 
+/**
+ * Site chrome that is not tied to a career entry. Every user-facing string is
+ * bilingual, so `content/ui.json` follows the same `{ en, es }` shape as the
+ * career content and a missing translation names its own entry.
+ */
+export const uiSchema = z
+  .object({
+    siteName: bilingualSchema,
+    home: z
+      .object({
+        heading: bilingualSchema,
+        experienceLink: bilingualSchema,
+      })
+      .strict(),
+    experience: z
+      .object({
+        heading: bilingualSchema,
+      })
+      .strict(),
+    languageSwitcher: z
+      .object({
+        label: bilingualSchema,
+        switchTo: bilingualSchema,
+      })
+      .strict(),
+    cv: z
+      .object({
+        variantName: bilingualSchema,
+        experienceHeading: bilingualSchema,
+      })
+      .strict(),
+  })
+  .strict();
+
 export type Bilingual = z.infer<typeof bilingualSchema>;
 export type Bullet = z.infer<typeof bulletSchema>;
 export type Role = z.infer<typeof roleSchema>;
 export type Career = z.infer<typeof careerSchema>;
+export type UiStrings = z.infer<typeof uiSchema>;
 
 export class ContentValidationError extends Error {
   constructor(
@@ -91,15 +126,23 @@ export class ContentValidationError extends Error {
 }
 
 /**
- * Validate raw content and return the typed career model. Both the site build
- * and the PDF pipeline go through this function; neither reads raw files.
+ * Validate raw content and return the typed model. Both the site build and the
+ * PDF pipeline go through this function; neither reads raw files.
  */
-export function validateCareer(input: unknown, source: string): Career {
-  const result = careerSchema.safeParse(input);
+function validate<T>(schema: z.ZodType<T>, input: unknown, source: string): T {
+  const result = schema.safeParse(input);
 
   if (!result.success) {
     throw new ContentValidationError(source, result.error.issues);
   }
 
   return result.data;
+}
+
+export function validateCareer(input: unknown, source: string): Career {
+  return validate(careerSchema, input, source);
+}
+
+export function validateUi(input: unknown, source: string): UiStrings {
+  return validate(uiSchema, input, source);
 }

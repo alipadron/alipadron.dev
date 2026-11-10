@@ -1,5 +1,5 @@
 import { spawnSync } from 'node:child_process';
-import { copyFileSync, mkdirSync, readFileSync, rmSync } from 'node:fs';
+import { copyFileSync, existsSync, mkdirSync, readFileSync, rmSync } from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 
@@ -7,15 +7,36 @@ import { extractText, getDocumentProxy } from 'unpdf';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 const PROJECT_ROOT = path.resolve(import.meta.dirname, '..');
-const ARTIFACTS_DIR = path.join(os.tmpdir(), `alipadron-t2-${process.pid}`);
+const PRERENDER_DIR = path.join(PROJECT_ROOT, 'dist/analog/public');
+const ARTIFACTS_DIR = path.join(os.tmpdir(), `alipadron-bilingual-${process.pid}`);
 
 // Kept as literals on purpose: these tests observe build outputs and never
 // import the content module or its schema.
-const EXPECTED_ROLE = {
+const EXPECTED = {
   company: 'GoFeels',
-  title: 'Senior Full-Stack Engineer',
-  bullet: 'Built and maintained production web applications used by hotels.',
+  en: {
+    title: 'Senior Full-Stack Engineer',
+    bullet: 'Built and maintained production web applications used by hotels.',
+    experienceHeading: 'Experience',
+    present: 'Present',
+    homeLink: 'Read the experience',
+  },
+  es: {
+    title: 'Ingeniero Full-Stack Senior',
+    bullet: 'Construyó y mantuvo aplicaciones web en producción usadas por hoteles.',
+    experienceHeading: 'Experiencia',
+    present: 'Actualidad',
+    homeLink: 'Leer la experiencia',
+  },
 };
+
+/** Prerendered pages, copied out of `dist/` before the fixtures rebuild it. */
+const PAGES = [
+  { source: 'index.html', artifact: 'home-en.html' },
+  { source: 'es/index.html', artifact: 'home-es.html' },
+  { source: 'experience/index.html', artifact: 'experience-en.html' },
+  { source: 'es/experience/index.html', artifact: 'experience-es.html' },
+];
 
 function runNpmScript(script: string, extraEnv: Record<string, string> = {}) {
   // Vitest sets VITEST/NODE_ENV=test, and Analog disables prerendering in that
@@ -55,23 +76,66 @@ function normalize(text: string): string {
   return text.replace(/\s+/g, ' ').trim();
 }
 
+function readArtifact(name: string): string {
+  return readFileSync(path.join(ARTIFACTS_DIR, name), 'utf8');
+}
+
+/** The switcher's href, read from the prerendered markup of one page. */
+function switcherHref(html: string): string {
+  const switcher = html.match(
+    /<app-language-switcher[\s\S]*?<\/app-language-switcher>/,
+  );
+
+  if (!switcher) {
+    throw new Error('language switcher not found in page');
+  }
+
+  const href = switcher[0].match(/href="([^"]+)"/);
+
+  if (!href) {
+    throw new Error('language switcher has no link');
+  }
+
+  return href[1];
+}
+
+/** Resolves a site path to the HTML file a static host would serve for it. */
+function prerenderedFile(href: string): string {
+  const cleanPath = href.split('#')[0].split('?')[0];
+  const relative = cleanPath.replace(/^\/|\/$/g, '');
+
+  return path.join(PRERENDER_DIR, relative, 'index.html');
+}
+
+async function pdfText(name: string): Promise<string> {
+  const pdf = new Uint8Array(readFileSync(path.join(ARTIFACTS_DIR, name)));
+  const document = await getDocumentProxy(pdf);
+  const { text } = await extractText(document, { mergePages: true });
+
+  return normalize(text);
+}
+
 describe('build-level outputs', () => {
   beforeAll(() => {
     mkdirSync(ARTIFACTS_DIR, { recursive: true });
 
     runNpmOrThrow('build');
 
-    copyFileSync(
-      path.join(PROJECT_ROOT, 'dist/analog/public/experience/index.html'),
-      path.join(ARTIFACTS_DIR, 'experience.html'),
-    );
+    for (const { source, artifact } of PAGES) {
+      copyFileSync(
+        path.join(PRERENDER_DIR, source),
+        path.join(ARTIFACTS_DIR, artifact),
+      );
+    }
 
     runNpmOrThrow('pdf');
 
-    copyFileSync(
-      path.join(PROJECT_ROOT, 'output/cv-en-fullstack-ai.pdf'),
-      path.join(ARTIFACTS_DIR, 'cv-en-fullstack-ai.pdf'),
-    );
+    for (const language of ['en', 'es']) {
+      copyFileSync(
+        path.join(PROJECT_ROOT, `output/cv-${language}-fullstack-ai.pdf`),
+        path.join(ARTIFACTS_DIR, `cv-${language}-fullstack-ai.pdf`),
+      );
+    }
   });
 
   afterAll(() => {
@@ -83,28 +147,78 @@ describe('build-level outputs', () => {
     runNpmScript('build');
   });
 
-  it('prerenders the Experience page with the role', () => {
-    const html = readFileSync(
-      path.join(ARTIFACTS_DIR, 'experience.html'),
-      'utf8',
-    );
+  it('prerenders the English Experience page from the content', () => {
+    const html = readArtifact('experience-en.html');
 
-    expect(html).toContain(EXPECTED_ROLE.company);
-    expect(html).toContain(EXPECTED_ROLE.title);
-    expect(html).toContain(EXPECTED_ROLE.bullet);
+    expect(html).toContain('<html lang="en">');
+    expect(html).toContain(EXPECTED.company);
+    expect(html).toContain(EXPECTED.en.title);
+    expect(html).toContain(EXPECTED.en.bullet);
+    expect(html).toContain(EXPECTED.en.experienceHeading);
+    expect(html).toContain(EXPECTED.en.present);
   });
 
-  it('produces the Full-Stack + AI PDF with the role text', async () => {
-    const pdf = new Uint8Array(
-      readFileSync(path.join(ARTIFACTS_DIR, 'cv-en-fullstack-ai.pdf')),
-    );
-    const document = await getDocumentProxy(pdf);
-    const { text } = await extractText(document, { mergePages: true });
-    const normalized = normalize(text);
+  it('prerenders the Spanish Experience page from the same content', () => {
+    const html = readArtifact('experience-es.html');
 
-    expect(normalized).toContain(EXPECTED_ROLE.company);
-    expect(normalized).toContain(EXPECTED_ROLE.title);
-    expect(normalized).toContain(EXPECTED_ROLE.bullet);
+    expect(html).toContain('<html lang="es">');
+    expect(html).toContain(EXPECTED.company);
+    expect(html).toContain(EXPECTED.es.title);
+    expect(html).toContain(EXPECTED.es.bullet);
+    expect(html).toContain(EXPECTED.es.experienceHeading);
+    expect(html).toContain(EXPECTED.es.present);
+    expect(html).toContain('Remoto');
+  });
+
+  it('prerenders both Home pages with language-specific links', () => {
+    const english = readArtifact('home-en.html');
+    const spanish = readArtifact('home-es.html');
+
+    expect(english).toContain('<html lang="en">');
+    expect(english).toContain(`href="/experience"`);
+    expect(english).toContain(EXPECTED.en.homeLink);
+
+    expect(spanish).toContain('<html lang="es">');
+    expect(spanish).toContain(`href="/es/experience"`);
+    expect(spanish).toContain(EXPECTED.es.homeLink);
+  });
+
+  it.each([
+    { page: 'home-en.html', expectedHref: '/es' },
+    { page: 'home-es.html', expectedHref: '/' },
+    { page: 'experience-en.html', expectedHref: '/es/experience' },
+    { page: 'experience-es.html', expectedHref: '/experience' },
+  ])(
+    'the language switcher on $page links to the equivalent page ($expectedHref)',
+    ({ page, expectedHref }) => {
+      expect(switcherHref(readArtifact(page))).toBe(expectedHref);
+    },
+  );
+
+  it('every language switcher link resolves to a prerendered page', () => {
+    for (const { artifact } of PAGES) {
+      const href = switcherHref(readArtifact(artifact));
+
+      expect(existsSync(prerenderedFile(href)), `${artifact} -> ${href}`).toBe(
+        true,
+      );
+    }
+  });
+
+  it('produces the English Full-Stack + AI PDF with the role text', async () => {
+    const text = await pdfText('cv-en-fullstack-ai.pdf');
+
+    expect(text).toContain(EXPECTED.company);
+    expect(text).toContain(EXPECTED.en.title);
+    expect(text).toContain(EXPECTED.en.bullet);
+  });
+
+  it('produces the Spanish Full-Stack + AI PDF with the role text', async () => {
+    const text = await pdfText('cv-es-fullstack-ai.pdf');
+
+    expect(text).toContain(EXPECTED.company);
+    expect(text).toContain(EXPECTED.es.title);
+    expect(text).toContain(EXPECTED.es.bullet);
   });
 
   it('accepts mixed year and month date granularity', () => {
@@ -121,24 +235,32 @@ describe('build-level outputs', () => {
   it.each([
     {
       fixture: 'invalid-date',
+      expectedFile: 'career.json',
       expectedDetail: 'startDate',
       expectedMessage: 'must be a year (YYYY) or a month (YYYY-MM)',
     },
     {
       fixture: 'invalid-translation',
+      expectedFile: 'career.json',
       expectedDetail: 'title.es',
+      expectedMessage: 'missing Spanish translation',
+    },
+    {
+      fixture: 'invalid-ui-translation',
+      expectedFile: 'ui.json',
+      expectedDetail: 'home.experienceLink.es',
       expectedMessage: 'missing Spanish translation',
     },
   ])(
     'fails the build with a clear message for the $fixture fixture',
-    ({ fixture, expectedDetail, expectedMessage }) => {
+    ({ fixture, expectedFile, expectedDetail, expectedMessage }) => {
       const result = runNpmScript('build', {
         CONTENT_DIR: path.join(PROJECT_ROOT, 'tests/fixtures', fixture),
       });
 
       expect(result.status).not.toBe(0);
       expect(result.output).toContain('Invalid content in');
-      expect(result.output).toContain('career.json');
+      expect(result.output).toContain(expectedFile);
       expect(result.output).toContain(expectedDetail);
       expect(result.output).toContain(expectedMessage);
     },
