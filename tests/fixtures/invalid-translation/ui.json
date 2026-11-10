@@ -33,6 +33,10 @@
     "variantName": {
       "en": "Full-Stack + AI",
       "es": "Full-Stack + AI"
+    },
+    "download": {
+      "en": "Download the CV (PDF)",
+      "es": "Descargar el CV (PDF)"
     }
   },
   "projects": {

@@ -2,6 +2,7 @@ import { spawnSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 
+import { strFromU8, unzipSync } from 'fflate';
 import { extractText, getDocumentProxy } from 'unpdf';
 
 export const PROJECT_ROOT = path.resolve(import.meta.dirname, '../..');
@@ -63,4 +64,30 @@ export async function extractPdfText(file: string): Promise<string> {
   const { text } = await extractText(document, { mergePages: true });
 
   return normalize(text);
+}
+
+function decodeXmlEntities(value: string): string {
+  return value
+    .replaceAll('&amp;', '&')
+    .replaceAll('&lt;', '<')
+    .replaceAll('&gt;', '>')
+    .replaceAll('&quot;', '"')
+    .replaceAll('&apos;', "'");
+}
+
+/**
+ * The text of a DOCX file as a reader would see it. A DOCX is a ZIP whose
+ * `word/document.xml` holds every paragraph; stripping the WordprocessingML
+ * tags keeps the paragraph text in reading order.
+ */
+export function extractDocxText(file: string): string {
+  const archive = unzipSync(new Uint8Array(readFileSync(file)));
+  const xml = strFromU8(archive['word/document.xml']);
+
+  const text = xml
+    .replaceAll('</w:p>', '\n')
+    .replaceAll('<w:tab/>', '\t')
+    .replace(/<[^>]+>/g, '');
+
+  return normalize(decodeXmlEntities(text));
 }

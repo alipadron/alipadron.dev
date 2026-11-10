@@ -26,7 +26,13 @@ jobs:
 
       - run: npm ci
 
+      - name: Install Chromium for CV generation
+        run: npx playwright install --with-deps chromium
+
       - run: npm run build
+
+      - name: Build CV documents and publish the downloadable PDFs
+        run: npm run documents
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3

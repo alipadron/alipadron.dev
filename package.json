@@ -10,7 +10,8 @@
     "build": "vite build",
     "test": "vitest run",
     "typecheck": "tsc --noEmit -p tsconfig.app.json && tsc --noEmit -p tsconfig.node.json",
-    "pdf": "tsx scripts/build-pdf.ts"
+    "documents": "tsx scripts/build-documents.ts --publish",
+    "pdf": "tsx scripts/build-documents.ts --pdf-only"
   },
   "dependencies": {
     "@analogjs/router": "^2.9.6",
@@ -20,6 +21,7 @@
     "@angular/platform-browser": "^22.0.0",
     "@angular/platform-server": "^22.0.0",
     "@angular/router": "^22.0.0",
+    "docx": "^9.15.3",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zod": "^4.6.7"
@@ -31,6 +33,7 @@
     "@angular/cli": "^22.0.0",
     "@angular/compiler-cli": "^22.0.0",
     "@types/node": "^26.6.6",
+    "fflate": "^0.8.3",
     "playwright": "^1.65.0",
     "tsx": "^4.23.15",
     "typescript": "~6.0.0",
