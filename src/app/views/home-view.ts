@@ -3,7 +3,7 @@ import { RouterLink } from '@angular/router';
 
 import { ui } from '../../content/index';
 import type { Language } from '../../content/language';
-import { localizedPath } from '../i18n';
+import { localizedPath } from '../routes';
 
 @Component({
   selector: 'app-home-view',

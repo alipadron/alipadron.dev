@@ -96,7 +96,6 @@ export const uiSchema = z
     cv: z
       .object({
         variantName: bilingualSchema,
-        experienceHeading: bilingualSchema,
       })
       .strict(),
   })
