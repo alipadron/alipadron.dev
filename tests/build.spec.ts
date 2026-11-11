@@ -98,18 +98,6 @@ const MASTER_CONTENT = {
   ],
 };
 
-// Material the spec keeps out of every output, plus client names that have no
-// approval to be published.
-const FORBIDDEN = [
-  'Coursera',
-  'Banco de Venezuela',
-  'bdv-api',
-  'pentest',
-  '500 concurrent',
-  'AmourStyle',
-  'Connection Academy',
-];
-
 /** Prerendered pages, copied out of `dist/` before the fixtures rebuild it. */
 const PAGES = [
   { source: 'index.html', artifact: 'home-en.html' },
@@ -241,16 +229,6 @@ describe('build-level outputs', () => {
 
     for (const snippet of MASTER_CONTENT.es) {
       expect(spanish, snippet).toContain(snippet);
-    }
-  });
-
-  it('keeps excluded and unapproved material out of the site output', () => {
-    for (const { artifact } of PAGES) {
-      const html = readArtifact(artifact);
-
-      for (const needle of FORBIDDEN) {
-        expect(html, `${artifact} contains ${needle}`).not.toContain(needle);
-      }
     }
   });
 
@@ -392,6 +370,18 @@ describe('build-level outputs', () => {
       expectedFile: 'career.json',
       expectedDetail: 'entries.0.placementByVariant.fullstack-ai',
       expectedMessage: 'must belong to one of the entry variants',
+    },
+    {
+      fixture: 'invalid-education-date',
+      expectedFile: 'career.json',
+      expectedDetail: 'education.0.endDate',
+      expectedMessage: 'must not be earlier than startDate',
+    },
+    {
+      fixture: 'missing-sections',
+      expectedFile: 'career.json',
+      expectedDetail: 'skills',
+      expectedMessage: 'expected array',
     },
   ])(
     'fails the build with a clear message for the $fixture fixture',

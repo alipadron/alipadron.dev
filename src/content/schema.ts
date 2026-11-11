@@ -28,6 +28,16 @@ function dateKey(value: string): number {
   return Number(year) * 12 + Number(month) - 1;
 }
 
+/** `null` end date means the range is current, so it cannot be inverted. */
+function isDateRangeInverted(range: {
+  readonly startDate: string;
+  readonly endDate: string | null;
+}): boolean {
+  return (
+    range.endDate !== null && dateKey(range.endDate) < dateKey(range.startDate)
+  );
+}
+
 const bilingualSchema = z
   .object({
     en: z.string().trim().min(1, 'missing English translation'),
@@ -80,10 +90,7 @@ export const entrySchema = z
   })
   .strict()
   .superRefine((entry, context) => {
-    if (
-      entry.endDate !== null &&
-      dateKey(entry.endDate) < dateKey(entry.startDate)
-    ) {
+    if (isDateRangeInverted(entry)) {
       context.addIssue({
         code: 'custom',
         path: ['endDate'],
@@ -174,7 +181,7 @@ export const educationSchema = z
   })
   .strict()
   .superRefine((education, context) => {
-    if (dateKey(education.endDate) < dateKey(education.startDate)) {
+    if (isDateRangeInverted(education)) {
       context.addIssue({
         code: 'custom',
         path: ['endDate'],

@@ -1,0 +1,45 @@
+{
+  "profile": {
+    "email": "hola@alipadron.dev",
+    "linkedin": "https://www.linkedin.com/in/alipadron",
+    "github": "https://github.com/alipadron",
+    "headline": {
+      "en": "Fixture headline",
+      "es": "Titular de prueba"
+    },
+    "summary": {
+      "en": "Fixture summary.",
+      "es": "Resumen de prueba."
+    }
+  },
+  "entries": [
+    {
+      "id": "fixture-role",
+      "company": {
+        "en": "Fixture Company",
+        "es": "Empresa de Prueba"
+      },
+      "title": {
+        "en": "Senior Full-Stack Engineer",
+        "es": "Ingeniero Full-Stack Senior"
+      },
+      "startDate": "2020-01",
+      "endDate": "2020",
+      "locationModel": "remote",
+      "stack": [
+        "AngularJS",
+        "Laravel"
+      ],
+      "bullets": [
+        {
+          "id": "fixture-bullet",
+          "order": 1,
+          "text": {
+            "en": "Built production software.",
+            "es": "Construyó software en producción."
+          }
+        }
+      ]
+    }
+  ]
+}
