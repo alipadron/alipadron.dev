@@ -22,6 +22,16 @@
       }
     }
   },
+  "metrics": [
+    {
+      "id": "fixture-metric",
+      "value": "+150",
+      "label": {
+        "en": "fixture hotels",
+        "es": "hoteles de prueba"
+      }
+    }
+  ],
   "entries": [
     {
       "id": "fixture-gofeels",

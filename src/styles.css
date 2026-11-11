@@ -1,44 +1,154 @@
 :root {
   color-scheme: light dark;
-  font-family:
-    ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Roboto, 'Helvetica Neue', Arial, sans-serif;
-  line-height: 1.6;
+
+  --bg: #fbf8f3;
+  --surface: #ffffff;
+  --ink: #1a1714;
+  --text: #332c27;
+  --muted: #6a6058;
+  --rule: #e4dcd2;
+  --accent: #a63b1b;
+  --accent-ink: #fbf8f3;
+
+  --serif: ui-serif, Georgia, 'Iowan Old Style', 'Times New Roman', serif;
+  --sans:
+    ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Arial,
+    sans-serif;
+
+  --step--1: 0.8125rem;
+  --step-0: 1.0625rem;
+  --step-1: 1.25rem;
+  --step-2: 1.5rem;
+  --step-3: 2rem;
+  --display: clamp(3rem, 8vw, 5.5rem);
+  --page-display: clamp(2.5rem, 6vw, 4rem);
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+
+  --radius: 2px;
+  --wrap: 72rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #141210;
+    --surface: #1c1917;
+    --ink: #f2ede8;
+    --text: #d6cdc5;
+    --muted: #a79e96;
+    --rule: #2e2925;
+    --accent: #ff8a65;
+    --accent-ink: #141210;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   margin: 0;
-  background: canvas;
-  color: canvastext;
-}
-
-main {
-  margin: 0 auto;
-  max-width: 48rem;
-  padding: 2rem 1.25rem 4rem;
-}
-
-nav {
-  margin-bottom: 2rem;
-}
-
-article + article {
-  margin-top: 2.5rem;
-}
-
-h1,
-h2 {
-  line-height: 1.2;
-}
-
-h2 {
-  margin-bottom: 0.25rem;
-}
-
-ul {
-  padding-left: 1.25rem;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: var(--step-0);
+  line-height: 1.65;
+  overflow-wrap: break-word;
+  -webkit-font-smoothing: antialiased;
 }
 
 a {
   color: inherit;
+  text-decoration-color: var(--rule);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+
+a:hover {
+  color: var(--accent);
+  text-decoration-color: var(--accent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.wrap {
+  margin: 0 auto;
+  max-width: var(--wrap);
+  padding: 0 var(--space-5);
+}
+
+@media (max-width: 479px) {
+  .wrap {
+    padding: 0 1.25rem;
+  }
+}
+
+/*
+ * Shared editorial primitives. Page-specific layout lives with the component
+ * that owns it; these three are the page's whole visual vocabulary.
+ */
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin: 0 0 var(--space-5);
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 0.6875rem;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.section-label::after {
+  content: '';
+  flex: 1;
+  border-top: 1px solid var(--rule);
+}
+
+.button {
+  display: inline-block;
+  border: 1px solid var(--ink);
+  border-radius: var(--radius);
+  padding: 0.6rem 1rem;
+  background: var(--ink);
+  color: var(--bg);
+  font-size: var(--step--1);
+  letter-spacing: 0.02em;
+  text-decoration: none;
+}
+
+.button:hover {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.link {
+  color: var(--accent);
+  font-size: var(--step--1);
+  letter-spacing: 0.02em;
 }

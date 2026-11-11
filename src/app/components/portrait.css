@@ -1,0 +1,38 @@
+:host {
+  display: block;
+}
+
+.portrait {
+  margin: 0;
+  max-width: 22rem;
+}
+
+.portrait-media {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  border: 1px solid var(--rule);
+  background: var(--surface);
+  object-fit: cover;
+}
+
+.portrait-frame {
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.portrait figcaption {
+  margin-top: var(--space-2);
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
+@media (min-width: 900px) {
+  .portrait-media {
+    aspect-ratio: 4 / 5;
+  }
+}

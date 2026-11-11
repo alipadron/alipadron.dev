@@ -53,6 +53,18 @@ function variantRecord<T extends z.ZodType>(value: T) {
   return z.partialRecord(variantSchema, value);
 }
 
+/**
+ * A headline figure on the Home page. The value is language-neutral, while the
+ * label describes the achievement it comes from.
+ */
+export const metricSchema = z
+  .object({
+    id: z.string().trim().min(1),
+    value: z.string().trim().min(1),
+    label: bilingualSchema,
+  })
+  .strict();
+
 export const bulletSchema = z
   .object({
     id: z.string().trim().min(1),
@@ -221,6 +233,7 @@ export const profileSchema = z
 export const careerSchema = z
   .object({
     profile: profileSchema,
+    metrics: z.array(metricSchema).min(1),
     entries: z.array(entrySchema).min(1),
     skills: z.array(skillGroupSchema).min(1),
     education: z.array(educationSchema).min(1),
@@ -236,15 +249,29 @@ export const careerSchema = z
 export const uiSchema = z
   .object({
     siteName: bilingualSchema,
+    nav: z
+      .object({
+        label: bilingualSchema,
+        home: bilingualSchema,
+      })
+      .strict(),
     home: z
       .object({
         heading: bilingualSchema,
+        kicker: bilingualSchema,
         experienceLink: bilingualSchema,
+        workWithMe: bilingualSchema,
+        metricsHeading: bilingualSchema,
+        readOn: bilingualSchema,
+        photoPlaceholder: bilingualSchema,
+        photoAlt: bilingualSchema,
+        photoCaption: bilingualSchema,
       })
       .strict(),
     experience: z
       .object({
         heading: bilingualSchema,
+        stackLabel: bilingualSchema,
       })
       .strict(),
     projects: z
@@ -269,6 +296,7 @@ export const uiSchema = z
 
 export type Bilingual = z.infer<typeof bilingualSchema>;
 export type Bullet = z.infer<typeof bulletSchema>;
+export type Metric = z.infer<typeof metricSchema>;
 export type Entry = z.infer<typeof entrySchema>;
 export type Profile = z.infer<typeof profileSchema>;
 export type SkillGroup = z.infer<typeof skillGroupSchema>;
