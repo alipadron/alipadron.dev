@@ -68,8 +68,9 @@ const EXPECTED = {
     present: 'Actualidad',
     location: 'Remoto',
     homeLink: 'Leer la experiencia',
-    headline: 'Ingeniero Full-Stack Senior · Angular y Laravel · entrega nativa con IA',
-    summary: 'Trabaja con agentes de IA como parte del método',
+    headline:
+      'Ingeniero Full-Stack Senior · Angular y Laravel · entrega con IA nativa',
+    summary: 'Integra agentes de IA en su método de trabajo',
     workWithMe: 'Trabajemos juntos',
     metricsHeading: 'En cifras',
     metrics: [
