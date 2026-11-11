@@ -90,6 +90,8 @@ export interface CvDocumentModel {
   readonly contact: readonly ContactLink[];
   /** Already passed through the local/published seam. */
   readonly phone: string | undefined;
+  /** The variant's summary, falling back to the master summary. */
+  readonly summary: string;
   readonly sections: readonly CvSectionModel[];
 }
 
@@ -138,12 +140,15 @@ export function buildCvDocumentModel(
     sectionModel(ui.projects.heading[language], cv.projects, language),
   ].filter((section): section is CvSectionModel => section !== null);
 
+  const summary = profile.summaryByVariant?.[cv.variant] ?? profile.summary;
+
   return {
     language,
     name: ui.siteName[language],
     variantLabel: VARIANT_LABELS[cv.variant][language],
     contact: publicContactLinks(profile),
     phone: phoneForOutput(options),
+    summary: summary[language],
     sections,
   };
 }

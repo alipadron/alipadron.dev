@@ -10,6 +10,16 @@
     "summary": {
       "en": "Senior full-stack engineer with 8+ years building and scaling web products end to end in Angular and Laravel. Owns architecture, use cases, code review and delivery across a hotel PMS used by +150 hotels, its OTA channel manager, subscription billing, Chilean e-invoicing and a proactive security hardening program. Works with AI agents as part of the method — spec, tickets, parallel implementation and review gates — and reviews everything that ships.",
       "es": "Ingeniero full-stack senior con más de 8 años construyendo y escalando productos web de punta a punta en Angular y Laravel. Es responsable de la arquitectura, los casos de uso, la revisión de código y la entrega de un PMS hotelero usado por +150 hoteles, su channel manager de OTAs, la facturación por suscripción, la facturación electrónica chilena y un programa proactivo de endurecimiento de seguridad. Trabaja con agentes de IA como parte del método — especificación, tickets, implementación en paralelo y puertas de revisión — y revisa todo lo que se publica."
+    },
+    "summaryByVariant": {
+      "tech-lead": {
+        "en": "Tech lead and senior full-stack engineer with 8+ years building and running web products end to end in Angular and Laravel. Owns releases, production migrations, the self-hosted GitLab and CI/CD pipeline, and a proactive security hardening program for a hotel PMS used by +150 hotels. Leads the epics behind its OTA channel manager, subscription billing and Chilean e-invoicing; co-designs with product, reviews merge requests, mentors developers and sets the team's AI-assisted workflow from spec to review.",
+        "es": "Tech lead e ingeniero full-stack senior con más de 8 años construyendo y operando productos web de punta a punta en Angular y Laravel. Es responsable de los releases, las migraciones en producción, el GitLab autoalojado y el pipeline de CI/CD, y de un programa proactivo de endurecimiento de seguridad en un PMS hotelero usado por +150 hoteles. Lidera las épicas detrás de su channel manager de OTAs, la facturación por suscripción y la facturación electrónica chilena; co-diseña con producto, revisa merge requests, mentoriza desarrolladores y define el flujo asistido por IA del equipo, de la especificación a la revisión."
+      },
+      "freelance": {
+        "en": "I take AI-built apps to production: code and security audits, CI/CD, deployment and agentic workflows for teams. Senior full-stack engineer with 8+ years in Angular and Laravel; currently senior full-stack engineer and tech lead on a hotel PMS used by +150 hotels. Available about 20–30 hours a week, with overlap across US time zones from GMT-4.",
+        "es": "Llevo a producción aplicaciones construidas con IA: auditorías de código y seguridad, CI/CD, despliegue y flujos de trabajo con agentes para equipos. Ingeniero full-stack senior con más de 8 años en Angular y Laravel; actualmente ingeniero full-stack senior y tech lead en un PMS hotelero usado por +150 hoteles. Disponible unas 20–30 horas por semana, con solapamiento con husos horarios de EE. UU. desde GMT-4."
+      }
     }
   },
   "entries": [
@@ -22,6 +32,20 @@
       "title": {
         "en": "Senior Full-Stack Engineer / Tech Lead",
         "es": "Ingeniero Full-Stack Senior / Tech Lead"
+      },
+      "titleByVariant": {
+        "fullstack-ai": {
+          "en": "Senior Full-Stack Engineer",
+          "es": "Ingeniero Full-Stack Senior"
+        },
+        "tech-lead": {
+          "en": "Tech Lead / Senior Full-Stack Engineer",
+          "es": "Tech Lead / Ingeniero Full-Stack Senior"
+        },
+        "freelance": {
+          "en": "Senior Full-Stack Engineer",
+          "es": "Ingeniero Full-Stack Senior"
+        }
       },
       "startDate": "2020",
       "endDate": null,
@@ -171,7 +195,7 @@
           "order": 1300,
           "orderByVariant": {
             "tech-lead": 50,
-            "freelance": 50
+            "freelance": 5
           },
           "text": {
             "en": "Act as technical lead: co-design with product, review merge requests, mentor developers and set the team's AI-assisted workflow from spec to tickets, implementation and review.",
@@ -209,6 +233,10 @@
         "Traefik",
         "GitHub Actions"
       ],
+      "placement": "experience",
+      "placementByVariant": {
+        "fullstack-ai": "project"
+      },
       "bullets": [
         {
           "id": "tuapplicaya-prelaunch",
@@ -257,6 +285,7 @@
         "Docker",
         "GitHub Actions"
       ],
+      "concurrentIn": ["freelance"],
       "bullets": [
         {
           "id": "independent-erp-rescue",

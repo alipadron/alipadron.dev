@@ -56,6 +56,10 @@ export async function renderCvDocx(
       spacing: { after: 120 },
     }),
     contactParagraph(document),
+    new Paragraph({
+      text: document.summary,
+      spacing: { after: 240 },
+    }),
   ];
 
   for (const section of document.sections) {
