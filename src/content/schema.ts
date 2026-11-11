@@ -311,6 +311,39 @@ export const caseStudiesSchema = z
   });
 
 /**
+ * The search and sharing copy for one page: the document title a search result
+ * shows and the description under it. Both are copy, so both are bilingual.
+ */
+const seoPageSchema = z
+  .object({
+    title: bilingualSchema,
+    description: bilingualSchema,
+  })
+  .strict();
+
+/**
+ * Per-page metadata. Every page the site publishes has an entry here, so a page
+ * cannot ship without a title and a description in both languages; case study
+ * pages take theirs from the study itself.
+ */
+const seoSchema = z
+  .object({
+    pages: z
+      .object({
+        home: seoPageSchema,
+        experience: seoPageSchema,
+        'case-studies': seoPageSchema,
+        'how-i-work': seoPageSchema,
+        'work-with-me': seoPageSchema,
+        contact: seoPageSchema,
+      })
+      .strict(),
+    /** The Open Graph image's alternative text, in both languages. */
+    imageAlt: bilingualSchema,
+  })
+  .strict();
+
+/**
  * Site chrome that is not tied to a career entry. Every user-facing string is
  * bilingual, so `content/ui.json` follows the same `{ en, es }` shape as the
  * career content and a missing translation names its own entry.
@@ -377,6 +410,7 @@ export const uiSchema = z
         download: bilingualSchema,
       })
       .strict(),
+    seo: seoSchema,
   })
   .strict();
 

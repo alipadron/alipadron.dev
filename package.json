@@ -7,11 +7,12 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && tsx scripts/build-site-files.ts",
     "test": "vitest run",
     "typecheck": "tsc --noEmit -p tsconfig.app.json && tsc --noEmit -p tsconfig.node.json",
     "documents": "tsx scripts/build-documents.ts --publish",
-    "pdf": "tsx scripts/build-documents.ts --pdf-only"
+    "pdf": "tsx scripts/build-documents.ts --pdf-only",
+    "og-image": "tsx scripts/build-og-image.ts"
   },
   "dependencies": {
     "@analogjs/router": "^2.9.6",

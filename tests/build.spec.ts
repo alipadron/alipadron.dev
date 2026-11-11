@@ -215,43 +215,213 @@ const DOCUMENT_PAGES = {
 
 /** Prerendered pages, copied out of `dist/` before the fixtures rebuild it. */
 const PAGES = [
-  { source: 'index.html', artifact: 'home-en.html' },
-  { source: 'es/index.html', artifact: 'home-es.html' },
-  { source: 'experience/index.html', artifact: 'experience-en.html' },
-  { source: 'es/experience/index.html', artifact: 'experience-es.html' },
-  { source: 'how-i-work/index.html', artifact: 'how-i-work-en.html' },
-  { source: 'es/how-i-work/index.html', artifact: 'how-i-work-es.html' },
-  { source: 'work-with-me/index.html', artifact: 'work-with-me-en.html' },
-  { source: 'es/work-with-me/index.html', artifact: 'work-with-me-es.html' },
-  { source: 'contact/index.html', artifact: 'contact-en.html' },
-  { source: 'es/contact/index.html', artifact: 'contact-es.html' },
-  { source: 'case-studies/index.html', artifact: 'case-studies-en.html' },
-  { source: 'es/case-studies/index.html', artifact: 'case-studies-es.html' },
+  { source: 'index.html', artifact: 'home-en.html', path: '/', language: 'en' },
+  {
+    source: 'es/index.html',
+    artifact: 'home-es.html',
+    path: '/',
+    language: 'es',
+  },
+  {
+    source: 'experience/index.html',
+    artifact: 'experience-en.html',
+    path: '/experience',
+    language: 'en',
+  },
+  {
+    source: 'es/experience/index.html',
+    artifact: 'experience-es.html',
+    path: '/experience',
+    language: 'es',
+  },
+  {
+    source: 'how-i-work/index.html',
+    artifact: 'how-i-work-en.html',
+    path: '/how-i-work',
+    language: 'en',
+  },
+  {
+    source: 'es/how-i-work/index.html',
+    artifact: 'how-i-work-es.html',
+    path: '/how-i-work',
+    language: 'es',
+  },
+  {
+    source: 'work-with-me/index.html',
+    artifact: 'work-with-me-en.html',
+    path: '/work-with-me',
+    language: 'en',
+  },
+  {
+    source: 'es/work-with-me/index.html',
+    artifact: 'work-with-me-es.html',
+    path: '/work-with-me',
+    language: 'es',
+  },
+  {
+    source: 'contact/index.html',
+    artifact: 'contact-en.html',
+    path: '/contact',
+    language: 'en',
+  },
+  {
+    source: 'es/contact/index.html',
+    artifact: 'contact-es.html',
+    path: '/contact',
+    language: 'es',
+  },
+  {
+    source: 'case-studies/index.html',
+    artifact: 'case-studies-en.html',
+    path: '/case-studies',
+    language: 'en',
+  },
+  {
+    source: 'es/case-studies/index.html',
+    artifact: 'case-studies-es.html',
+    path: '/case-studies',
+    language: 'es',
+  },
   {
     source: 'case-studies/gofeels/index.html',
     artifact: 'gofeels-en.html',
+    path: '/case-studies/gofeels',
+    language: 'en',
   },
   {
     source: 'es/case-studies/gofeels/index.html',
     artifact: 'gofeels-es.html',
+    path: '/case-studies/gofeels',
+    language: 'es',
   },
   {
     source: 'case-studies/car-log/index.html',
     artifact: 'car-log-en.html',
+    path: '/case-studies/car-log',
+    language: 'en',
   },
   {
     source: 'es/case-studies/car-log/index.html',
     artifact: 'car-log-es.html',
+    path: '/case-studies/car-log',
+    language: 'es',
   },
   {
     source: 'case-studies/medication-manager/index.html',
     artifact: 'medication-en.html',
+    path: '/case-studies/medication-manager',
+    language: 'en',
   },
   {
     source: 'es/case-studies/medication-manager/index.html',
     artifact: 'medication-es.html',
+    path: '/case-studies/medication-manager',
+    language: 'es',
   },
-];
+] as const;
+
+/**
+ * The title and description each page ships in its head. Kept as literals on
+ * purpose: these tests observe prerendered HTML, and a copy change that reaches
+ * the site without reaching here should be a failing test, not a silent update.
+ */
+const PAGE_SEO: Record<string, { title: string; description: string }> = {
+  'home-en.html': {
+    title: 'Alí Padrón — Senior Full-Stack Engineer, Angular &amp; Laravel',
+    description:
+      'Senior full-stack engineer working remotely in Angular and Laravel. I ship with AI agents: written specs, parallel tickets and review gates.',
+  },
+  'home-es.html': {
+    title: 'Alí Padrón — Ingeniero Full-Stack Senior, Angular y Laravel',
+    description:
+      'Ingeniero full-stack senior, remoto, en Angular y Laravel. Entrego con agentes de IA: especificaciones escritas, tickets en paralelo y revisión.',
+  },
+  'experience-en.html': {
+    title: 'Experience — Alí Padrón',
+    description:
+      'Roles at GoFeels, Tuapplicaya and more: a hotel PMS used by 150+ hotels, releases cut from 30+ minutes to about 7, and open-source Laravel work.',
+  },
+  'experience-es.html': {
+    title: 'Experiencia — Alí Padrón',
+    description:
+      'Roles en GoFeels, Tuapplicaya y más: un PMS hotelero usado por más de 150 hoteles, releases de más de 30 minutos a unos 7 y código abierto en Laravel.',
+  },
+  'case-studies-en.html': {
+    title: 'Case studies — Alí Padrón',
+    description:
+      'Three case studies written as problem, decisions and result: a hotel PMS at scale, plus car-log and medication-manager, my two public PWAs.',
+  },
+  'case-studies-es.html': {
+    title: 'Casos de estudio — Alí Padrón',
+    description:
+      'Tres casos de estudio escritos como problema, decisiones y resultado: un PMS hotelero a escala y car-log y medication-manager, mis dos PWA públicas.',
+  },
+  'how-i-work-en.html': {
+    title: 'How I work — Alí Padrón',
+    description:
+      'How I build with agents: grill the idea, write the spec, cut it into tickets, run independent tickets in parallel, and review everything that ships.',
+  },
+  'how-i-work-es.html': {
+    title: 'Cómo trabajo — Alí Padrón',
+    description:
+      'Cómo construyo con agentes: interrogar la idea, escribir la especificación, dividirla en tickets, ejecutarlos en paralelo y revisar todo lo que se entrega.',
+  },
+  'work-with-me-en.html': {
+    title: 'Work with me — Alí Padrón',
+    description:
+      'Freelance help taking AI-built apps to production: code and security audits, CI/CD, deployment and agentic workflows for teams. 20–30 hours a week.',
+  },
+  'work-with-me-es.html': {
+    title: 'Trabajemos juntos — Alí Padrón',
+    description:
+      'Ayuda freelance para llevar aplicaciones construidas con IA a producción: auditorías de código y seguridad, CI/CD, despliegue y flujos con agentes. 20–30 horas por semana.',
+  },
+  'contact-en.html': {
+    title: 'Contact — Alí Padrón',
+    description:
+      'The fastest way to reach Alí Padrón is email. LinkedIn and GitHub are here too. For freelance work, tell me what you are building and when.',
+  },
+  'contact-es.html': {
+    title: 'Contacto — Alí Padrón',
+    description:
+      'La forma más rápida de llegar a Alí Padrón es el correo. LinkedIn y GitHub también están aquí. Para trabajo freelance, cuéntame qué construyes y cuándo.',
+  },
+  'gofeels-en.html': {
+    title: 'A hotel PMS: overbookings, releases and hardening — Alí Padrón',
+    description:
+      'I traced overbookings to stale availability in the outbound channel sync, rebuilt the release pipeline from 30+ minutes to about 7, and ran a proactive security hardening program on a PMS used by +150 hotels.',
+  },
+  'gofeels-es.html': {
+    title: 'Un PMS hotelero: sobreventas, releases y endurecimiento — Alí Padrón',
+    description:
+      'Rastreé sobreventas hasta una sincronización saliente de disponibilidad obsoleta, reconstruí el pipeline de release de más de 30 minutos a unos 7 y ejecuté un programa proactivo de endurecimiento de seguridad en un PMS usado por más de 150 hoteles.',
+  },
+  'car-log-en.html': {
+    title: 'car-log: maintenance that works without a connection — Alí Padrón',
+    description:
+      'An offline-first vehicle maintenance PWA that keeps recording history when the network is down and reconciles when it returns.',
+  },
+  'car-log-es.html': {
+    title: 'car-log: mantenimiento que funciona sin conexión — Alí Padrón',
+    description:
+      'Una PWA de mantenimiento de vehículos offline-first que sigue registrando el historial cuando no hay red y se reconcilia al volver.',
+  },
+  'medication-en.html': {
+    title: 'medication-manager: schedules that survive a late dose — Alí Padrón',
+    description:
+      'A household medication PWA that re-anchors interval doses, forecasts refills and pushes reminders to every device.',
+  },
+  'medication-es.html': {
+    title:
+      'medication-manager: horarios que sobreviven a una dosis tardía — Alí Padrón',
+    description:
+      'Una PWA de medicamentos para el hogar que reancla las dosis por intervalo, proyecta reposiciones y envía recordatorios a todos los dispositivos.',
+  },
+};
+
+const SITE_ORIGIN = 'https://alipadron.dev';
+const OG_IMAGE_URL = `${SITE_ORIGIN}/og-image.png`;
+
 
 /**
  * The case studies as a reader sees them. Kept as literals on purpose: these
@@ -423,6 +593,65 @@ function prerenderedFile(href: string): string {
   return path.join(PRERENDER_DIR, relative, 'index.html');
 }
 
+/** The absolute URL a page publishes in its canonical and sharing tags. */
+function localizedUrl(sitePath: string, language: 'en' | 'es'): string {
+  if (language === 'en') {
+    return `${SITE_ORIGIN}${sitePath}`;
+  }
+
+  return `${SITE_ORIGIN}/es${sitePath === '/' ? '' : sitePath}`;
+}
+
+/** The attributes of every `<tag …>` in a fragment, for head assertions. */
+function htmlTags(html: string, tag: string): Map<string, string>[] {
+  const found: Map<string, string>[] = [];
+
+  for (const match of html.matchAll(new RegExp(`<${tag}\\s[^>]*>`, 'g'))) {
+    const attributes = new Map<string, string>();
+
+    for (const attribute of match[0].matchAll(/([\w:-]+)="([^"]*)"/g)) {
+      attributes.set(attribute[1], attribute[2]);
+    }
+
+    found.push(attributes);
+  }
+
+  return found;
+}
+
+function metaContent(
+  html: string,
+  attribute: 'name' | 'property',
+  key: string,
+): string | undefined {
+  return htmlTags(html, 'meta')
+    .find((meta) => meta.get(attribute) === key)
+    ?.get('content');
+}
+
+function linkHref(
+  html: string,
+  attributes: Record<string, string>,
+): string | undefined {
+  return htmlTags(html, 'link')
+    .find((link) =>
+      Object.entries(attributes).every(([key, value]) => link.get(key) === value),
+    )
+    ?.get('href');
+}
+
+function pageTitle(html: string): string | undefined {
+  return html.match(/<title>([\s\S]*?)<\/title>/)?.[1];
+}
+
+function sitemapBlock(xml: string, url: string): string {
+  return (
+    xml
+      .split('</url>')
+      .find((block) => block.includes(`<loc>${url}</loc>`)) ?? ''
+  );
+}
+
 /** The links in the primary navigation, in the order a reader sees them. */
 function primaryNavHrefs(html: string): readonly string[] {
   const nav = html.match(
@@ -460,6 +689,13 @@ describe('build-level outputs', () => {
       copyFileSync(
         path.join(PRERENDER_DIR, source),
         path.join(ARTIFACTS_DIR, artifact),
+      );
+    }
+
+    for (const file of ['sitemap.xml', 'robots.txt']) {
+      copyFileSync(
+        path.join(PRERENDER_DIR, file),
+        path.join(ARTIFACTS_DIR, file),
       );
     }
 
@@ -824,6 +1060,145 @@ describe('build-level outputs', () => {
     }
   });
 
+  it('gives every prerendered page its own title, description and canonical URL', () => {
+    const titles = new Set<string>();
+    const descriptions = new Set<string>();
+
+    for (const page of PAGES) {
+      const html = readArtifact(page.artifact);
+      const seo = PAGE_SEO[page.artifact];
+
+      expect(seo, page.artifact).toBeDefined();
+      expect(pageTitle(html), page.artifact).toBe(seo.title);
+      expect(
+        metaContent(html, 'name', 'description'),
+        page.artifact,
+      ).toBe(seo.description);
+      expect(linkHref(html, { rel: 'canonical' }), page.artifact).toBe(
+        localizedUrl(page.path, page.language),
+      );
+
+      titles.add(seo.title);
+      descriptions.add(seo.description);
+    }
+
+    // A shared title or description would mean a copy-paste page, not a page.
+    expect(titles.size).toBe(PAGES.length);
+    expect(descriptions.size).toBe(PAGES.length);
+  });
+
+  it('declares each page as the English and Spanish pair, with x-default on English', () => {
+    for (const page of PAGES) {
+      const html = readArtifact(page.artifact);
+      const english = localizedUrl(page.path, 'en');
+      const spanish = localizedUrl(page.path, 'es');
+
+      expect(
+        linkHref(html, { rel: 'alternate', hreflang: 'en' }),
+        page.artifact,
+      ).toBe(english);
+      expect(
+        linkHref(html, { rel: 'alternate', hreflang: 'es' }),
+        page.artifact,
+      ).toBe(spanish);
+
+      if (page.language === 'en') {
+        expect(
+          linkHref(html, { rel: 'alternate', hreflang: 'x-default' }),
+          page.artifact,
+        ).toBe(english);
+      } else {
+        expect(
+          linkHref(html, { rel: 'alternate', hreflang: 'x-default' }),
+          page.artifact,
+        ).toBeUndefined();
+      }
+    }
+  });
+
+  it('shares every page with Open Graph and Twitter card metadata', () => {
+    for (const page of PAGES) {
+      const html = readArtifact(page.artifact);
+      const seo = PAGE_SEO[page.artifact];
+      const isCaseStudyPage = /^\/case-studies\/./.test(page.path);
+      const imageAlt =
+        page.language === 'en'
+          ? 'Alí Padrón, Senior Full-Stack Engineer'
+          : 'Alí Padrón, Ingeniero Full-Stack Senior';
+      const [locale, alternateLocale] =
+        page.language === 'en' ? ['en_US', 'es_ES'] : ['es_ES', 'en_US'];
+
+      const expectedMeta: [string, 'name' | 'property', string][] = [
+        ['og:type', 'property', isCaseStudyPage ? 'article' : 'website'],
+        ['og:site_name', 'property', 'Alí Padrón'],
+        ['og:title', 'property', seo.title],
+        ['og:description', 'property', seo.description],
+        ['og:url', 'property', localizedUrl(page.path, page.language)],
+        ['og:image', 'property', OG_IMAGE_URL],
+        ['og:image:width', 'property', '1200'],
+        ['og:image:height', 'property', '630'],
+        ['og:image:alt', 'property', imageAlt],
+        ['og:locale', 'property', locale],
+        ['og:locale:alternate', 'property', alternateLocale],
+        ['twitter:card', 'name', 'summary_large_image'],
+        ['twitter:title', 'name', seo.title],
+        ['twitter:description', 'name', seo.description],
+        ['twitter:image', 'name', OG_IMAGE_URL],
+        ['twitter:image:alt', 'name', imageAlt],
+      ];
+
+      for (const [key, attribute, value] of expectedMeta) {
+        expect(metaContent(html, attribute, key), `${page.artifact}: ${key}`).toBe(
+          value,
+        );
+      }
+    }
+  });
+
+  it('ships a 1200×630 Open Graph image that every page points at', () => {
+    const file = path.join(PRERENDER_DIR, 'og-image.png');
+    const png = readFileSync(file);
+
+    expect(png.subarray(1, 4).toString()).toBe('PNG');
+    expect(png.readUInt32BE(16)).toBe(1200);
+    expect(png.readUInt32BE(20)).toBe(630);
+  });
+
+  it('publishes a sitemap with every route in both languages and its alternates', () => {
+    const xml = readArtifact('sitemap.xml');
+    const urls = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(
+      (match) => match[1],
+    );
+    const expected = PAGES.map((page) =>
+      localizedUrl(page.path, page.language),
+    );
+
+    expect(urls).toHaveLength(PAGES.length);
+    expect(new Set(urls)).toEqual(new Set(expected));
+
+    for (const page of PAGES) {
+      const url = localizedUrl(page.path, page.language);
+      const block = sitemapBlock(xml, url);
+
+      expect(block, url).not.toBe('');
+      expect(block, url).toContain(
+        `hreflang="en" href="${localizedUrl(page.path, 'en')}"`,
+      );
+      expect(block, url).toContain(
+        `hreflang="es" href="${localizedUrl(page.path, 'es')}"`,
+      );
+      expect(block, url).toContain(
+        `hreflang="x-default" href="${localizedUrl(page.path, 'en')}"`,
+      );
+    }
+  });
+
+  it('points crawlers at the sitemap', () => {
+    expect(readArtifact('robots.txt')).toContain(
+      `Sitemap: ${SITE_ORIGIN}/sitemap.xml`,
+    );
+  });
+
   it('produces the three English CVs from the same content', async () => {
     for (const variant of CV_VARIANTS) {
       const text = await artifactPdfText(`cv-en-${variant}.pdf`);
@@ -952,6 +1327,12 @@ describe('build-level outputs', () => {
       fixture: 'invalid-pages-translation',
       expectedFile: 'pages.json',
       expectedDetails: ['work-with-me.intro.es'],
+      expectedMessage: 'missing Spanish translation',
+    },
+    {
+      fixture: 'invalid-seo-translation',
+      expectedFile: 'ui.json',
+      expectedDetails: ['seo.pages.experience.description.es'],
       expectedMessage: 'missing Spanish translation',
     },
     {
