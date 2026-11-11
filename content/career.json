@@ -2,7 +2,15 @@
   "profile": {
     "email": "hola@alipadron.dev",
     "linkedin": "https://www.linkedin.com/in/alipadron",
-    "github": "https://github.com/alipadron"
+    "github": "https://github.com/alipadron",
+    "headline": {
+      "en": "Senior Full-Stack Engineer · Angular & Laravel · AI-native delivery",
+      "es": "Ingeniero Full-Stack Senior · Angular y Laravel · entrega nativa con IA"
+    },
+    "summary": {
+      "en": "Senior full-stack engineer with 8+ years building and scaling web products end to end in Angular and Laravel. Owns architecture, use cases, code review and delivery across a hotel PMS used by +150 hotels, its OTA channel manager, subscription billing, Chilean e-invoicing and a proactive security hardening program. Works with AI agents as part of the method — spec, tickets, parallel implementation and review gates — and reviews everything that ships.",
+      "es": "Ingeniero full-stack senior con más de 8 años construyendo y escalando productos web de punta a punta en Angular y Laravel. Es responsable de la arquitectura, los casos de uso, la revisión de código y la entrega de un PMS hotelero usado por +150 hoteles, su channel manager de OTAs, la facturación por suscripción, la facturación electrónica chilena y un programa proactivo de endurecimiento de seguridad. Trabaja con agentes de IA como parte del método — especificación, tickets, implementación en paralelo y puertas de revisión — y revisa todo lo que se publica."
+    }
   },
   "entries": [
     {
@@ -180,6 +188,746 @@
           }
         }
       ]
+    },
+    {
+      "id": "tuapplicaya",
+      "company": {
+        "en": "Tuapplicaya",
+        "es": "Tuapplicaya"
+      },
+      "title": {
+        "en": "Co-founder & Technical Lead",
+        "es": "Cofundador y líder técnico"
+      },
+      "startDate": "2026-10",
+      "endDate": null,
+      "locationModel": "remote",
+      "stack": [
+        "Next.js",
+        "React",
+        "Prisma",
+        "Traefik",
+        "GitHub Actions"
+      ],
+      "bullets": [
+        {
+          "id": "tuapplicaya-prelaunch",
+          "order": 100,
+          "text": {
+            "en": "Co-founded Tuapplicaya and run its technical side pre-launch: scoping client work, making the architecture calls and reviewing everything that ships.",
+            "es": "Cofundó Tuapplicaya y dirige su lado técnico antes del lanzamiento: define el alcance del trabajo con clientes, toma las decisiones de arquitectura y revisa todo lo que se publica."
+          }
+        },
+        {
+          "id": "tuapplicaya-hq",
+          "order": 200,
+          "text": {
+            "en": "Built the company's HQ app (Next.js 15, Auth.js, Prisma, Tailwind, PWA) for the business registry, pipeline, BCV exchange rate, bi-currency payments, cash book and reports.",
+            "es": "Construyó la aplicación HQ de la empresa (Next.js 15, Auth.js, Prisma, Tailwind, PWA) para el registro de negocios, el pipeline, la tasa del BCV, los pagos en dos monedas, el libro de caja y los reportes."
+          }
+        },
+        {
+          "id": "tuapplicaya-platform",
+          "order": 300,
+          "text": {
+            "en": "Set the deployment foundation for every app: a Traefik reverse proxy on a VPS, GitHub Actions CI/CD, backups with health checks and ADRs.",
+            "es": "Estableció la base de despliegue de todas las aplicaciones: un proxy inverso Traefik en un VPS, CI/CD con GitHub Actions, respaldos con health checks y ADRs."
+          }
+        }
+      ]
+    },
+    {
+      "id": "independent-clients",
+      "company": {
+        "en": "Independent clients",
+        "es": "Clientes independientes"
+      },
+      "title": {
+        "en": "Freelance Full-Stack Engineer",
+        "es": "Ingeniero Full-Stack Freelance"
+      },
+      "startDate": "2026-09",
+      "endDate": "2026-10",
+      "locationModel": "remote",
+      "stack": [
+        "React",
+        "Firebase",
+        "Next.js",
+        "PostgreSQL",
+        "Docker",
+        "GitHub Actions"
+      ],
+      "bullets": [
+        {
+          "id": "independent-erp-rescue",
+          "order": 100,
+          "text": {
+            "en": "Rescued an education ERP a client had built with AI: found the right Firestore database among four auto-created ones, restored production data into local emulators and moved state that only lived in the browser into real persistence.",
+            "es": "Rescató un ERP educativo que un cliente había construido con IA: encontró la base de datos correcta de Firestore entre cuatro creadas automáticamente, restauró los datos de producción en emuladores locales y llevó a persistencia real el estado que solo vivía en el navegador."
+          }
+        },
+        {
+          "id": "independent-payroll",
+          "order": 200,
+          "text": {
+            "en": "Built the payroll features the client needed in production: employee loans, payroll corrections, period closing, mid-month advances and BCV exchange rates.",
+            "es": "Construyó en producción las funciones de nómina que el cliente necesitaba: préstamos a empleados, correcciones de nómina, cierre de período, adelantos de mitad de mes y tasas del BCV."
+          }
+        },
+        {
+          "id": "independent-courses-platform",
+          "order": 300,
+          "text": {
+            "en": "Shipped a courses platform end to end (Next.js, PostgreSQL, Docker on a VPS) with authentication, progress tracking, PDF certificates, coupons, Stripe and invoicing export.",
+            "es": "Entregó de punta a punta una plataforma de cursos (Next.js, PostgreSQL, Docker en un VPS) con autenticación, seguimiento de progreso, certificados en PDF, cupones, Stripe y exportación de facturas."
+          }
+        }
+      ]
+    },
+    {
+      "id": "zignox",
+      "company": {
+        "en": "Zignox",
+        "es": "Zignox"
+      },
+      "title": {
+        "en": "Software Engineer",
+        "es": "Ingeniero de Software"
+      },
+      "startDate": "2021-02",
+      "endDate": "2026-05",
+      "locationModel": "remote",
+      "stack": [
+        "Angular SSR",
+        "NestJS",
+        "MongoDB",
+        "BullMQ",
+        "Redis",
+        "Stripe",
+        "Docker"
+      ],
+      "bullets": [
+        {
+          "id": "zignox-prelaunch-startup",
+          "order": 100,
+          "text": {
+            "en": "Solo-built a real-time market-data and news platform through a pre-launch, fundraising-stage startup that never reached paying subscribers, owning architecture, implementation, deployment and operations.",
+            "es": "Construyó en solitario una plataforma de datos de mercado y noticias en tiempo real en una startup en prelanzamiento y etapa de levantamiento de capital que nunca llegó a tener suscriptores de pago, a cargo de la arquitectura, la implementación, el despliegue y la operación."
+          }
+        },
+        {
+          "id": "zignox-ingestion-pipeline",
+          "order": 200,
+          "text": {
+            "en": "Built an ingestion pipeline on BullMQ that collected ~5M articles from RSS feeds and scrapers, normalized the heterogeneous formats and stored them in MongoDB.",
+            "es": "Construyó un pipeline de ingesta con BullMQ que recolectó ~5M de artículos de feeds RSS y scrapers, normalizó los formatos heterogéneos y los almacenó en MongoDB."
+          }
+        },
+        {
+          "id": "zignox-market-data",
+          "order": 300,
+          "text": {
+            "en": "Integrated financial data providers (Financial Modeling Prep, Finnhub) for stocks, FX, bonds and commodities, with a WebSocket gateway pushing live prices and news to an SSR Angular app built for SEO.",
+            "es": "Integró proveedores de datos financieros (Financial Modeling Prep, Finnhub) para acciones, divisas, bonos y commodities, con un gateway WebSocket que envía precios y noticias en vivo a una app Angular con SSR pensada para SEO."
+          }
+        },
+        {
+          "id": "zignox-paygolatam",
+          "order": 400,
+          "text": {
+            "en": "Built PayGoLatam as the company's next MVP: a USD-to-VES remittance platform on Laravel and Filament, with a permissioned admin, precise money handling and payment notifications.",
+            "es": "Construyó PayGoLatam como el siguiente MVP de la empresa: una plataforma de remesas de USD a VES en Laravel y Filament, con un panel de administración con permisos, manejo preciso de montos y notificaciones de pago."
+          }
+        },
+        {
+          "id": "zignox-api-payments",
+          "order": 500,
+          "text": {
+            "en": "Designed and built the REST API, migrating it from Express to NestJS, implemented Stripe subscriptions, then deployed and operated the stack on a VPS.",
+            "es": "Diseñó y construyó la API REST, migrándola de Express a NestJS, implementó suscripciones con Stripe y luego desplegó y operó la plataforma en un VPS."
+          }
+        },
+        {
+          "id": "zignox-team",
+          "order": 600,
+          "text": {
+            "en": "Led three developers during a growth phase, reviewing their work and guiding implementation.",
+            "es": "Lideró a tres desarrolladores durante una fase de crecimiento, revisando su trabajo y guiando la implementación."
+          }
+        }
+      ]
+    },
+    {
+      "id": "open-source",
+      "company": {
+        "en": "Open source",
+        "es": "Código abierto"
+      },
+      "title": {
+        "en": "Contributor — Laravel framework and spatie/laravel-translatable",
+        "es": "Colaborador — Laravel framework y spatie/laravel-translatable"
+      },
+      "startDate": "2024-11",
+      "endDate": "2025-01",
+      "locationModel": "remote",
+      "stack": [
+        "PHP",
+        "Laravel",
+        "Git",
+        "GitHub"
+      ],
+      "bullets": [
+        {
+          "id": "open-source-laravel-framework",
+          "order": 100,
+          "text": {
+            "en": "Merged a fix in the Laravel framework for mixed-type values in bulk inserts (compileInsert).",
+            "es": "Integró un arreglo en el framework Laravel para valores de tipos mixtos en inserciones masivas (compileInsert)."
+          }
+        },
+        {
+          "id": "open-source-laravel-translatable",
+          "order": 200,
+          "text": {
+            "en": "Merged five pull requests in spatie/laravel-translatable: configurable handling of null and empty translations, list assignment, clearing translations and tooling.",
+            "es": "Integró cinco pull requests en spatie/laravel-translatable: manejo configurable de traducciones nulas y vacías, asignación de listas, limpieza de traducciones y herramientas."
+          }
+        }
+      ]
+    },
+    {
+      "id": "socialgest",
+      "company": {
+        "en": "SocialGest",
+        "es": "SocialGest"
+      },
+      "title": {
+        "en": "Software Engineer (Frontend)",
+        "es": "Ingeniero de Software (Frontend)"
+      },
+      "startDate": "2020-06",
+      "endDate": "2023-01",
+      "locationModel": "remote",
+      "stack": [
+        "Angular",
+        "NgRx",
+        "TypeScript",
+        "AWS Lambda",
+        "DynamoDB",
+        "API Gateway",
+        "WebSockets"
+      ],
+      "bullets": [
+        {
+          "id": "socialgest-tikket-frontend",
+          "order": 100,
+          "text": {
+            "en": "Built the entire frontend of Tikket, a real-time omni-channel messaging product used by 20–50 business customers across WhatsApp, Facebook, Instagram, email and X.",
+            "es": "Construyó todo el frontend de Tikket, un producto de mensajería omnicanal en tiempo real usado por 20–50 clientes empresariales en WhatsApp, Facebook, Instagram, correo y X."
+          }
+        },
+        {
+          "id": "socialgest-state-management",
+          "order": 200,
+          "text": {
+            "en": "Used NgRx as a centralized store for many small state-sharing components and OnPush change detection to keep the UI tree performant.",
+            "es": "Usó NgRx como store centralizado para muchos componentes pequeños que compartían estado y detección de cambios OnPush para mantener eficiente el árbol de la interfaz."
+          }
+        },
+        {
+          "id": "socialgest-serverless",
+          "order": 300,
+          "text": {
+            "en": "Worked against a fully serverless AWS backend (Lambda, DynamoDB, API Gateway) with WebSockets driving live updates.",
+            "es": "Trabajó contra un backend completamente serverless en AWS (Lambda, DynamoDB, API Gateway) con WebSockets para las actualizaciones en vivo."
+          }
+        }
+      ]
+    },
+    {
+      "id": "brickcontrol",
+      "company": {
+        "en": "BrickControl",
+        "es": "BrickControl"
+      },
+      "title": {
+        "en": "Frontend Developer",
+        "es": "Desarrollador Frontend"
+      },
+      "startDate": "2019-03",
+      "endDate": "2019-12",
+      "locationModel": "remote",
+      "stack": [
+        "Angular 7",
+        "TypeScript",
+        "ag-Grid",
+        "Kendo UI"
+      ],
+      "bullets": [
+        {
+          "id": "brickcontrol-silverlight-migration",
+          "order": 100,
+          "text": {
+            "en": "Part of a ~10-developer frontend team migrating a construction ERP from Silverlight to Angular 7.",
+            "es": "Parte de un equipo de ~10 desarrolladores frontend que migraba un ERP de construcción de Silverlight a Angular 7."
+          }
+        },
+        {
+          "id": "brickcontrol-crud-modules",
+          "order": 200,
+          "text": {
+            "en": "Built CRUD modules for exchange rates and currencies.",
+            "es": "Construyó módulos CRUD para tasas de cambio y monedas."
+          }
+        },
+        {
+          "id": "brickcontrol-ag-grid",
+          "order": 300,
+          "text": {
+            "en": "Migrated reporting tables from Kendo UI to ag-Grid Enterprise.",
+            "es": "Migró tablas de reportes de Kendo UI a ag-Grid Enterprise."
+          }
+        }
+      ]
+    },
+    {
+      "id": "novoples",
+      "company": {
+        "en": "NovoPles",
+        "es": "NovoPles"
+      },
+      "title": {
+        "en": "Junior Software Engineer",
+        "es": "Ingeniero de Software Junior"
+      },
+      "startDate": "2018-11",
+      "endDate": "2020-01",
+      "locationModel": "onsite",
+      "stack": [
+        "Angular",
+        "PHP",
+        "Google Maps"
+      ],
+      "bullets": [
+        {
+          "id": "novoples-erp",
+          "order": 100,
+          "text": {
+            "en": "Developed an ERP web application in Angular and maintained PHP ERP applications for multiple clients.",
+            "es": "Desarrolló una aplicación web ERP en Angular y mantuvo aplicaciones ERP en PHP para varios clientes."
+          }
+        },
+        {
+          "id": "novoples-geolocation",
+          "order": 200,
+          "text": {
+            "en": "Implemented a Google Maps geolocation module that simplified the billing process for clients.",
+            "es": "Implementó un módulo de geolocalización con Google Maps que simplificó el proceso de facturación para los clientes."
+          }
+        }
+      ]
+    },
+    {
+      "id": "project-car-log",
+      "company": {
+        "en": "car-log",
+        "es": "car-log"
+      },
+      "title": {
+        "en": "Offline-first vehicle maintenance PWA",
+        "es": "PWA de mantenimiento de vehículos con soporte offline"
+      },
+      "startDate": "2026-08",
+      "endDate": "2026-08",
+      "locationModel": "remote",
+      "stack": [
+        "Angular",
+        "Laravel",
+        "SQLite",
+        "Docker",
+        "Vitest",
+        "Pest"
+      ],
+      "placement": "project",
+      "bullets": [
+        {
+          "id": "car-log-offline-first",
+          "order": 100,
+          "text": {
+            "en": "Built an installable vehicle maintenance tracker that keeps working offline and syncs when the connection returns, a deliberate choice for places with power and internet outages.",
+            "es": "Construyó un rastreador de mantenimiento de vehículos instalable que sigue funcionando sin conexión y sincroniza cuando vuelve la red, una decisión deliberada para lugares con cortes de luz e internet."
+          }
+        },
+        {
+          "id": "car-log-stack",
+          "order": 200,
+          "text": {
+            "en": "Designed the Laravel API and Angular client with Pest and Vitest coverage, and deploy it with Docker behind a Cloudflare Tunnel.",
+            "es": "Diseñó la API en Laravel y el cliente Angular con cobertura de Pest y Vitest, y lo despliega con Docker detrás de un Cloudflare Tunnel."
+          }
+        }
+      ]
+    },
+    {
+      "id": "project-medication-manager",
+      "company": {
+        "en": "medication-manager",
+        "es": "medication-manager"
+      },
+      "title": {
+        "en": "Household medication PWA",
+        "es": "PWA de medicación del hogar"
+      },
+      "startDate": "2026-09",
+      "endDate": "2026-09",
+      "locationModel": "remote",
+      "stack": [
+        "Angular",
+        "Laravel",
+        "PostgreSQL",
+        "Web Push",
+        "Service workers"
+      ],
+      "placement": "project",
+      "bullets": [
+        {
+          "id": "medication-manager-scheduling",
+          "order": 100,
+          "text": {
+            "en": "Built a medication scheduler that handles interval and fixed-time doses with live re-shifting, stock tracking and refill forecasting, and pushes doses to every device with Web Push.",
+            "es": "Construyó un planificador de medicación que maneja dosis por intervalo y a horas fijas con recálculo en vivo, control de inventario y pronóstico de reposición, y envía las dosis a todos los dispositivos con Web Push."
+          }
+        },
+        {
+          "id": "medication-manager-deploy",
+          "order": 200,
+          "text": {
+            "en": "Deployed an Angular service-worker PWA and a Laravel API to Laravel Cloud, and shipped an MCP server so agents can query the app's own domain.",
+            "es": "Desplegó una PWA de Angular con service worker y una API Laravel en Laravel Cloud, y publicó un servidor MCP para que los agentes consulten el dominio de la aplicación."
+          }
+        }
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "id": "languages",
+      "label": {
+        "en": "Languages",
+        "es": "Lenguajes"
+      },
+      "items": [
+        {
+          "en": "TypeScript",
+          "es": "TypeScript"
+        },
+        {
+          "en": "JavaScript",
+          "es": "JavaScript"
+        },
+        {
+          "en": "PHP",
+          "es": "PHP"
+        },
+        {
+          "en": "SQL",
+          "es": "SQL"
+        }
+      ]
+    },
+    {
+      "id": "frontend",
+      "label": {
+        "en": "Frontend",
+        "es": "Frontend"
+      },
+      "items": [
+        {
+          "en": "Angular (6 → 18)",
+          "es": "Angular (6 → 18)"
+        },
+        {
+          "en": "AngularJS 1.x",
+          "es": "AngularJS 1.x"
+        },
+        {
+          "en": "React 19",
+          "es": "React 19"
+        },
+        {
+          "en": "Next.js 15",
+          "es": "Next.js 15"
+        },
+        {
+          "en": "Astro",
+          "es": "Astro"
+        },
+        {
+          "en": "RxJS",
+          "es": "RxJS"
+        },
+        {
+          "en": "NgRx",
+          "es": "NgRx"
+        },
+        {
+          "en": "Tailwind CSS",
+          "es": "Tailwind CSS"
+        },
+        {
+          "en": "daisyUI",
+          "es": "daisyUI"
+        },
+        {
+          "en": "ag-Grid",
+          "es": "ag-Grid"
+        },
+        {
+          "en": "SSR",
+          "es": "SSR"
+        }
+      ]
+    },
+    {
+      "id": "backend",
+      "label": {
+        "en": "Backend",
+        "es": "Backend"
+      },
+      "items": [
+        {
+          "en": "Laravel (6 → 13)",
+          "es": "Laravel (6 → 13)"
+        },
+        {
+          "en": "PHP 8.5",
+          "es": "PHP 8.5"
+        },
+        {
+          "en": "NestJS",
+          "es": "NestJS"
+        },
+        {
+          "en": "Node.js",
+          "es": "Node.js"
+        },
+        {
+          "en": "Express",
+          "es": "Express"
+        },
+        {
+          "en": "Filament",
+          "es": "Filament"
+        },
+        {
+          "en": "REST APIs",
+          "es": "APIs REST"
+        },
+        {
+          "en": "WebSockets",
+          "es": "WebSockets"
+        }
+      ]
+    },
+    {
+      "id": "data",
+      "label": {
+        "en": "Data",
+        "es": "Datos"
+      },
+      "items": [
+        {
+          "en": "MySQL",
+          "es": "MySQL"
+        },
+        {
+          "en": "PostgreSQL",
+          "es": "PostgreSQL"
+        },
+        {
+          "en": "MongoDB",
+          "es": "MongoDB"
+        },
+        {
+          "en": "Redis",
+          "es": "Redis"
+        },
+        {
+          "en": "SQLite",
+          "es": "SQLite"
+        }
+      ]
+    },
+    {
+      "id": "infrastructure",
+      "label": {
+        "en": "Infrastructure & tooling",
+        "es": "Infraestructura y herramientas"
+      },
+      "items": [
+        {
+          "en": "Docker",
+          "es": "Docker"
+        },
+        {
+          "en": "GitLab CI/CD components",
+          "es": "Componentes de CI/CD en GitLab"
+        },
+        {
+          "en": "GitHub Actions",
+          "es": "GitHub Actions"
+        },
+        {
+          "en": "Traefik",
+          "es": "Traefik"
+        },
+        {
+          "en": "Cloudflare (Tunnel, R2, DNS)",
+          "es": "Cloudflare (Tunnel, R2, DNS)"
+        },
+        {
+          "en": "AWS (Lambda, DynamoDB, API Gateway)",
+          "es": "AWS (Lambda, DynamoDB, API Gateway)"
+        },
+        {
+          "en": "Laravel Cloud",
+          "es": "Laravel Cloud"
+        },
+        {
+          "en": "VPS operations",
+          "es": "Operación de VPS"
+        }
+      ]
+    },
+    {
+      "id": "integrations",
+      "label": {
+        "en": "Integrations",
+        "es": "Integraciones"
+      },
+      "items": [
+        {
+          "en": "Stripe",
+          "es": "Stripe"
+        },
+        {
+          "en": "PayPal",
+          "es": "PayPal"
+        },
+        {
+          "en": "Transbank/Webpay",
+          "es": "Transbank/Webpay"
+        },
+        {
+          "en": "Chilean e-invoicing (SII DTE)",
+          "es": "Facturación electrónica chilena (SII DTE)"
+        },
+        {
+          "en": "Booking.com, Expedia and Roombeast channel APIs",
+          "es": "APIs de canales Booking.com, Expedia y Roombeast"
+        },
+        {
+          "en": "WhatsApp Business API",
+          "es": "API de WhatsApp Business"
+        }
+      ]
+    },
+    {
+      "id": "practices",
+      "label": {
+        "en": "Practices",
+        "es": "Prácticas"
+      },
+      "items": [
+        {
+          "en": "Test-driven development (Pest, Vitest, Playwright)",
+          "es": "Desarrollo guiado por pruebas (Pest, Vitest, Playwright)"
+        },
+        {
+          "en": "Static analysis (PHPStan, Larastan)",
+          "es": "Análisis estático (PHPStan, Larastan)"
+        },
+        {
+          "en": "ADRs, specs and issue-driven delivery",
+          "es": "ADRs, especificaciones y entrega guiada por issues"
+        },
+        {
+          "en": "Code review and mentoring",
+          "es": "Revisión de código y mentoría"
+        }
+      ]
+    },
+    {
+      "id": "ai-native",
+      "label": {
+        "en": "AI-native workflow",
+        "es": "Flujo de trabajo nativo con IA"
+      },
+      "items": [
+        {
+          "en": "Agentic delivery: spec → tickets → parallel agents",
+          "es": "Entrega con agentes: especificación → tickets → agentes en paralelo"
+        },
+        {
+          "en": "AI code-review gates in CI",
+          "es": "Puertas de revisión de código con IA en CI"
+        },
+        {
+          "en": "Claude Code, OpenCode and Kimi Code",
+          "es": "Claude Code, OpenCode y Kimi Code"
+        },
+        {
+          "en": "MCP servers (Laravel Boost, Angular CLI)",
+          "es": "Servidores MCP (Laravel Boost, Angular CLI)"
+        },
+        {
+          "en": "Agent guardrails, AGENTS.md and conventions docs",
+          "es": "Guardarraíles para agentes, AGENTS.md y documentos de convenciones"
+        },
+        {
+          "en": "Prompt and context engineering",
+          "es": "Ingeniería de prompts y contexto"
+        }
+      ]
+    }
+  ],
+  "education": [
+    {
+      "id": "university-of-carabobo",
+      "institution": {
+        "en": "University of Carabobo, Venezuela",
+        "es": "Universidad de Carabobo, Venezuela"
+      },
+      "program": {
+        "en": "Computer Science studies",
+        "es": "Estudios en Ciencias de la Computación"
+      },
+      "startDate": "2014",
+      "endDate": "2018"
+    }
+  ],
+  "languages": [
+    {
+      "id": "spanish",
+      "name": {
+        "en": "Spanish",
+        "es": "Español"
+      },
+      "level": {
+        "en": "Native",
+        "es": "Nativo"
+      }
+    },
+    {
+      "id": "english",
+      "name": {
+        "en": "English",
+        "es": "Inglés"
+      },
+      "level": {
+        "en": "B2 (EF SET in progress)",
+        "es": "B2 (EF SET en curso)"
+      }
     }
   ]
 }

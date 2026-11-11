@@ -151,15 +151,61 @@ export const entrySchema = z
   });
 
 /**
+ * A group of skills under one label, for example "Backend" or the AI-native
+ * way of working. Items are bilingual too, because some of them are phrases
+ * rather than product names.
+ */
+export const skillGroupSchema = z
+  .object({
+    id: z.string().trim().min(1),
+    label: bilingualSchema,
+    items: z.array(bilingualSchema).min(1),
+    variants: z.array(variantSchema).min(1).optional(),
+  })
+  .strict();
+
+export const educationSchema = z
+  .object({
+    id: z.string().trim().min(1),
+    institution: bilingualSchema,
+    program: bilingualSchema,
+    startDate: monthOrYearSchema,
+    endDate: monthOrYearSchema,
+  })
+  .strict()
+  .superRefine((education, context) => {
+    if (dateKey(education.endDate) < dateKey(education.startDate)) {
+      context.addIssue({
+        code: 'custom',
+        path: ['endDate'],
+        message: 'must not be earlier than startDate',
+      });
+    }
+  });
+
+export const languageEntrySchema = z
+  .object({
+    id: z.string().trim().min(1),
+    name: bilingualSchema,
+    level: bilingualSchema,
+  })
+  .strict();
+
+/**
  * The public contact details. Only these three channels are published; a phone
  * number is deliberately absent because it is injected at build time and never
  * tracked (see `src/content/contact.ts`).
+ *
+ * The headline and summary carry the Full-Stack + AI narrative. Variant
+ * overrides are layered on top of them by the variant content ticket.
  */
 export const profileSchema = z
   .object({
     email: z.email(),
     linkedin: z.url(),
     github: z.url(),
+    headline: bilingualSchema,
+    summary: bilingualSchema,
   })
   .strict();
 
@@ -167,6 +213,9 @@ export const careerSchema = z
   .object({
     profile: profileSchema,
     entries: z.array(entrySchema).min(1),
+    skills: z.array(skillGroupSchema).min(1),
+    education: z.array(educationSchema).min(1),
+    languages: z.array(languageEntrySchema).min(1),
   })
   .strict();
 
@@ -213,6 +262,9 @@ export type Bilingual = z.infer<typeof bilingualSchema>;
 export type Bullet = z.infer<typeof bulletSchema>;
 export type Entry = z.infer<typeof entrySchema>;
 export type Profile = z.infer<typeof profileSchema>;
+export type SkillGroup = z.infer<typeof skillGroupSchema>;
+export type Education = z.infer<typeof educationSchema>;
+export type LanguageEntry = z.infer<typeof languageEntrySchema>;
 export type Career = z.infer<typeof careerSchema>;
 export type UiStrings = z.infer<typeof uiSchema>;
 
