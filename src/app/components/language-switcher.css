@@ -1,0 +1,11 @@
+:host {
+  display: inline-flex;
+}
+
+.language-switcher {
+  display: inline-flex;
+}
+
+.language-switcher a {
+  text-decoration: none;
+}
