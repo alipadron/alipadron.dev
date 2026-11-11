@@ -34,17 +34,9 @@
         "es": "Ingeniero Full-Stack Senior / Tech Lead"
       },
       "titleByVariant": {
-        "fullstack-ai": {
-          "en": "Senior Full-Stack Engineer",
-          "es": "Ingeniero Full-Stack Senior"
-        },
         "tech-lead": {
           "en": "Tech Lead / Senior Full-Stack Engineer",
           "es": "Tech Lead / Ingeniero Full-Stack Senior"
-        },
-        "freelance": {
-          "en": "Senior Full-Stack Engineer",
-          "es": "Ingeniero Full-Stack Senior"
         }
       },
       "startDate": "2020",
@@ -233,10 +225,10 @@
         "Traefik",
         "GitHub Actions"
       ],
-      "placement": "experience",
       "placementByVariant": {
         "fullstack-ai": "project"
       },
+      "concurrentIn": ["freelance"],
       "bullets": [
         {
           "id": "tuapplicaya-prelaunch",

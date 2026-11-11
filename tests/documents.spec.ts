@@ -17,6 +17,13 @@ import {
   extractPdfText,
   runNpmOrThrow,
 } from './support/build-harness';
+import {
+  CONCURRENT_LABELS,
+  CV_SUMMARIES,
+  CV_TITLES,
+  ORDER_MARKERS,
+  PAYMENTS_LINES,
+} from './support/cv-expectations';
 
 const PUBLIC_DIR = path.join(PROJECT_ROOT, 'dist/analog/public');
 const OUTPUT_DIR = path.join(PROJECT_ROOT, 'output');
@@ -52,43 +59,6 @@ const EXPECTED = {
     projectsHeading: 'Proyectos',
   },
 } as const;
-
-const TITLES: Record<Language, Record<Variant, string>> = {
-  en: {
-    'fullstack-ai': 'Senior Full-Stack Engineer',
-    'tech-lead': 'Tech Lead / Senior Full-Stack Engineer',
-    freelance: 'Senior Full-Stack Engineer',
-  },
-  es: {
-    'fullstack-ai': 'Ingeniero Full-Stack Senior',
-    'tech-lead': 'Tech Lead / Ingeniero Full-Stack Senior',
-    freelance: 'Ingeniero Full-Stack Senior',
-  },
-};
-
-// A distinctive phrase from each variant's summary, asserted on both formats.
-const SUMMARIES: Record<Language, Record<Variant, string>> = {
-  en: {
-    'fullstack-ai': 'Senior full-stack engineer with 8+ years building and scaling',
-    'tech-lead': 'Owns releases, production migrations, the self-hosted GitLab',
-    freelance: 'I take AI-built apps to production',
-  },
-  es: {
-    'fullstack-ai': 'Trabaja con agentes de IA como parte del método',
-    'tech-lead': 'Es responsable de los releases, las migraciones en producción',
-    freelance: 'Llevo a producción aplicaciones construidas con IA',
-  },
-};
-
-const CONCURRENT_LABELS: Record<Language, string> = {
-  en: 'Concurrent engagement',
-  es: 'Compromiso simultáneo',
-};
-
-const PAYMENTS_LINES: Record<Language, string> = {
-  en: 'tens of thousands of online payments a year',
-  es: 'decenas de miles de pagos en línea al año',
-};
 
 const FIXTURE = {
   en: {
@@ -199,14 +169,25 @@ function readPage(name: string): string {
 /** Assert the role text and its reading order in a PDF or DOCX extraction. */
 function expectDocumentText(
   text: string,
-  expected: (typeof EXPECTED)[Language],
-  title: string,
+  language: Language,
+  variant: Variant,
 ): void {
+  const expected = EXPECTED[language];
+  const title = CV_TITLES[language][variant];
+
   expect(text).toContain(COMPANY);
   expect(text).toContain(title);
   expect(text).toContain(expected.bullet);
   expect(text).toContain(expected.experienceHeading);
   expect(text).toContain(expected.details);
+
+  for (const [otherVariant, otherTitle] of Object.entries(
+    CV_TITLES[language],
+  )) {
+    if (otherTitle !== title) {
+      expect(text, `${variant} vs ${otherVariant}`).not.toContain(otherTitle);
+    }
+  }
 
   const heading = text.indexOf(expected.experienceHeading);
   const company = text.indexOf(COMPANY);
@@ -301,29 +282,17 @@ describe('six CV documents', () => {
     }
   });
 
-  it.each(
-    DOCUMENTS.map((document) => ({
-      ...document,
-      expected: EXPECTED[document.language],
-      title: TITLES[document.language][document.variant],
-    })),
-  )(
+  it.each(DOCUMENTS)(
     'carries the role text in $baseName.pdf',
-    async ({ baseName, expected, title }) => {
-      expectDocumentText(await pdfText(baseName), expected, title);
+    async ({ baseName, language, variant }) => {
+      expectDocumentText(await pdfText(baseName), language, variant);
     },
   );
 
-  it.each(
-    DOCUMENTS.map((document) => ({
-      ...document,
-      expected: EXPECTED[document.language],
-      title: TITLES[document.language][document.variant],
-    })),
-  )(
+  it.each(DOCUMENTS)(
     'carries the same text in $baseName.docx',
-    ({ baseName, expected, title }) => {
-      expectDocumentText(docxText(baseName), expected, title);
+    ({ baseName, language, variant }) => {
+      expectDocumentText(docxText(baseName), language, variant);
     },
   );
 
@@ -353,17 +322,26 @@ describe('six CV documents', () => {
   });
 
   it.each(DOCUMENTS)(
-    'carries the $variant summary in both formats',
+    'carries the $variant summary before the experience in both formats',
     async ({ baseName, variant, language }) => {
-      const expected = SUMMARIES[language][variant];
+      const expected = CV_SUMMARIES[language][variant];
+      const heading = EXPECTED[language].experienceHeading;
       const pdf = await pdfText(baseName);
       const docx = docxText(baseName);
+      const html = readFileSync(
+        path.join(OUTPUT_DIR, `${baseName}.html`),
+        'utf8',
+      );
 
       for (const text of [pdf, docx]) {
         expect(text, baseName).toContain(expected);
+        expect(text, baseName).toContain(heading);
+        expect(text.indexOf(expected), baseName).toBeLessThan(
+          text.indexOf(heading),
+        );
 
         for (const [otherVariant, otherSummary] of Object.entries(
-          SUMMARIES[language],
+          CV_SUMMARIES[language],
         )) {
           if (otherVariant !== variant) {
             expect(text, `${baseName} vs ${otherVariant}`).not.toContain(
@@ -372,24 +350,30 @@ describe('six CV documents', () => {
           }
         }
       }
+
+      expect(html, `${baseName}.html`).toContain(expected);
     },
   );
 
-  it('gives each variant its own GoFeels title', async () => {
-    const titles = {
-      'fullstack-ai': 'Senior Full-Stack Engineer',
-      'tech-lead': 'Tech Lead / Senior Full-Stack Engineer',
-      freelance: 'Senior Full-Stack Engineer',
-    } as const;
+  it('orders the real bullets per variant', async () => {
+    for (const language of LANGUAGES) {
+      const markers = ORDER_MARKERS[language];
+      const fullstack = await pdfText(`cv-${language}-fullstack-ai`);
+      const techLead = await pdfText(`cv-${language}-tech-lead`);
+      const freelance = await pdfText(`cv-${language}-freelance`);
 
-    for (const [variant, title] of Object.entries(titles)) {
-      const text = await pdfText(`cv-en-${variant}`);
-
-      expect(text, variant).toContain(title);
-
-      if (variant !== 'tech-lead') {
-        expect(text, variant).not.toContain(titles['tech-lead']);
-      }
+      expect(fullstack.indexOf(markers.pms), language).toBeLessThan(
+        fullstack.indexOf(markers.security),
+      );
+      expect(techLead.indexOf(markers.security), language).toBeLessThan(
+        techLead.indexOf(markers.pms),
+      );
+      expect(freelance.indexOf(markers.agentic), language).toBeLessThan(
+        freelance.indexOf(markers.pms),
+      );
+      expect(freelance.indexOf(markers.sharedCi), language).toBeLessThan(
+        freelance.indexOf(markers.pms),
+      );
     }
   });
 
@@ -416,16 +400,17 @@ describe('six CV documents', () => {
     for (const language of LANGUAGES) {
       const label = CONCURRENT_LABELS[language];
 
-      expect(
-        await pdfText(`cv-${language}-freelance`),
-        `${language} freelance`,
-      ).toContain(label);
-
-      for (const variant of ['fullstack-ai', 'tech-lead'] as const) {
-        expect(
+      for (const variant of VARIANTS) {
+        for (const text of [
           await pdfText(`cv-${language}-${variant}`),
-          `${language} ${variant}`,
-        ).not.toContain(label);
+          docxText(`cv-${language}-${variant}`),
+        ]) {
+          if (variant === 'freelance') {
+            expect(text, `${language} ${variant}`).toContain(label);
+          } else {
+            expect(text, `${language} ${variant}`).not.toContain(label);
+          }
+        }
       }
     }
   });
@@ -435,12 +420,15 @@ describe('six CV documents', () => {
       const payments = PAYMENTS_LINES[language];
 
       for (const variant of VARIANTS) {
-        const text = await pdfText(`cv-${language}-${variant}`);
-
-        if (variant === 'tech-lead') {
-          expect(text, `${language} ${variant}`).toContain(payments);
-        } else {
-          expect(text, `${language} ${variant}`).not.toContain(payments);
+        for (const text of [
+          await pdfText(`cv-${language}-${variant}`),
+          docxText(`cv-${language}-${variant}`),
+        ]) {
+          if (variant === 'tech-lead') {
+            expect(text, `${language} ${variant}`).toContain(payments);
+          } else {
+            expect(text, `${language} ${variant}`).not.toContain(payments);
+          }
         }
       }
     }
@@ -454,7 +442,7 @@ describe('six CV documents', () => {
 
       expect(text, pdf.file).toContain(COMPANY);
       expect(text, pdf.file).toContain(
-        TITLES[pdf.language]['fullstack-ai'],
+        CV_TITLES[pdf.language]['fullstack-ai'],
       );
     }
   });

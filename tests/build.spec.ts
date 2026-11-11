@@ -16,6 +16,7 @@ import {
   runNpmOrThrow,
   runNpmScript,
 } from './support/build-harness';
+import { CV_SUMMARIES, CV_TITLES } from './support/cv-expectations';
 
 const PRERENDER_DIR = path.join(PROJECT_ROOT, 'dist/analog/public');
 const ARTIFACTS_DIR = path.join(os.tmpdir(), `alipadron-variants-${process.pid}`);
@@ -56,33 +57,6 @@ const EXPECTED = {
     homeLink: 'Leer la experiencia',
   },
 };
-
-// Titles and summaries are variant data; the site keeps the base title.
-const CV_TITLES = {
-  en: {
-    'fullstack-ai': 'Senior Full-Stack Engineer',
-    'tech-lead': 'Tech Lead / Senior Full-Stack Engineer',
-    freelance: 'Senior Full-Stack Engineer',
-  },
-  es: {
-    'fullstack-ai': 'Ingeniero Full-Stack Senior',
-    'tech-lead': 'Tech Lead / Ingeniero Full-Stack Senior',
-    freelance: 'Ingeniero Full-Stack Senior',
-  },
-} as const;
-
-const CV_SUMMARIES = {
-  en: {
-    'fullstack-ai': 'Senior full-stack engineer with 8+ years building and scaling',
-    'tech-lead': 'Owns releases, production migrations, the self-hosted GitLab',
-    freelance: 'I take AI-built apps to production',
-  },
-  es: {
-    'fullstack-ai': 'Ingeniero full-stack senior con más de 8 años',
-    'tech-lead': 'Es responsable de los releases, las migraciones en producción',
-    freelance: 'Llevo a producción aplicaciones construidas con IA',
-  },
-} as const;
 
 const FIXTURE_TEXT = {
   shared: 'Shared engagement bullet shown in every CV.',
@@ -306,30 +280,33 @@ describe('build-level outputs', () => {
     }
   });
 
-  it('gives the three English CVs different summaries and titles', async () => {
-    const documents = await Promise.all(
-      CV_VARIANTS.map((variant) =>
-        artifactPdfText(`cv-en-${variant}.pdf`).then((text) => ({
+  it('gives each English CV its own summary and only Tech Lead its own title', async () => {
+    const documents = Object.fromEntries(
+      await Promise.all(
+        CV_VARIANTS.map(async (variant) => [
           variant,
-          text,
-        })),
+          await artifactPdfText(`cv-en-${variant}.pdf`),
+        ]),
       ),
     );
 
-    for (const { variant, text } of documents) {
+    for (const variant of CV_VARIANTS) {
       for (const other of CV_VARIANTS) {
         if (other === variant) {
           continue;
         }
 
-        expect(text, `${variant} vs ${other}`).not.toContain(
+        expect(documents[variant], `${variant} vs ${other}`).not.toContain(
           CV_SUMMARIES.en[other],
         );
       }
     }
 
-    expect(documents[0].text).not.toContain(CV_TITLES.en['tech-lead']);
-    expect(documents[2].text).not.toContain(CV_TITLES.en['tech-lead']);
+    for (const variant of ['fullstack-ai', 'freelance'] as const) {
+      expect(documents[variant], variant).not.toContain(
+        CV_TITLES.en['tech-lead'],
+      );
+    }
   });
 
   it('produces the English Full-Stack + AI PDF with the role text', async () => {
