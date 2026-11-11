@@ -17,8 +17,15 @@ jobs:
 
       - run: npm ci
 
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
       - name: Install Chromium for PDF generation
-        run: npx playwright install --with-deps chromium
+        # --with-deps needs apt; when the runner's mirror is unreachable we still
+        # want the browser, and ubuntu-latest already carries most of its libraries.
+        run: npx playwright install --with-deps chromium || npx playwright install chromium
 
       - run: npm run typecheck
 
