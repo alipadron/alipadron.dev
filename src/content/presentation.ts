@@ -5,6 +5,7 @@ import type {
   Career,
   Entry,
   Placement,
+  Profile,
   Variant,
 } from './schema';
 
@@ -85,6 +86,14 @@ function allBullets(entry: Entry): Bullet[] {
 
 function resolveTitle(entry: Entry, variant: Variant): Bilingual {
   return entry.titleByVariant?.[variant] ?? entry.title;
+}
+
+/**
+ * The summary for one variant. The master summary is the Full-Stack + AI
+ * default, so variants that do not need their own framing keep it.
+ */
+export function resolveSummary(profile: Profile, variant: Variant): Bilingual {
+  return profile.summaryByVariant?.[variant] ?? profile.summary;
 }
 
 function resolvePlacement(entry: Entry, variant?: Variant): Placement {

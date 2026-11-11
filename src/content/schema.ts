@@ -204,8 +204,8 @@ export const languageEntrySchema = z
  * tracked (see `src/content/contact.ts`).
  *
  * The headline and summary carry the Full-Stack + AI narrative. A variant can
- * replace the summary with its own framing; the master summary stays the
- * fallback, so the site keeps one voice and no text is duplicated.
+ * replace the summary with its own framing; the master summary is the
+ * Full-Stack + AI default and the fallback for any variant without one.
  */
 export const profileSchema = z
   .object({

@@ -9,6 +9,7 @@ import {
   CONCURRENT_LABEL,
   formatDateRange,
   formatLocationModel,
+  resolveSummary,
   VARIANT_LABELS,
   type SelectedEntry,
   type VariantCv,
@@ -140,15 +141,13 @@ export function buildCvDocumentModel(
     sectionModel(ui.projects.heading[language], cv.projects, language),
   ].filter((section): section is CvSectionModel => section !== null);
 
-  const summary = profile.summaryByVariant?.[cv.variant] ?? profile.summary;
-
   return {
     language,
     name: ui.siteName[language],
     variantLabel: VARIANT_LABELS[cv.variant][language],
     contact: publicContactLinks(profile),
     phone: phoneForOutput(options),
-    summary: summary[language],
+    summary: resolveSummary(profile, cv.variant)[language],
     sections,
   };
 }
