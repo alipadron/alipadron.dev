@@ -9,9 +9,11 @@ import {
 import { RouterLink } from '@angular/router';
 
 import { publicContactLinks } from '../../content/contact';
-import { content, ui } from '../../content/index';
+import { caseStudies, content, ui } from '../../content/index';
 import type { Language } from '../../content/language';
+import { applyPageMetadata } from '../head';
 import { localizedPath, type SitePath } from '../routes';
+import { pageMetadata } from '../seo';
 import { LanguageSwitcher } from '../components/language-switcher';
 
 /**
@@ -101,6 +103,9 @@ export class PageLayout implements OnInit {
   }
 
   ngOnInit(): void {
-    this.#document.documentElement.lang = this.language();
+    applyPageMetadata(
+      this.#document,
+      pageMetadata(this.path(), this.language(), { ui, caseStudies }),
+    );
   }
 }

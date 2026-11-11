@@ -1,0 +1,98 @@
+{
+  "how-i-work": {
+    "kicker": {
+      "en": "Fixture how I work kicker.",
+      "es": "Kicker de prueba how I work."
+    },
+    "title": {
+      "en": "Fixture how I work.",
+      "es": "Página de prueba how I work."
+    },
+    "intro": {
+      "en": "Fixture how I work intro.",
+      "es": "Introducción de prueba how I work."
+    },
+    "sections": [
+      {
+        "id": "fixture-section",
+        "heading": {
+          "en": "Fixture section.",
+          "es": "Sección de prueba."
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": {
+              "en": "Fixture paragraph.",
+              "es": "Párrafo de prueba."
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "work-with-me": {
+    "kicker": {
+      "en": "Fixture work with me kicker.",
+      "es": "Kicker de prueba work with me."
+    },
+    "title": {
+      "en": "Fixture work with me.",
+      "es": "Página de prueba work with me."
+    },
+    "intro": {
+      "en": "Fixture work with me intro.",
+      "es": "Introducción de prueba work with me."
+    },
+    "sections": [
+      {
+        "id": "fixture-section",
+        "heading": {
+          "en": "Fixture section.",
+          "es": "Sección de prueba."
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": {
+              "en": "Fixture paragraph.",
+              "es": "Párrafo de prueba."
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "contact": {
+    "kicker": {
+      "en": "Fixture contact kicker.",
+      "es": "Kicker de prueba contact."
+    },
+    "title": {
+      "en": "Fixture contact.",
+      "es": "Página de prueba contact."
+    },
+    "intro": {
+      "en": "Fixture contact intro.",
+      "es": "Introducción de prueba contact."
+    },
+    "sections": [
+      {
+        "id": "fixture-section",
+        "heading": {
+          "en": "Fixture section.",
+          "es": "Sección de prueba."
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": {
+              "en": "Fixture paragraph.",
+              "es": "Párrafo de prueba."
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

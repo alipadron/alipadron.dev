@@ -25,6 +25,9 @@ PDF generation needs Chromium: `npx playwright install chromium`.
   and without publishing, for quick local iteration. Set
   `CONTENT_DIR`/`OUTPUT_DIR` to build fixtures into another directory, and
   `SITE_DIST_DIR` to publish into a site output other than `dist/analog/public`.
+- `npm run og-image` — regenerates `public/og-image.png`, the 1200×630 Open
+  Graph image, from the site's own design tokens. Needs Chromium. The PNG is
+  committed, so the site build never depends on a browser.
 - `npm run typecheck` — TypeScript checks for the app, scripts and tests.
 - `npm run build && npm run documents && npx wrangler@4.160.0 pages deploy
   dist/analog/public --project-name=alipadron-dev --branch=main` — deploys
@@ -74,6 +77,26 @@ terms, steps, contact channels, page link, email action). The schema is in
 `src/content/schema.ts` and the one renderer is `src/app/views/long-form-view.ts`,
 so both languages come from the same structure and no page can ship with only
 one translation.
+
+## SEO and sharing
+
+Every prerendered page carries its own `<title>`, meta description, canonical
+URL, an `hreflang` pair pointing at the same page in the other language, and
+`x-default` on the English page. Open Graph and Twitter card tags share the same
+copy and point at `public/og-image.png`.
+
+The search and sharing copy is part of the content module: `content/ui.json`
+holds one title and description per page under `seo.pages`, and case study pages
+use the study's own title and summary. A missing translation fails the build
+like any other content. `src/app/seo.ts` resolves the copy and builds every URL
+from `SITE_PAGES`; `src/app/head.ts` writes the tags, and `PageLayout` applies
+them, so the prerendered head and a client-side navigation agree.
+
+`npm run build` also writes `sitemap.xml` and `robots.txt` into
+`dist/analog/public` after the prerender, through `scripts/build-site-files.ts`.
+Both come from the same `SITE_PAGES` route table as the prerender list, so they
+cannot list a page that is not built. `tests/build.spec.ts` asserts the head of
+every page, the sharing tags, the image and the sitemap.
 
 ## Contact policy and privacy
 
