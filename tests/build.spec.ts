@@ -48,7 +48,7 @@ const EXPECTED = {
     title: 'Ingeniero Full-Stack Senior / Líder técnico',
     bullet:
       'Lidera el desarrollo full-stack de un PMS hotelero construido con AngularJS y Laravel, usado por más de 150 hoteles con más de 2.000 habitaciones para reservas, pagos y operación diaria.',
-    releaseBullet: 'Redujo el tiempo de publicación de más de 30 minutos a unos 7 minutos',
+    releaseBullet: 'Redujo el tiempo de lanzamiento de más de 30 minutos a unos 7 minutos',
     growthBullet: 'Llevó la plataforma a más de 750.000 reservas de habitaciones acumuladas',
     paymentsBullet: 'decenas de miles de pagos en línea al año',
     experienceHeading: 'Experiencia',
@@ -88,7 +88,7 @@ const MASTER_CONTENT = {
   es: [
     'una plataforma de datos de mercado y noticias en tiempo real',
     'una plataforma de remesas de USD a VES sobre Laravel y Filament',
-    '~5 millones de artículos de fuentes RSS y scrapers',
+    'unos 5 millones de artículos de fuentes RSS y scrapers',
     'entre 20 y 50 clientes empresariales',
     'un ERP de construcción de Silverlight a Angular 7',
     'módulo de geolocalización con Google Maps',
