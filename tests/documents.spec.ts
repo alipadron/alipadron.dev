@@ -38,7 +38,7 @@ const EXPECTED = {
   en: {
     title: 'Senior Full-Stack Engineer / Tech Lead',
     bullet:
-      'Lead full-stack delivery of a hotel PMS built with AngularJS and Laravel that +150 hotels with +2,000 rooms use for reservations, payments and daily operations.',
+      'Lead full-stack delivery of a hotel PMS built with AngularJS and Laravel, used by +150 hotels with +2,000 rooms for reservations, payments and daily operations.',
     details:
       '2020 – Present · Remote · AngularJS, Laravel, MySQL, Redis, Docker, GitLab CI',
     experienceHeading: 'Experience',
@@ -47,7 +47,7 @@ const EXPECTED = {
   es: {
     title: 'Ingeniero Full-Stack Senior / Tech Lead',
     bullet:
-      'Lidera el desarrollo full-stack de un PMS hotelero construido con AngularJS y Laravel que +150 hoteles con +2,000 habitaciones usan para reservas, pagos y operación diaria.',
+      'Lidera el desarrollo full-stack de un PMS hotelero construido con AngularJS y Laravel, usado por +150 hoteles con +2,000 habitaciones para reservas, pagos y operación diaria.',
     details:
       '2020 – Actualidad · Remoto · AngularJS, Laravel, MySQL, Redis, Docker, GitLab CI',
     experienceHeading: 'Experiencia',
