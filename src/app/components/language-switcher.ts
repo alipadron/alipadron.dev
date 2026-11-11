@@ -13,8 +13,31 @@ import { localizedPath, type SitePath } from '../routes';
 @Component({
   selector: 'app-language-switcher',
   imports: [RouterLink],
+  styles: [
+    `
+      :host {
+        display: inline-flex;
+      }
+
+      .language-switcher {
+        display: inline-flex;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      a:hover {
+        color: var(--accent);
+      }
+    `,
+  ],
   template: `
-    <nav [attr.aria-label]="ui.languageSwitcher.label[language()]">
+    <nav
+      class="language-switcher"
+      [attr.aria-label]="ui.languageSwitcher.label[language()]"
+    >
       <a
         [routerLink]="targetPath()"
         [attr.hreflang]="targetLanguage()"

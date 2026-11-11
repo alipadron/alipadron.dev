@@ -22,6 +22,40 @@
       }
     }
   },
+  "metrics": [
+    {
+      "id": "hotels",
+      "value": "+150",
+      "label": {
+        "en": "hotels on the hotel PMS",
+        "es": "hoteles en el PMS hotelero"
+      }
+    },
+    {
+      "id": "reservations",
+      "value": "+750k",
+      "label": {
+        "en": "room reservations",
+        "es": "reservas de habitación"
+      }
+    },
+    {
+      "id": "growth",
+      "value": "~13×",
+      "label": {
+        "en": "yearly reservations, 2020 → 2025",
+        "es": "reservas anuales, 2020 → 2025"
+      }
+    },
+    {
+      "id": "release",
+      "value": "7 min",
+      "label": {
+        "en": "release, down from 30+",
+        "es": "release, antes 30+ min"
+      }
+    }
+  ],
   "entries": [
     {
       "id": "gofeels",

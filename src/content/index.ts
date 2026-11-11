@@ -10,6 +10,7 @@ export type {
   Education,
   Entry,
   LanguageEntry,
+  Metric,
   Placement,
   Profile,
   SkillGroup,
