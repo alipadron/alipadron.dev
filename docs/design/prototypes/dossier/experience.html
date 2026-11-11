@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Experience — Alí Padrón — Prototype C — Dossier</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+<p class="proto">Prototype C — Dossier · throwaway direction mock, not the site</p>
+
+  <div class="shell">
+    <aside class="rail">
+      <div class="rail-top">
+        <a class="brand" href="index.html">Alí Padrón</a>
+        <p class="rail-role">Senior full-stack engineer</p>
+      </div>
+      <nav aria-label="Primary">
+        <a href="index.html"><span class="n">01</span>Home</a>
+        <a href="experience.html" aria-current="page"><span class="n">02</span>Experience</a>
+        <span class="planned"><span class="n">03</span>Case studies</span>
+        <span class="planned"><span class="n">04</span>How I work</span>
+        <span class="planned"><span class="n">05</span>Work with me</span>
+        <span class="planned"><span class="n">06</span>Contact</span>
+      </nav>
+      <div class="rail-foot">
+        <p>Remote <span aria-hidden="true">·</span> GMT-4</p>
+        <a href="mailto:hola@alipadron.dev">hola@alipadron.dev</a>
+        <p>EN <span aria-hidden="true">·</span> <span class="planned">ES (soon)</span></p>
+      </div>
+    </aside>
+
+    <main>
+      <header class="page-head">
+        <p class="eyebrow">Since 2018</p>
+        <h1>Experience</h1>
+        <p class="summary">Angular and Laravel, hotels and payments, releases and production. Every role below is work I did, described the way I would defend it in an interview.</p>
+      </header>
+
+      <section class="entries" aria-label="Roles">
+        <article class="card" id="gofeels">
+          <div class="card-head">
+            <h2>GoFeels</h2>
+            <p class="card-role">Senior Full-Stack Engineer / Tech Lead</p>
+            <p class="card-meta"><span>2020 – Present</span><span>Remote</span></p>
+          </div>
+          <ul class="chips" aria-label="Stack">
+            <li>AngularJS</li>
+            <li>Laravel</li>
+            <li>MySQL</li>
+            <li>Redis</li>
+            <li>Docker</li>
+            <li>GitLab CI</li>
+          </ul>
+          <ul class="bullets">
+            <li>Lead full-stack delivery of a hotel PMS built with AngularJS and Laravel, used by +150 hotels with +2,000 rooms for reservations, payments and daily operations.</li>
+            <li>Grew the platform to +750k room reservations in total and ~13× its 2020 yearly reservation volume by 2025.</li>
+            <li>Own the online payments stack (Webpay, Stripe, PayPal) and the booking engine and payment links behind tens of thousands of online payments a year.</li>
+            <li>Traced overbookings to stale availability in the outbound OTA sync, then rebuilt the channel manager to keep availability and rates in continuous sync with Booking.com, Expedia and Roombeast.</li>
+            <li>Rewrote subscription billing: plans and prices as data, feature gating across plan tiers, add-ons with monthly quotas, and usage metering.</li>
+            <li>Shipped a discount campaigns engine on a polymorphic coupon model, replacing legacy per-module implementations and migrating existing coupons.</li>
+            <li>Built Chilean e-invoicing (SII DTE) end to end: credit notes, async status with retries, re-issuance and invoicing as a paid add-on.</li>
+            <li>Built a WhatsApp sales agent that turns hotel conversations into quotes, backed by its own API and web back office.</li>
+            <li>Integrated Caja Los Héroes: campaigns, RUT-based segments with per-night quotas and agreement billing.</li>
+            <li>Cut release time from 30+ minutes to about 7 minutes by rebuilding the CI/CD pipeline around Docker and adding an end-to-end suite as a release gate.</li>
+            <li>Extracted shared CI components across the product's repositories (linting, static analysis, secret scanning, dependency audits) and added an AI code-review gate to merge requests.</li>
+            <li>Ran a proactive security hardening program: 2FA, CSP, cookie-based sessions, secret scanning and rotation, and PCI redaction of stored card data; critical/high dependency vulnerabilities in the PMS frontend went from 2/44 to 0/1.</li>
+            <li>Own releases and production: versioned releases with one-step rollback, production migrations and the self-hosted GitLab that runs the pipeline.</li>
+            <li>Act as technical lead: co-design with product, review merge requests, mentor developers and set the team's AI-assisted workflow from spec to tickets, implementation and review.</li>
+            <li>Plan the AngularJS exit for the PMS frontend (still on AngularJS today) with a phased migration path and a Tailwind and DaisyUI design foundation.</li>
+          </ul>
+        </article>
+
+        <article class="card" id="tuapplicaya">
+          <div class="card-head">
+            <h2>Tuapplicaya</h2>
+            <p class="card-role">Co-founder &amp; Technical Lead</p>
+            <p class="card-meta"><span>2026-10 – Present</span><span>Remote</span></p>
+          </div>
+          <ul class="chips" aria-label="Stack">
+            <li>Next.js</li>
+            <li>React</li>
+            <li>Prisma</li>
+            <li>Traefik</li>
+            <li>GitHub Actions</li>
+          </ul>
+          <ul class="bullets">
+            <li>Co-founded Tuapplicaya and run its technical side pre-launch: scoping client work, making the architecture calls and reviewing everything that ships.</li>
+            <li>Built the company's HQ app (Next.js 15, Auth.js, Prisma, Tailwind, PWA) for the business registry, pipeline, BCV exchange rate, bi-currency payments, cash book and reports.</li>
+            <li>Set the deployment foundation for every app: a Traefik reverse proxy on a VPS, GitHub Actions CI/CD, backups with health checks and ADRs.</li>
+          </ul>
+        </article>
+
+        <article class="card" id="independent-clients">
+          <div class="card-head">
+            <h2>Independent clients</h2>
+            <p class="card-role">Freelance Full-Stack Engineer</p>
+            <p class="card-meta"><span>2026-09 – 2026-10</span><span>Remote</span></p>
+          </div>
+          <ul class="chips" aria-label="Stack">
+            <li>React</li>
+            <li>Firebase</li>
+            <li>Next.js</li>
+            <li>PostgreSQL</li>
+            <li>Docker</li>
+            <li>GitHub Actions</li>
+          </ul>
+          <ul class="bullets">
+            <li>Rescued an education ERP a client had built with AI: found the right Firestore database among four auto-created ones, restored production data into local emulators and moved state that only lived in the browser into real persistence.</li>
+            <li>Built the payroll features the client needed in production: employee loans, payroll corrections, period closing, mid-month advances and BCV exchange rates.</li>
+            <li>Shipped a courses platform end to end (Next.js, PostgreSQL, Docker on a VPS) with authentication, progress tracking, PDF certificates, coupons, Stripe and invoicing export.</li>
+          </ul>
+        </article>
+
+        <article class="card" id="zignox">
+          <div class="card-head">
+            <h2>Zignox</h2>
+            <p class="card-role">Software Engineer</p>
+            <p class="card-meta"><span>2021-02 – 2026-05</span><span>Remote</span></p>
+          </div>
+          <ul class="chips" aria-label="Stack">
+            <li>Angular SSR</li>
+            <li>NestJS</li>
+            <li>MongoDB</li>
+            <li>BullMQ</li>
+            <li>Redis</li>
+            <li>Stripe</li>
+            <li>Docker</li>
+          </ul>
+          <ul class="bullets">
+            <li>Solo-built a real-time market-data and news platform through a pre-launch, fundraising-stage startup that never reached paying subscribers, owning architecture, implementation, deployment and operations.</li>
+            <li>Built an ingestion pipeline on BullMQ that collected ~5M articles from RSS feeds and scrapers, normalized the heterogeneous formats and stored them in MongoDB.</li>
+            <li>Integrated financial data providers (Financial Modeling Prep, Finnhub) for stocks, FX, bonds and commodities, with a WebSocket gateway pushing live prices and news to an SSR Angular app built for SEO.</li>
+            <li>Built PayGoLatam as the company's next MVP: a USD-to-VES remittance platform on Laravel and Filament, with a permissioned admin, precise money handling and payment notifications.</li>
+            <li>Designed and built the REST API, migrating it from Express to NestJS, implemented Stripe subscriptions, then deployed and operated the stack on a VPS.</li>
+            <li>Led three developers during a growth phase, reviewing their work and guiding implementation.</li>
+          </ul>
+        </article>
+
+        <article class="card" id="open-source">
+          <div class="card-head">
+            <h2>Open source</h2>
+            <p class="card-role">Contributor — Laravel framework and spatie/laravel-translatable</p>
+            <p class="card-meta"><span>2024-11 – 2025-01</span><span>Remote</span></p>
+          </div>
+          <ul class="chips" aria-label="Stack">
+            <li>PHP</li>
+            <li>Laravel</li>
+            <li>Git</li>
+            <li>GitHub</li>
+          </ul>
+          <ul class="bullets">
+            <li>Merged a fix in the Laravel framework for mixed-type values in bulk inserts (compileInsert).</li>
+            <li>Merged five pull requests in spatie/laravel-translatable: configurable handling of null and empty translations, list assignment, clearing translations and tooling.</li>
+          </ul>
+        </article>
+
+        <article class="card" id="socialgest">
+          <div class="card-head">
+            <h2>SocialGest</h2>
+            <p class="card-role">Software Engineer (Frontend)</p>
+            <p class="card-meta"><span>2020-06 – 2023-01</span><span>Remote</span></p>
+          </div>
+          <ul class="chips" aria-label="Stack">
+            <li>Angular</li>
+            <li>NgRx</li>
+            <li>TypeScript</li>
+            <li>AWS Lambda</li>
+            <li>DynamoDB</li>
+            <li>API Gateway</li>
+            <li>WebSockets</li>
+          </ul>
+          <ul class="bullets">
+            <li>Built the entire frontend of Tikket, a real-time omni-channel messaging product used by 20–50 business customers across WhatsApp, Facebook, Instagram, email and X.</li>
+            <li>Used NgRx as a centralized store for many small state-sharing components and OnPush change detection to keep the UI tree performant.</li>
+            <li>Worked against a fully serverless AWS backend (Lambda, DynamoDB, API Gateway) with WebSockets driving live updates.</li>
+          </ul>
+        </article>
+
+        <article class="card" id="brickcontrol">
+          <div class="card-head">
+            <h2>BrickControl</h2>
+            <p class="card-role">Frontend Developer</p>
+            <p class="card-meta"><span>2019-03 – 2019-12</span><span>Remote</span></p>
+          </div>
+          <ul class="chips" aria-label="Stack">
+            <li>Angular 7</li>
+            <li>TypeScript</li>
+            <li>ag-Grid</li>
+            <li>Kendo UI</li>
+          </ul>
+          <ul class="bullets">
+            <li>Part of a ~10-developer frontend team migrating a construction ERP from Silverlight to Angular 7.</li>
+            <li>Built CRUD modules for exchange rates and currencies.</li>
+            <li>Migrated reporting tables from Kendo UI to ag-Grid Enterprise.</li>
+          </ul>
+        </article>
+
+        <article class="card" id="novoples">
+          <div class="card-head">
+            <h2>NovoPles</h2>
+            <p class="card-role">Junior Software Engineer</p>
+            <p class="card-meta"><span>2018-11 – 2020-01</span><span>On-site</span></p>
+          </div>
+          <ul class="chips" aria-label="Stack">
+            <li>Angular</li>
+            <li>PHP</li>
+            <li>Google Maps</li>
+          </ul>
+          <ul class="bullets">
+            <li>Developed an ERP web application in Angular and maintained PHP ERP applications for multiple clients.</li>
+            <li>Implemented a Google Maps geolocation module that simplified the billing process for clients.</li>
+          </ul>
+        </article>
+      </section>
+
+      <section class="block" aria-labelledby="projects-heading">
+        <h2 id="projects-heading">Projects</h2>
+        <div class="entries">
+          <article class="card" id="project-car-log">
+          <div class="card-head">
+            <h3>car-log</h3>
+            <p class="card-role">Offline-first vehicle maintenance PWA</p>
+            <p class="card-meta"><span>2026-08 – 2026-08</span><span>Remote</span></p>
+          </div>
+          <ul class="chips" aria-label="Stack">
+            <li>Angular</li>
+            <li>Laravel</li>
+            <li>SQLite</li>
+            <li>Docker</li>
+            <li>Vitest</li>
+            <li>Pest</li>
+          </ul>
+          <ul class="bullets">
+            <li>Built an installable vehicle maintenance tracker that keeps working offline and syncs when the connection returns, a deliberate choice for places with power and internet outages.</li>
+            <li>Designed the Laravel API and Angular client with Pest and Vitest coverage, and deploy it with Docker behind a Cloudflare Tunnel.</li>
+          </ul>
+        </article>
+
+          <article class="card" id="project-medication-manager">
+          <div class="card-head">
+            <h3>medication-manager</h3>
+            <p class="card-role">Household medication PWA</p>
+            <p class="card-meta"><span>2026-09 – 2026-09</span><span>Remote</span></p>
+          </div>
+          <ul class="chips" aria-label="Stack">
+            <li>Angular</li>
+            <li>Laravel</li>
+            <li>PostgreSQL</li>
+            <li>Web Push</li>
+            <li>Service workers</li>
+          </ul>
+          <ul class="bullets">
+            <li>Built a medication scheduler that handles interval and fixed-time doses with live re-shifting, stock tracking and refill forecasting, and pushes doses to every device with Web Push.</li>
+            <li>Deployed an Angular service-worker PWA and a Laravel API to Laravel Cloud, and shipped an MCP server so agents can query the app's own domain.</li>
+          </ul>
+        </article>
+        </div>
+      </section>
+
+      <footer class="foot">
+        <a href="mailto:hola@alipadron.dev">hola@alipadron.dev</a>
+        <a href="https://www.linkedin.com/in/alipadron">LinkedIn</a>
+        <a href="https://github.com/alipadron">GitHub</a>
+        <p class="foot-note">Throwaway prototype for issue #13.</p>
+      </footer>
+    </main>
+  </div>
+  </body>
+</html>

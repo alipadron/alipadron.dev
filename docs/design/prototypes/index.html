@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Visual prototypes — alipadron.dev #13</title>
+    <style>
+      :root { color-scheme: light dark; font-family: ui-sans-serif, system-ui, sans-serif; }
+      body { margin: 0; padding: 2rem; background: #f6f7f9; color: #12161b; }
+      @media (prefers-color-scheme: dark) { body { background: #0e1116; color: #e7ebf0; } header p { color: #9aa6b6 !important; } }
+      header { max-width: 60rem; margin: 0 auto 2rem; }
+      h1 { margin: 0 0 .5rem; font-size: 1.5rem; letter-spacing: -.02em; }
+      header p { margin: 0; color: #5b6573; }
+      ul { display: grid; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); gap: 1.5rem; max-width: 80rem; margin: 0 auto; padding: 0; list-style: none; }
+      li { border: 1px solid #dde2e8; border-radius: 12px; padding: 1rem; background: #fff; }
+      @media (prefers-color-scheme: dark) { li { background: #151a21; border-color: #262e38; } }
+      h2 { margin: 0 0 .25rem; font-size: 1rem; }
+      li p { margin: 0 0 .75rem; font-size: .875rem; color: #5b6573; }
+      @media (prefers-color-scheme: dark) { li p { color: #9aa6b6; } }
+      iframe { display: block; width: 100%; height: 34rem; border: 1px solid #dde2e8; border-radius: 8px; background: #fff; }
+      .links { display: flex; gap: 1rem; margin: .75rem 0 0; font-size: .875rem; }
+      a { color: #1d4ed8; }
+      @media (prefers-color-scheme: dark) { a { color: #93b4ff; } }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Visual prototypes</h1>
+      <p>Issue #13. Throwaway direction mocks built from the real English content. Theme follows your OS setting.</p>
+    </header>
+    <ul>
+      <li>
+        <h2>A — Editorial</h2>
+        <p>Typographic minimal, serif display, warm paper, one vermillion accent.</p>
+        <iframe src="editorial/index.html" title="A — Editorial home" loading="lazy"></iframe>
+        <p class="links">
+          <a href="editorial/index.html">Home</a>
+          <a href="editorial/experience.html">Experience</a>
+        </p>
+      </li>
+      <li>
+        <h2>B — Terminal</h2>
+        <p>Monospace, prompt chrome, paper-printout light theme, phosphor dark theme.</p>
+        <iframe src="terminal/index.html" title="B — Terminal home" loading="lazy"></iframe>
+        <p class="links">
+          <a href="terminal/index.html">Home</a>
+          <a href="terminal/experience.html">Experience</a>
+        </p>
+      </li>
+      <li>
+        <h2>C — Dossier</h2>
+        <p>Index-first: sticky rail, cards, cool neutrals, one blue accent.</p>
+        <iframe src="dossier/index.html" title="C — Dossier home" loading="lazy"></iframe>
+        <p class="links">
+          <a href="dossier/index.html">Home</a>
+          <a href="dossier/experience.html">Experience</a>
+        </p>
+      </li>
+    </ul>
+  </body>
+</html>

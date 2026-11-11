@@ -1,0 +1,439 @@
+/* Prototype B — Terminal
+   One monospace face, prompt chrome, dashed rules, 0px radii.
+   Light theme is a paper printout; dark theme is the terminal itself. */
+
+:root {
+  color-scheme: light dark;
+
+  --bg: #f7f3e8;
+  --surface: #fdfaf1;
+  --bar: #f0ead9;
+  --ink: #1e2a22;
+  --text: #2c3a31;
+  --muted: #5c6b60;
+  --rule: #d8d0bd;
+  --accent: #0a5c43;
+  --accent-ink: #fdfaf1;
+
+  --mono:
+    ui-monospace, 'SFMono-Regular', 'SF Mono', Menlo, Consolas,
+    'Liberation Mono', monospace;
+
+  --step--1: 0.75rem;
+  --step-0: 0.9375rem;
+  --step-1: 1.0625rem;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+
+  --wrap: 68rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0b0f0d;
+    --surface: #101513;
+    --bar: #0d1210;
+    --ink: #d7e4da;
+    --text: #c2d0c6;
+    --muted: #8aa396;
+    --rule: #22302a;
+    --accent: #3ddc97;
+    --accent-ink: #0b0f0d;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: var(--step-0);
+  line-height: 1.7;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.dim,
+.comment,
+.planned {
+  color: var(--muted);
+}
+
+.planned {
+  text-decoration: underline dotted;
+  cursor: not-allowed;
+}
+
+.proto {
+  margin: 0 auto var(--space-3);
+  max-width: var(--wrap);
+  padding: 0 var(--space-4);
+  color: var(--muted);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 799px) {
+  .proto {
+    padding: var(--space-2) var(--space-3);
+  }
+}
+
+/* Window ---------------------------------------------------------- */
+
+.window {
+  margin: 0 auto;
+  max-width: var(--wrap);
+  border: 1px solid var(--rule);
+  background: var(--surface);
+  box-shadow: 0 1px 0 var(--rule);
+}
+
+@media (min-width: 800px) {
+  body {
+    padding: var(--space-6) var(--space-5) var(--space-7);
+  }
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  border-bottom: 1px solid var(--rule);
+  padding: var(--space-2) var(--space-4);
+  background: var(--bar);
+  color: var(--muted);
+  font-size: var(--step--1);
+}
+
+.dots {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--rule);
+  box-shadow:
+    0.75rem 0 0 var(--rule),
+    1.5rem 0 0 var(--rule);
+}
+
+.host {
+  margin-left: var(--space-4);
+  color: var(--ink);
+}
+
+.lang {
+  margin-left: auto;
+}
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+  border-bottom: 1px dashed var(--rule);
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--step--1);
+}
+
+.tabs a {
+  color: var(--muted);
+}
+
+.tabs a::before {
+  content: '[';
+  color: var(--rule);
+}
+
+.tabs a::after {
+  content: ']';
+  color: var(--rule);
+}
+
+.tabs a:hover,
+.tabs a[aria-current='page'] {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.tabs .planned::before {
+  content: '[';
+}
+
+.tabs .planned::after {
+  content: ']';
+}
+
+main {
+  padding: var(--space-5) var(--space-4) var(--space-6);
+}
+
+@media (min-width: 800px) {
+  main {
+    padding: var(--space-6) var(--space-5) var(--space-7);
+  }
+}
+
+/* Output ---------------------------------------------------------- */
+
+.prompt {
+  margin: var(--space-5) 0 var(--space-2);
+  color: var(--muted);
+  font-size: var(--step--1);
+  letter-spacing: 0.02em;
+}
+
+.prompt:first-child {
+  margin-top: 0;
+}
+
+.dollar,
+.path {
+  color: var(--accent);
+}
+
+.cmd {
+  color: var(--ink);
+}
+
+h1 {
+  margin: var(--space-2) 0 var(--space-3);
+  color: var(--ink);
+  font-size: clamp(2rem, 5.5vw, 3.25rem);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+}
+
+.headline {
+  margin: 0 0 var(--space-4);
+  max-width: 40ch;
+  color: var(--accent);
+  font-size: var(--step-1);
+  line-height: 1.5;
+}
+
+.summary {
+  margin: 0;
+  max-width: 74ch;
+}
+
+.call {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  margin: var(--space-5) 0 var(--space-4);
+  font-size: var(--step--1);
+}
+
+.button {
+  border: 1px solid var(--accent);
+  padding: 0.2rem 0.55rem;
+  color: var(--accent);
+  font-size: var(--step--1);
+}
+
+.button:hover {
+  background: var(--accent);
+  color: var(--accent-ink);
+  text-decoration: none;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  margin: 0 0 var(--space-5);
+  border: 1px solid var(--rule);
+  background: var(--rule);
+}
+
+@media (min-width: 800px) {
+  .metrics {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.metrics > div {
+  background: var(--surface);
+  padding: var(--space-3) var(--space-3) var(--space-2);
+}
+
+.metrics dt {
+  color: var(--ink);
+  font-size: clamp(1.375rem, 3vw, 1.875rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.metrics dd {
+  margin: var(--space-1) 0 0;
+  color: var(--muted);
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.ls {
+  display: grid;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ls li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.ls .comment {
+  font-size: var(--step--1);
+}
+
+/* Experience ------------------------------------------------------ */
+
+.entry {
+  max-width: 74ch;
+  border-top: 1px dashed var(--rule);
+  padding: var(--space-5) 0;
+}
+
+.entry-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+  margin: 0 0 var(--space-2);
+  color: var(--muted);
+  font-size: var(--step--1);
+  font-variant-numeric: tabular-nums;
+}
+
+.idx {
+  color: var(--accent);
+}
+
+.entry-title {
+  margin: 0;
+  color: var(--ink);
+  font-size: var(--step-1);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.entry-title::before {
+  content: '~/';
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.entry-role {
+  margin: var(--space-1) 0 var(--space-2);
+  color: var(--text);
+  font-size: var(--step--1);
+}
+
+.stack {
+  margin: 0 0 var(--space-3);
+  color: var(--muted);
+  font-size: var(--step--1);
+}
+
+.key {
+  color: var(--accent);
+}
+
+.bullets {
+  max-width: 70ch;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bullets li {
+  position: relative;
+  padding-left: 1.25rem;
+}
+
+.bullets li::before {
+  content: '-';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+}
+
+.bullets li + li {
+  margin-top: var(--space-1);
+}
+
+/* Status ---------------------------------------------------------- */
+
+.status {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-1) var(--space-4);
+  border-top: 1px solid var(--rule);
+  padding: var(--space-2) var(--space-4);
+  background: var(--bar);
+  color: var(--muted);
+  font-size: var(--step--1);
+}
+
+.status a {
+  color: var(--muted);
+}
+
+.status a:hover {
+  color: var(--accent);
+}
+
+.cursor {
+  color: var(--accent);
+  animation: blink 1.2s steps(1) infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor {
+    animation: none;
+  }
+}
