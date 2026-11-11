@@ -5,16 +5,16 @@
     "github": "https://github.com/alipadron",
     "headline": {
       "en": "Senior Full-Stack Engineer · Angular & Laravel · AI-native delivery",
-      "es": "Ingeniero Full-Stack Senior · Angular y Laravel · entrega con IA"
+      "es": "Ingeniero Full-Stack Senior · Angular y Laravel · entrega con IA nativa"
     },
     "summary": {
       "en": "Senior full-stack engineer with 8+ years building and scaling web products end to end in Angular and Laravel. Owns architecture, use cases, code review and delivery across a hotel PMS used by +150 hotels, its OTA channel manager, subscription billing, Chilean e-invoicing and a proactive security hardening program. Works with AI agents as part of the method — spec, tickets, parallel implementation and review gates — and reviews everything that ships.",
-      "es": "Ingeniero full-stack senior con más de 8 años construyendo y escalando productos web de punta a punta en Angular y Laravel. Es responsable de la arquitectura, la definición de casos de uso, la revisión de código y la entrega de un PMS hotelero usado por más de 150 hoteles, su channel manager de OTAs, la facturación por suscripción, la facturación electrónica chilena y un programa proactivo de fortalecimiento de la seguridad. Integra agentes de IA en su método de trabajo (especificación, tickets, implementación en paralelo y controles de revisión) y revisa todo lo que se entrega a producción."
+      "es": "Ingeniero full-stack senior con más de 8 años construyendo y escalando productos web de punta a punta en Angular y Laravel. Es responsable de la arquitectura, la definición de casos de uso, la revisión de código y la entrega de un PMS hotelero usado por más de 150 hoteles, su channel manager de OTAs, la facturación por suscripción, la facturación electrónica chilena y un programa proactivo de endurecimiento de la seguridad. Integra agentes de IA en su método de trabajo (especificación, tickets, implementación en paralelo y controles de revisión) y revisa todo lo que se entrega a producción."
     },
     "summaryByVariant": {
       "tech-lead": {
         "en": "Tech lead and senior full-stack engineer with 8+ years building and running web products end to end in Angular and Laravel. Owns releases, production migrations, the self-hosted GitLab and CI/CD pipeline, and a proactive security hardening program for a hotel PMS used by +150 hotels. Leads the epics behind its OTA channel manager, subscription billing and Chilean e-invoicing; co-designs with product, reviews merge requests, mentors developers and sets the team's AI-assisted workflow from spec to review.",
-        "es": "Líder técnico e ingeniero full-stack senior con más de 8 años construyendo y operando productos web de punta a punta en Angular y Laravel. Es responsable de las publicaciones, las migraciones en producción, la instancia autoalojada de GitLab y el pipeline de CI/CD, y de un programa proactivo de fortalecimiento de la seguridad en un PMS hotelero usado por más de 150 hoteles. Lidera las épicas de su channel manager de OTAs, la facturación por suscripción y la facturación electrónica chilena; codiseña con el equipo de producto, revisa los merge requests, mentoriza a desarrolladores y define el flujo de trabajo asistido por IA del equipo, desde la especificación hasta la revisión."
+        "es": "Líder técnico e ingeniero full-stack senior con más de 8 años construyendo y operando productos web de punta a punta en Angular y Laravel. Es responsable de los lanzamientos, las migraciones en producción, la instancia autoalojada de GitLab y el pipeline de CI/CD, y de un programa proactivo de endurecimiento de la seguridad en un PMS hotelero usado por más de 150 hoteles. Lidera las épicas de su channel manager de OTAs, la facturación por suscripción y la facturación electrónica chilena; codiseña con el equipo de producto, revisa los merge requests, mentoriza a desarrolladores y define el flujo de trabajo asistido por IA del equipo, desde la especificación hasta la revisión."
       },
       "freelance": {
         "en": "I take AI-built apps to production: code and security audits, CI/CD, deployment and agentic workflows for teams. Senior full-stack engineer with 8+ years in Angular and Laravel; currently senior full-stack engineer and tech lead on a hotel PMS used by +150 hotels. Available about 20–30 hours a week, with overlap across US time zones from GMT-4.",
@@ -104,7 +104,7 @@
           "variants": ["fullstack-ai", "tech-lead"],
           "text": {
             "en": "Shipped a discount campaigns engine on a polymorphic coupon model, replacing legacy per-module implementations and migrating existing coupons.",
-            "es": "Implementó un motor de campañas de descuento sobre un modelo polimórfico de cupones, en reemplazo de implementaciones heredadas por módulo, y migró los cupones existentes."
+            "es": "Implementó un motor de campañas de descuento sobre un modelo polimórfico de cupones, en sustitución de implementaciones heredadas por módulo, y migró los cupones existentes."
           }
         },
         {
@@ -143,7 +143,7 @@
           },
           "text": {
             "en": "Cut release time from 30+ minutes to about 7 minutes by rebuilding the CI/CD pipeline around Docker and adding an end-to-end suite as a release gate.",
-            "es": "Redujo el tiempo de publicación de más de 30 minutos a unos 7 minutos al reconstruir el pipeline de CI/CD sobre Docker y agregar una suite de pruebas de punta a punta como filtro previo a la publicación."
+            "es": "Redujo el tiempo de lanzamiento de más de 30 minutos a unos 7 minutos al reconstruir el pipeline de CI/CD sobre Docker y agregar una suite de pruebas de punta a punta como filtro previo al lanzamiento."
           }
         },
         {
@@ -167,7 +167,7 @@
           },
           "text": {
             "en": "Ran a proactive security hardening program: 2FA, CSP, cookie-based sessions, secret scanning and rotation, and PCI redaction of stored card data; critical/high dependency vulnerabilities in the PMS frontend went from 2/44 to 0/1.",
-            "es": "Ejecutó un programa proactivo de fortalecimiento de la seguridad: 2FA, CSP, sesiones basadas en cookies, escaneo y rotación de secretos y enmascaramiento de los datos de tarjetas almacenados conforme a PCI; las vulnerabilidades críticas y altas en las dependencias del frontend del PMS pasaron de 2/44 a 0/1."
+            "es": "Ejecutó un programa proactivo de endurecimiento de la seguridad: 2FA, CSP, sesiones basadas en cookies, escaneo y rotación de secretos y enmascaramiento de los datos de tarjetas almacenados conforme a PCI; las vulnerabilidades de severidad crítica y alta en las dependencias del frontend del PMS pasaron de 2/44 a 0/1."
           }
         },
         {
@@ -179,7 +179,7 @@
           },
           "text": {
             "en": "Own releases and production: versioned releases with one-step rollback, production migrations and the self-hosted GitLab that runs the pipeline.",
-            "es": "Es responsable de las publicaciones y de la producción: versiones numeradas con reversión en un solo paso, migraciones en producción y la instancia autoalojada de GitLab que ejecuta el pipeline."
+            "es": "Es responsable de los lanzamientos y de la producción: versiones numeradas con reversión en un solo paso, migraciones en producción y la instancia autoalojada de GitLab que ejecuta el pipeline."
           }
         },
         {
@@ -341,7 +341,7 @@
           "order": 200,
           "text": {
             "en": "Built an ingestion pipeline on BullMQ that collected ~5M articles from RSS feeds and scrapers, normalized the heterogeneous formats and stored them in MongoDB.",
-            "es": "Construyó un pipeline de ingesta con BullMQ que recopiló ~5 millones de artículos de fuentes RSS y scrapers, normalizó los formatos heterogéneos y los almacenó en MongoDB."
+            "es": "Construyó un pipeline de ingesta con BullMQ que recopiló unos 5 millones de artículos de fuentes RSS y scrapers, normalizó los formatos heterogéneos y los almacenó en MongoDB."
           }
         },
         {
@@ -357,7 +357,7 @@
           "order": 400,
           "text": {
             "en": "Built PayGoLatam as the company's next MVP: a USD-to-VES remittance platform on Laravel and Filament, with a permissioned admin, precise money handling and payment notifications.",
-            "es": "Construyó PayGoLatam como el siguiente MVP de la empresa: una plataforma de remesas de USD a VES sobre Laravel y Filament, con un panel de administración basado en permisos, manejo preciso de los montos y notificaciones de pago."
+            "es": "Construyó PayGoLatam como el siguiente MVP de la empresa: una plataforma de remesas de USD a VES sobre Laravel y Filament, con un panel de administración con permisos, manejo preciso de los montos y notificaciones de pago."
           }
         },
         {
@@ -490,7 +490,7 @@
           "order": 100,
           "text": {
             "en": "Part of a ~10-developer frontend team migrating a construction ERP from Silverlight to Angular 7.",
-            "es": "Formó parte de un equipo de ~10 desarrolladores frontend que migraba un ERP de construcción de Silverlight a Angular 7."
+            "es": "Formó parte de un equipo de unos 10 desarrolladores frontend que migraba un ERP de construcción de Silverlight a Angular 7."
           }
         },
         {
@@ -845,7 +845,7 @@
         },
         {
           "en": "Booking.com, Expedia and Roombeast channel APIs",
-          "es": "APIs de canales de Booking.com, Expedia y Roombeast"
+          "es": "APIs de los canales de Booking.com, Expedia y Roombeast"
         },
         {
           "en": "WhatsApp Business API",
@@ -882,7 +882,7 @@
       "id": "ai-native",
       "label": {
         "en": "AI-native workflow",
-        "es": "Flujo de trabajo con IA"
+        "es": "Flujo de trabajo con IA nativa"
       },
       "items": [
         {

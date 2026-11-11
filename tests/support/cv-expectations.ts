@@ -28,7 +28,7 @@ export const CV_SUMMARIES = {
   },
   es: {
     'fullstack-ai': 'Integra agentes de IA en su método de trabajo',
-    'tech-lead': 'Es responsable de las publicaciones, las migraciones en producción',
+    'tech-lead': 'Es responsable de los lanzamientos, las migraciones en producción',
     freelance: 'Llevo a producción aplicaciones construidas con IA',
   },
 } as const;
@@ -53,7 +53,7 @@ export const ORDER_MARKERS = {
   },
   es: {
     pms: 'Lidera el desarrollo full-stack de un PMS hotelero',
-    security: 'Ejecutó un programa proactivo de fortalecimiento de la seguridad',
+    security: 'Ejecutó un programa proactivo de endurecimiento de la seguridad',
     agentic: 'Ejerce como líder técnico',
     sharedCi: 'Extrajo componentes de CI compartidos',
   },
