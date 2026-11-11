@@ -5,7 +5,7 @@ import { publicContactLinks } from '../../content/contact';
 import { content, pages } from '../../content/index';
 import type { Language } from '../../content/language';
 import type { ContentPageId } from '../../content/schema';
-import { localizedPath, type SitePath } from '../routes';
+import { CONTENT_PAGE_ROUTES, localizedPath } from '../routes';
 
 /**
  * Renders one of the long-form pages: How I work, Work with me or Contact.
@@ -16,9 +16,9 @@ import { localizedPath, type SitePath } from '../routes';
  * each one looks.
  */
 @Component({
-  selector: 'app-document-view',
+  selector: 'app-long-form-view',
   imports: [RouterLink],
-  styleUrl: './document-view.css',
+  styleUrl: './long-form-view.css',
   template: `
     <main class="wrap">
       <header class="page-head">
@@ -29,7 +29,7 @@ import { localizedPath, type SitePath } from '../routes';
 
       @for (section of pageContent().sections; track section.id) {
         <section
-          class="doc-section"
+          class="page-section"
           [attr.aria-labelledby]="section.id + '-heading'"
         >
           <h2 [id]="section.id + '-heading'" class="section-label">
@@ -100,7 +100,7 @@ import { localizedPath, type SitePath } from '../routes';
     </main>
   `,
 })
-export class DocumentView {
+export class LongFormView {
   readonly page = input.required<ContentPageId>();
   readonly language = input.required<Language>();
 
@@ -109,7 +109,6 @@ export class DocumentView {
   protected readonly emailHref = `mailto:${content.profile.email}`;
 
   protected pageHref(page: ContentPageId): string {
-    // The content page ids are routes: `/how-i-work`, `/work-with-me`, …
-    return localizedPath(`/${page}` as SitePath, this.language());
+    return localizedPath(CONTENT_PAGE_ROUTES[page], this.language());
   }
 }

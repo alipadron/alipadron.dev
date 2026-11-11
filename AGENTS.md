@@ -8,9 +8,10 @@ Prerequisites: Node.js >= 22.22.3 and npm. Install once with `npm install`.
 PDF generation needs Chromium: `npx playwright install chromium`.
 
 - `npm run dev` — Analog dev server (Vite) at `http://localhost:5173`.
-- `npm run build` — validates the career and UI content and prerenders `/`,
-  `/es`, `/experience` and `/es/experience` into `dist/analog/public`. Every
-  page exists in English at the root and in Spanish under `/es`.
+- `npm run build` — validates the career, UI and page content and prerenders
+  every route into `dist/analog/public`: Home, Experience, How I work, Work
+  with me and Contact, in English at the root and in Spanish under `/es`.
+  Every page exists in both languages.
 - `npm run test` — build-level tests. They run the build and the document
   pipeline and assert on the generated HTML, PDF and DOCX text; invalid-content
   fixtures must fail the build.
@@ -61,9 +62,18 @@ build-time phone at all; only local PDFs do.
 ## Content
 
 Everything the site and the CVs render lives under `content/`: `career.json`
-for structured career data and `ui.json` for site labels. Both are bilingual
+for structured career data, `ui.json` for site labels, and `pages.json` for the
+long-form pages (How I work, Work with me, Contact). All three are bilingual
 `{ en, es }` and validated at build time, so a missing translation fails the
-build naming the entry (for example `home.experienceLink.es`).
+build naming the entry (for example `home.experienceLink.es` or
+`work-with-me.intro.es`).
+
+The long-form pages are typed data, not markup: each page is a title, an intro
+and a list of sections whose blocks are a closed vocabulary (paragraph, list,
+terms, steps, contact channels, page link, email action). The schema is in
+`src/content/schema.ts` and the one renderer is `src/app/views/long-form-view.ts`,
+so both languages come from the same structure and no page can ship with only
+one translation.
 
 ## Contact policy and privacy
 

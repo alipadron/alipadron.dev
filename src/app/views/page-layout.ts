@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, computed, inject, input, type OnInit } from '@angular/core';
+import { Component, inject, input, type OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { publicContactLinks } from '../../content/contact';
@@ -19,19 +19,19 @@ import { LanguageSwitcher } from '../components/language-switcher';
   template: `
     <header class="masthead">
       <div class="wrap masthead-inner">
-        <a class="wordmark" [routerLink]="homePath()">{{
+        <a class="wordmark" [routerLink]="pathFor('/')">{{
           ui.siteName[language()]
         }}</a>
         <div class="masthead-links">
           <nav class="primary-nav" [attr.aria-label]="ui.nav.label[language()]">
             <a
-              [routerLink]="homePath()"
-              [attr.aria-current]="isHome() ? 'page' : null"
+              [routerLink]="pathFor('/')"
+              [attr.aria-current]="current('/')"
               >{{ ui.nav.home[language()] }}</a
             >
             <a
-              [routerLink]="experiencePath()"
-              [attr.aria-current]="isExperience() ? 'page' : null"
+              [routerLink]="pathFor('/experience')"
+              [attr.aria-current]="current('/experience')"
               >{{ ui.experience.heading[language()] }}</a
             >
             <a
@@ -73,16 +73,6 @@ export class PageLayout implements OnInit {
 
   protected readonly ui = ui;
   protected readonly contact = publicContactLinks(content.profile);
-  protected readonly homePath = computed(() =>
-    localizedPath('/', this.language()),
-  );
-  protected readonly experiencePath = computed(() =>
-    localizedPath('/experience', this.language()),
-  );
-  protected readonly isHome = computed(() => this.path() === '/');
-  protected readonly isExperience = computed(
-    () => this.path() === '/experience',
-  );
 
   readonly #document = inject(DOCUMENT);
 

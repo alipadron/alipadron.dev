@@ -1,203 +1,30 @@
 {
   "how-i-work": {
     "kicker": {
-      "en": "Method",
-      "es": "Método"
+      "en": "Fixture how I work kicker.",
+      "es": "Kicker de prueba how I work."
     },
     "title": {
-      "en": "How I work",
-      "es": "Cómo trabajo"
+      "en": "Fixture how I work.",
+      "es": "Página de prueba how I work."
     },
     "intro": {
-      "en": "I build with AI agents as part of the method, not as a shortcut around it. The loop is the same one I use at work and on my own projects: grill the idea, write the spec, cut it into tickets, run independent tickets in parallel, and review everything that ships. Agents write a large part of the code. I own the decisions, the review and the release.",
-      "es": "Construyo con agentes de IA como parte del método, no como un atajo para saltármelo. El ciclo es el mismo que uso en el trabajo y en mis proyectos: interrogar la idea, escribir la especificación, dividirla en tickets, ejecutar los tickets independientes en paralelo y revisar todo lo que se entrega. Los agentes escriben buena parte del código. Las decisiones, la revisión y el lanzamiento son míos."
+      "en": "Fixture how I work intro.",
+      "es": "Introducción de prueba how I work."
     },
     "sections": [
       {
-        "id": "loop",
+        "id": "fixture-section",
         "heading": {
-          "en": "The loop",
-          "es": "El ciclo"
-        },
-        "blocks": [
-          {
-            "type": "steps",
-            "items": [
-              {
-                "term": {
-                  "en": "Grilling",
-                  "es": "Interrogatorio"
-                },
-                "description": {
-                  "en": "I start with an interview, not a prompt: one question at a time until the problem, the constraints and the edge cases are on the table. The output is a decision tree I can defend, not a wish list.",
-                  "es": "Empiezo con una entrevista, no con un prompt: una pregunta a la vez hasta poner sobre la mesa el problema, las restricciones y los casos límite. El resultado es un árbol de decisiones que puedo defender, no una lista de deseos."
-                }
-              },
-              {
-                "term": {
-                  "en": "Spec",
-                  "es": "Especificación"
-                },
-                "description": {
-                  "en": "The answers become a short written spec: what we are building, what we are not, the decisions already taken and the risks still open. A vague spec produces confident, wrong code, so this is where I spend the extra hour.",
-                  "es": "Las respuestas se convierten en una especificación breve y escrita: qué construimos, qué no, las decisiones ya tomadas y los riesgos abiertos. Una especificación vaga produce código seguro de sí mismo y equivocado, así que aquí es donde invierto la hora extra."
-                }
-              },
-              {
-                "term": {
-                  "en": "Tickets",
-                  "es": "Tickets"
-                },
-                "description": {
-                  "en": "I cut the spec into vertical slices that each ship something usable. Every ticket carries acceptance criteria and names what blocks it, so the order is a graph rather than a guess.",
-                  "es": "Divido la especificación en porciones verticales que entregan algo usable cada una. Cada ticket lleva criterios de aceptación y nombra lo que lo bloquea, así que el orden es un grafo y no una suposición."
-                }
-              },
-              {
-                "term": {
-                  "en": "Parallel agents",
-                  "es": "Agentes en paralelo"
-                },
-                "description": {
-                  "en": "Independent tickets run at the same time, each in its own worktree and session with the same conventions and context. Agents do not merge, push to protected branches or touch production credentials; those stay with me.",
-                  "es": "Los tickets independientes se ejecutan a la vez, cada uno en su propio worktree y su propia sesión, con las mismas convenciones y el mismo contexto. Los agentes no hacen merge, no empujan a ramas protegidas ni tocan credenciales de producción; eso queda en mis manos."
-                }
-              },
-              {
-                "term": {
-                  "en": "Review gates",
-                  "es": "Controles de revisión"
-                },
-                "description": {
-                  "en": "Nothing lands because an agent said it was done. Typecheck, lint and tests run in CI, a security scan and an AI first pass run on the merge request, and I read the diff before it ships. Releases have their own gate.",
-                  "es": "Nada entra porque un agente diga que terminó. El chequeo de tipos, el lint y las pruebas corren en CI, un escaneo de seguridad y una primera revisión con IA corren sobre el merge request, y yo leo el diff antes de que salga. Los lanzamientos tienen su propio control."
-                }
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "id": "delegate",
-        "heading": {
-          "en": "What I delegate",
-          "es": "Qué delego"
-        },
-        "blocks": [
-          {
-            "type": "list",
-            "items": [
-              {
-                "en": "Implementation once the slice is specified: components, endpoints, migrations and tests.",
-                "es": "La implementación una vez especificada la porción: componentes, endpoints, migraciones y pruebas."
-              },
-              {
-                "en": "The mechanical work: renames, dependency upgrades, wiring, boilerplate and test scaffolding.",
-                "es": "El trabajo mecánico: renombres, actualizaciones de dependencias, cableado, código repetitivo y andamiaje de pruebas."
-              },
-              {
-                "en": "A first pass at code review and at listing the obvious failure modes.",
-                "es": "Una primera pasada de revisión de código y de listado de los modos de fallo evidentes."
-              },
-              {
-                "en": "Research with a written result: comparing two libraries, mapping an unfamiliar codebase, drafting the ticket breakdown.",
-                "es": "Investigación con un resultado escrito: comparar dos librerías, mapear un código desconocido y redactar el desglose de tickets."
-              },
-              {
-                "en": "Documentation and ADRs from decisions we have already made.",
-                "es": "Documentación y ADRs a partir de decisiones que ya tomamos."
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "id": "keep",
-        "heading": {
-          "en": "What I keep",
-          "es": "Qué me quedo"
-        },
-        "blocks": [
-          {
-            "type": "list",
-            "items": [
-              {
-                "en": "The spec, the architecture and the data model. Agents propose; I decide.",
-                "es": "La especificación, la arquitectura y el modelo de datos. Los agentes proponen; yo decido."
-              },
-              {
-                "en": "Anything that touches payments, authentication, personal data or production configuration.",
-                "es": "Todo lo que toca pagos, autenticación, datos personales o configuración de producción."
-              },
-              {
-                "en": "Database migrations and anything that cannot be rolled back cleanly.",
-                "es": "Las migraciones de base de datos y cualquier cosa que no se pueda revertir limpiamente."
-              },
-              {
-                "en": "The final read of every diff that ships, and the release itself.",
-                "es": "La lectura final de cada diff que se entrega y el lanzamiento mismo."
-              },
-              {
-                "en": "The conversation with product and with the client. Context that only lives in a meeting is context an agent does not have.",
-                "es": "La conversación con producto y con el cliente. El contexto que solo vive en una reunión es contexto que un agente no tiene."
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "id": "guardrails",
-        "heading": {
-          "en": "Guardrails",
-          "es": "Límites de seguridad"
+          "en": "Fixture section.",
+          "es": "Sección de prueba."
         },
         "blocks": [
           {
             "type": "paragraph",
             "text": {
-              "en": "A faster loop is only useful if it is safe to run many times a day. These are the limits I set before an agent starts:",
-              "es": "Un ciclo más rápido solo sirve si es seguro ejecutarlo muchas veces al día. Estos son los límites que fijo antes de que un agente empiece:"
-            }
-          },
-          {
-            "type": "list",
-            "items": [
-              {
-                "en": "A short AGENTS.md and convention docs per repository, so an agent gets the same rules a new developer would.",
-                "es": "Un AGENTS.md breve y documentos de convenciones por repositorio, para que un agente reciba las mismas reglas que un desarrollador nuevo."
-              },
-              {
-                "en": "Read-only production access, with every command approved, and no permission to merge or push to protected branches.",
-                "es": "Acceso de solo lectura a producción, con cada comando aprobado, y sin permiso para hacer merge ni empujar a ramas protegidas."
-              },
-              {
-                "en": "One ticket per worktree, with the spec and the acceptance criteria in the prompt.",
-                "es": "Un ticket por worktree, con la especificación y los criterios de aceptación en el prompt."
-              },
-              {
-                "en": "A budget cap per run and per repository, so parallel agents do not become a surprise invoice.",
-                "es": "Un tope de presupuesto por ejecución y por repositorio, para que los agentes en paralelo no se conviertan en una factura sorpresa."
-              },
-              {
-                "en": "A human at every irreversible step: schema changes, secrets, releases and customer data.",
-                "es": "Una persona en cada paso irreversible: cambios de esquema, secretos, lanzamientos y datos de clientes."
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "id": "limits",
-        "heading": {
-          "en": "Where it breaks",
-          "es": "Dónde se rompe"
-        },
-        "blocks": [
-          {
-            "type": "paragraph",
-            "text": {
-              "en": "This method is fast at well-bounded work and slower at the start on purpose. It does not rescue a vague product decision, and it does not replace debugging a production incident or sitting with someone to understand what they actually need. It also raises the cost of a bad spec: an agent will implement the wrong thing thoroughly, with tests. The review gate exists to catch that, and it is the part I refuse to automate away.",
-              "es": "Este método es rápido en trabajo bien acotado y más lento al principio a propósito. No rescata una decisión de producto vaga y no sustituye depurar un incidente en producción ni sentarse con alguien a entender qué necesita de verdad. También encarece una mala especificación: un agente implementará lo equivocado a fondo, con pruebas. El control de revisión existe para detectarlo, y es la parte que me niego a automatizar."
+              "en": "Fixture paragraph.",
+              "es": "Párrafo de prueba."
             }
           }
         ]
@@ -206,221 +33,30 @@
   },
   "work-with-me": {
     "kicker": {
-      "en": "Freelance",
-      "es": "Freelance"
+      "en": "Fixture work with me kicker.",
+      "es": "Kicker de prueba work with me."
     },
     "title": {
-      "en": "Work with me",
-      "es": "Trabajemos juntos"
+      "en": "Fixture work with me.",
+      "es": "Página de prueba work with me."
     },
     "intro": {
-      "en": "I take AI-built apps to production. When an app works in a demo and stalls against real users, real payments or a real release, that is the gap I close: code and security audits, CI/CD, deployment, and agentic workflows your team can keep using after I leave. Available about 20–30 hours a week, remote, with overlap across US time zones from GMT-4.",
+      "en": "Fixture work with me intro.",
       "es": ""
     },
     "sections": [
       {
-        "id": "services",
+        "id": "fixture-section",
         "heading": {
-          "en": "What I do",
-          "es": "Qué hago"
-        },
-        "blocks": [
-          {
-            "type": "terms",
-            "items": [
-              {
-                "term": {
-                  "en": "Code and security audit",
-                  "es": "Auditoría de código y seguridad"
-                },
-                "description": {
-                  "en": "I read the codebase the way an attacker and a new maintainer would. You get a prioritized written report: what is broken, what is risky, what can wait, and the fixes in the order I would ship them.",
-                  "es": "Leo el código como lo haría un atacante y como lo haría un nuevo mantenedor. Recibes un informe escrito y priorizado: qué está roto, qué es riesgoso, qué puede esperar y los arreglos en el orden en que los entregaría."
-                }
-              },
-              {
-                "term": {
-                  "en": "CI/CD",
-                  "es": "CI/CD"
-                },
-                "description": {
-                  "en": "Tests, static analysis, secret scanning and dependency audits as gates, plus a release you can roll back in one step. At GoFeels I cut release time from 30+ minutes to about 7.",
-                  "es": "Pruebas, análisis estático, escaneo de secretos y auditorías de dependencias como filtros, más un lanzamiento que se revierte en un paso. En GoFeels reduje el tiempo de lanzamiento de más de 30 minutos a unos 7."
-                }
-              },
-              {
-                "term": {
-                  "en": "Deployment",
-                  "es": "Despliegue"
-                },
-                "description": {
-                  "en": "Docker on a VPS or a managed platform, with TLS, backups, health checks and monitoring. A deploy that a founder can run without me on the call.",
-                  "es": "Docker en un VPS o en una plataforma gestionada, con TLS, respaldos, verificaciones de estado y monitoreo. Un despliegue que un fundador puede ejecutar sin tenerme en la llamada."
-                }
-              },
-              {
-                "term": {
-                  "en": "Agentic workflows for teams",
-                  "es": "Flujos de trabajo con agentes para equipos"
-                },
-                "description": {
-                  "en": "Repository conventions, spec and ticket templates, parallel agent sessions and review gates, with permission limits and budgets. The goal is a method your developers trust, not a pile of prompts.",
-                  "es": "Convenciones de repositorio, plantillas de especificación y de tickets, sesiones de agentes en paralelo y controles de revisión, con límites de permisos y presupuesto. El objetivo es un método en el que tus desarrolladores confíen, no un montón de prompts."
-                }
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "id": "engagement",
-        "heading": {
-          "en": "How an engagement runs",
-          "es": "Cómo funciona un proyecto"
-        },
-        "blocks": [
-          {
-            "type": "steps",
-            "items": [
-              {
-                "term": {
-                  "en": "Diagnostic",
-                  "es": "Diagnóstico"
-                },
-                "description": {
-                  "en": "A short call and a look at the repository. I tell you what I would fix first, even if we do not end up working together.",
-                  "es": "Una llamada breve y una mirada al repositorio. Te digo qué arreglaría primero, incluso si al final no trabajamos juntos."
-                }
-              },
-              {
-                "term": {
-                  "en": "Written scope",
-                  "es": "Alcance escrito"
-                },
-                "description": {
-                  "en": "A short spec with the work cut into tickets, an order and acceptance criteria. We agree on the outcome before the clock starts.",
-                  "es": "Una especificación breve con el trabajo dividido en tickets, un orden y criterios de aceptación. Acordamos el resultado antes de que empiece el reloj."
-                }
-              },
-              {
-                "term": {
-                  "en": "Build in your repo",
-                  "es": "Construcción en tu repositorio"
-                },
-                "description": {
-                  "en": "The work happens in your repository and your accounts, in short merge requests you can review. You see progress every week, not at the end.",
-                  "es": "El trabajo ocurre en tu repositorio y tus cuentas, en merge requests cortos que puedes revisar. Ves avances cada semana, no al final."
-                }
-              },
-              {
-                "term": {
-                  "en": "Handoff",
-                  "es": "Entrega"
-                },
-                "description": {
-                  "en": "Runbooks, ADRs and conventions stay in the repository. Your team can run and extend what I built.",
-                  "es": "Los runbooks, los ADRs y las convenciones se quedan en el repositorio. Tu equipo puede operar y extender lo que construí."
-                }
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "id": "recent-work",
-        "heading": {
-          "en": "Recent work",
-          "es": "Trabajo reciente"
-        },
-        "blocks": [
-          {
-            "type": "list",
-            "items": [
-              {
-                "en": "Rescued an education ERP a client had built with AI: recovered the production database, moved browser-only state into real persistence and shipped payroll features to production.",
-                "es": "Rescaté un ERP educativo que un cliente había construido con IA: recuperé la base de datos de producción, llevé a persistencia real el estado que solo existía en el navegador e implementé funciones de nómina en producción."
-              },
-              {
-                "en": "Shipped a courses platform end to end: Next.js, PostgreSQL, Docker on a VPS, Stripe, PDF certificates and invoicing export.",
-                "es": "Entregué de punta a punta una plataforma de cursos: Next.js, PostgreSQL, Docker en un VPS, Stripe, certificados en PDF y exportación de facturas."
-              },
-              {
-                "en": "Rebuilt the CI/CD pipeline and added an end-to-end release gate on a hotel PMS; release time went from 30+ minutes to about 7.",
-                "es": "Reconstruí el pipeline de CI/CD y agregué una suite de punta a punta como filtro de lanzamiento en un PMS hotelero; el tiempo de lanzamiento pasó de más de 30 minutos a unos 7."
-              },
-              {
-                "en": "Ran a proactive security hardening program on the same product: 2FA, CSP, cookie sessions, secret scanning and PCI redaction of stored card data.",
-                "es": "Ejecuté un programa proactivo de endurecimiento de la seguridad en el mismo producto: 2FA, CSP, sesiones con cookies, escaneo de secretos y enmascaramiento de datos de tarjetas almacenados conforme a PCI."
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "id": "fit",
-        "heading": {
-          "en": "Who this fits",
-          "es": "Para quién es"
-        },
-        "blocks": [
-          {
-            "type": "list",
-            "items": [
-              {
-                "en": "Founders whose app was built with AI and now needs to survive real traffic, real payments and real releases.",
-                "es": "Fundadores cuya app se construyó con IA y ahora necesita sobrevivir tráfico real, pagos reales y lanzamientos reales."
-              },
-              {
-                "en": "Small teams whose releases are manual, slow or frightening.",
-                "es": "Equipos pequeños cuyos lanzamientos son manuales, lentos o dan miedo."
-              },
-              {
-                "en": "Teams adopting agents who want review, guardrails and a definition of done before the volume arrives.",
-                "es": "Equipos que adoptan agentes y quieren revisión, límites y una definición de terminado antes de que llegue el volumen."
-              },
-              {
-                "en": "Spanish- or English-speaking teams. I work in both.",
-                "es": "Equipos que hablan español o inglés. Trabajo en ambos."
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "id": "availability",
-        "heading": {
-          "en": "Availability",
-          "es": "Disponibilidad"
+          "en": "Fixture section.",
+          "es": "Sección de prueba."
         },
         "blocks": [
           {
             "type": "paragraph",
             "text": {
-              "en": "About 20–30 hours a week, remote from Venezuela (GMT-4). That overlaps US Eastern and Central time for most of the working day, and my morning catches the end of the European day.",
-              "es": "Unas 20–30 horas por semana, en remoto desde Venezuela (GMT-4). Eso se solapa con las zonas horarias del este y del centro de EE. UU. durante buena parte de la jornada, y mi mañana alcanza el final del día europeo."
-            }
-          }
-        ]
-      },
-      {
-        "id": "rates",
-        "heading": {
-          "en": "Rates",
-          "es": "Tarifas"
-        },
-        "blocks": [
-          {
-            "type": "paragraph",
-            "text": {
-              "en": "We do not start with a price list. A two-week audit and a months-long rescue are different shapes of work, so we agree on the scope first and then on the number. Email me with what you are building and what is stuck.",
-              "es": "No empezamos con una lista de precios. Una auditoría de dos semanas y un rescate de varios meses tienen formas distintas, así que primero acordamos el alcance y después el número. Escríbeme contando qué estás construyendo y qué está atascado."
-            }
-          },
-          {
-            "type": "action",
-            "label": {
-              "en": "Email me about a project",
-              "es": "Escríbeme sobre un proyecto"
+              "en": "Fixture paragraph.",
+              "es": "Párrafo de prueba."
             }
           }
         ]
@@ -429,104 +65,31 @@
   },
   "contact": {
     "kicker": {
-      "en": "Contact",
-      "es": "Contacto"
+      "en": "Fixture contact kicker.",
+      "es": "Kicker de prueba contact."
     },
     "title": {
-      "en": "Contact",
-      "es": "Contacto"
+      "en": "Fixture contact.",
+      "es": "Página de prueba contact."
     },
     "intro": {
-      "en": "The fastest way to reach me is email. I read every message and answer in English or Spanish. There is no form here on purpose.",
-      "es": "La forma más rápida de llegar a mí es el correo. Leo todos los mensajes y respondo en español o en inglés. Aquí no hay formulario a propósito."
+      "en": "Fixture contact intro.",
+      "es": "Introducción de prueba contact."
     },
     "sections": [
       {
-        "id": "direct",
+        "id": "fixture-section",
         "heading": {
-          "en": "Direct",
-          "es": "Directo"
+          "en": "Fixture section.",
+          "es": "Sección de prueba."
         },
         "blocks": [
           {
             "type": "paragraph",
             "text": {
-              "en": "Pick whichever channel fits:",
-              "es": "Elige el canal que te sirva:"
+              "en": "Fixture paragraph.",
+              "es": "Párrafo de prueba."
             }
-          },
-          {
-            "type": "contact"
-          }
-        ]
-      },
-      {
-        "id": "what-to-send",
-        "heading": {
-          "en": "What to send",
-          "es": "Qué contar"
-        },
-        "blocks": [
-          {
-            "type": "list",
-            "items": [
-              {
-                "en": "What you are building, or the role you are hiring for.",
-                "es": "Qué estás construyendo o para qué puesto estás contratando."
-              },
-              {
-                "en": "What is stuck, and what you have already tried.",
-                "es": "Qué está atascado y qué has probado ya."
-              },
-              {
-                "en": "Your stack and your timeline.",
-                "es": "Tu stack y tus plazos."
-              },
-              {
-                "en": "Your time zone, if the overlap matters.",
-                "es": "Tu zona horaria, si el solapamiento importa."
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "id": "recruiters",
-        "heading": {
-          "en": "For recruiters",
-          "es": "Para reclutadores"
-        },
-        "blocks": [
-          {
-            "type": "paragraph",
-            "text": {
-              "en": "The Full-Stack + AI CV is on the home page in English and Spanish. Tell me which role you are hiring for and I will send the variant that fits.",
-              "es": "El CV Full-Stack + AI está en la página de inicio en inglés y en español. Dime para qué puesto estás contratando y te envío la variante que encaje."
-            }
-          }
-        ]
-      },
-      {
-        "id": "freelance",
-        "heading": {
-          "en": "Freelance work",
-          "es": "Trabajo freelance"
-        },
-        "blocks": [
-          {
-            "type": "paragraph",
-            "text": {
-              "en": "For audits, CI/CD, deployment or agentic workflows, the details and availability are on the Work with me page.",
-              "es": "Para auditorías, CI/CD, despliegue o flujos de trabajo con agentes, los detalles y la disponibilidad están en la página Trabajemos juntos."
-            }
-          },
-          {
-            "type": "pageLink",
-            "label": {
-              "en": "Work with me",
-              "es": "Trabajemos juntos"
-            },
-            "page": "work-with-me"
           }
         ]
       }
