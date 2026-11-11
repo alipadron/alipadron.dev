@@ -12,21 +12,160 @@
         "es": "GoFeels"
       },
       "title": {
-        "en": "Senior Full-Stack Engineer",
-        "es": "Ingeniero Full-Stack Senior"
+        "en": "Senior Full-Stack Engineer / Tech Lead",
+        "es": "Ingeniero Full-Stack Senior / Tech Lead"
       },
       "startDate": "2020",
       "endDate": null,
       "locationModel": "remote",
-      "stack": ["AngularJS", "Laravel"],
+      "stack": [
+        "AngularJS",
+        "Angular",
+        "Laravel",
+        "MySQL",
+        "Redis",
+        "Docker",
+        "GitLab CI"
+      ],
       "variants": ["fullstack-ai", "tech-lead", "freelance"],
       "bullets": [
         {
-          "id": "gofeels-production-software",
-          "order": 1,
+          "id": "gofeels-pms-delivery",
+          "order": 100,
           "text": {
-            "en": "Built and maintained production web applications used by hotels.",
-            "es": "Construyó y mantuvo aplicaciones web en producción usadas por hoteles."
+            "en": "Lead full-stack delivery of a hotel PMS built with AngularJS and Laravel that +150 hotels with +2,000 rooms use for reservations, payments and daily operations.",
+            "es": "Lidera el desarrollo full-stack de un PMS hotelero construido con AngularJS y Laravel que +150 hoteles con +2,000 habitaciones usan para reservas, pagos y operación diaria."
+          }
+        },
+        {
+          "id": "gofeels-reservation-growth",
+          "order": 200,
+          "text": {
+            "en": "Scaled the same platform to +750k room reservations and ~13× growth in yearly reservations from 2020 to 2025.",
+            "es": "Escaló la misma plataforma a +750k reservas de habitación y un crecimiento de ~13× en reservas anuales entre 2020 y 2025."
+          }
+        },
+        {
+          "id": "gofeels-ota-channel-manager",
+          "order": 300,
+          "variants": ["fullstack-ai", "tech-lead"],
+          "text": {
+            "en": "Diagnosed overbookings to stale availability in the outbound OTA sync, then rebuilt the channel manager to keep availability and rates in continuous sync with Booking.com, Expedia and Roombeast.",
+            "es": "Diagnosticó que los sobrecupos venían de disponibilidad desactualizada en la sincronización saliente con OTAs, y reconstruyó el channel manager para mantener disponibilidad y tarifas en sincronización continua con Booking.com, Expedia y Roombeast."
+          }
+        },
+        {
+          "id": "gofeels-subscription-billing",
+          "order": 400,
+          "variants": ["fullstack-ai", "tech-lead"],
+          "text": {
+            "en": "Rewrote subscription billing: plans and prices as data, feature gating across plan tiers, add-ons with monthly quotas, and usage metering.",
+            "es": "Reescribió la facturación por suscripción: planes y precios como datos, control de funciones por plan, add-ons con cuotas mensuales y medición de uso."
+          }
+        },
+        {
+          "id": "gofeels-discount-campaigns",
+          "order": 500,
+          "variants": ["fullstack-ai", "tech-lead"],
+          "text": {
+            "en": "Shipped a discount campaigns engine on a polymorphic coupon model, replacing legacy per-module implementations and migrating existing coupons.",
+            "es": "Entregó un motor de campañas de descuento sobre un modelo de cupones polimórfico, reemplazando implementaciones heredadas por módulo y migrando los cupones existentes."
+          }
+        },
+        {
+          "id": "gofeels-einvoicing",
+          "order": 600,
+          "variants": ["fullstack-ai", "tech-lead"],
+          "text": {
+            "en": "Built Chilean e-invoicing (SII DTE) end to end: credit notes, async status with retries, re-issuance and invoicing as a paid add-on.",
+            "es": "Construyó la facturación electrónica chilena (SII DTE) de punta a punta: notas de crédito, estado asíncrono con reintentos, reemisión y facturación como add-on de pago."
+          }
+        },
+        {
+          "id": "gofeels-whatsapp-sales-agent",
+          "order": 700,
+          "variants": ["fullstack-ai", "tech-lead"],
+          "text": {
+            "en": "Built a WhatsApp sales agent that turns hotel conversations into quotes, backed by its own API and web back office.",
+            "es": "Construyó un agente de ventas por WhatsApp que convierte conversaciones con hoteles en cotizaciones, con su propia API y back office web."
+          }
+        },
+        {
+          "id": "gofeels-caja-los-heroes",
+          "order": 800,
+          "variants": ["fullstack-ai", "tech-lead"],
+          "text": {
+            "en": "Integrated Caja Los Héroes: campaigns, RUT-based segments with per-night quotas and agreement billing.",
+            "es": "Integró Caja Los Héroes: campañas, segmentos por RUT con cupos por noche y facturación por convenio."
+          }
+        },
+        {
+          "id": "gofeels-angularjs-exit-plan",
+          "order": 900,
+          "variants": ["fullstack-ai", "tech-lead"],
+          "text": {
+            "en": "Plan the AngularJS exit for the PMS frontend (still on AngularJS today) with a phased migration path and a Tailwind and DaisyUI design foundation.",
+            "es": "Planifica la salida de AngularJS del frontend del PMS (hoy todavía en AngularJS) con una ruta de migración por fases y una base de diseño con Tailwind y DaisyUI."
+          }
+        },
+        {
+          "id": "gofeels-release-time",
+          "order": 1000,
+          "orderByVariant": {
+            "tech-lead": 30,
+            "freelance": 20
+          },
+          "text": {
+            "en": "Cut release time from 30+ minutes to about 7 minutes by rebuilding the CI/CD pipeline around Docker and adding an end-to-end suite as a release gate.",
+            "es": "Redujo el tiempo de release de más de 30 minutos a unos 7 minutos reconstruyendo el pipeline de CI/CD sobre Docker y agregando una suite end-to-end como puerta de release."
+          }
+        },
+        {
+          "id": "gofeels-shared-ci",
+          "order": 1100,
+          "orderByVariant": {
+            "tech-lead": 40,
+            "freelance": 10
+          },
+          "text": {
+            "en": "Extracted shared CI components across the product's repositories (linting, static analysis, secret scanning, dependency audits) and added an AI code-review gate to merge requests.",
+            "es": "Extrajo componentes de CI compartidos en los repositorios del producto (linting, análisis estático, escaneo de secretos y auditorías de dependencias) y agregó una revisión de código con IA como puerta en los merge requests."
+          }
+        },
+        {
+          "id": "gofeels-security-hardening",
+          "order": 1200,
+          "orderByVariant": {
+            "tech-lead": 10,
+            "freelance": 30
+          },
+          "text": {
+            "en": "Ran a proactive security hardening program: 2FA, CSP, cookie-based sessions, secret scanning and rotation, and PCI redaction of stored card data; critical/high dependency vulnerabilities in the PMS frontend went from 2/44 to 0/1.",
+            "es": "Ejecutó un programa proactivo de endurecimiento de seguridad: 2FA, CSP, sesiones con cookies, escaneo y rotación de secretos y redacción de datos de tarjetas almacenados según PCI; las vulnerabilidades críticas/altas de dependencias en el frontend del PMS pasaron de 2/44 a 0/1."
+          }
+        },
+        {
+          "id": "gofeels-production-ownership",
+          "order": 1300,
+          "orderByVariant": {
+            "tech-lead": 20,
+            "freelance": 40
+          },
+          "text": {
+            "en": "Own releases and production: versioned releases with one-step rollback, production migrations and the self-hosted GitLab that runs the pipeline.",
+            "es": "Es dueño de los releases y la producción: releases versionados con rollback en un paso, migraciones en producción y el GitLab autoalojado que ejecuta el pipeline."
+          }
+        },
+        {
+          "id": "gofeels-tech-lead",
+          "order": 1400,
+          "orderByVariant": {
+            "tech-lead": 50,
+            "freelance": 50
+          },
+          "text": {
+            "en": "Act as technical lead: co-design with product, review merge requests, mentor developers and set the team's AI-assisted workflow from spec to tickets, implementation and review.",
+            "es": "Ejerce como líder técnico: co-diseña con producto, revisa merge requests, mentoriza desarrolladores y define el flujo asistido por IA del equipo, de la especificación a los tickets, la implementación y la revisión."
           }
         }
       ]

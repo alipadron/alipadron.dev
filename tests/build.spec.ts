@@ -30,16 +30,22 @@ type CvVariant = (typeof CV_VARIANTS)[number];
 const EXPECTED = {
   company: 'GoFeels',
   en: {
-    title: 'Senior Full-Stack Engineer',
-    bullet: 'Built and maintained production web applications used by hotels.',
+    title: 'Senior Full-Stack Engineer / Tech Lead',
+    bullet:
+      'Lead full-stack delivery of a hotel PMS built with AngularJS and Laravel that +150 hotels with +2,000 rooms use for reservations, payments and daily operations.',
+    releaseBullet: 'Cut release time from 30+ minutes to about 7 minutes',
+    growthBullet: 'Scaled the same platform to +750k room reservations',
     experienceHeading: 'Experience',
     present: 'Present',
     location: 'Remote',
     homeLink: 'Read the experience',
   },
   es: {
-    title: 'Ingeniero Full-Stack Senior',
-    bullet: 'Construyó y mantuvo aplicaciones web en producción usadas por hoteles.',
+    title: 'Ingeniero Full-Stack Senior / Tech Lead',
+    bullet:
+      'Lidera el desarrollo full-stack de un PMS hotelero construido con AngularJS y Laravel que +150 hoteles con +2,000 habitaciones usan para reservas, pagos y operación diaria.',
+    releaseBullet: 'Redujo el tiempo de release de más de 30 minutos a unos 7 minutos',
+    growthBullet: 'Escaló la misma plataforma a +750k reservas de habitación',
     experienceHeading: 'Experiencia',
     present: 'Actualidad',
     location: 'Remoto',
@@ -158,6 +164,8 @@ describe('build-level outputs', () => {
     expect(html).toContain(EXPECTED.company);
     expect(html).toContain(EXPECTED.en.title);
     expect(html).toContain(EXPECTED.en.bullet);
+    expect(html).toContain(EXPECTED.en.growthBullet);
+    expect(html).toContain(EXPECTED.en.releaseBullet);
     expect(html).toContain(EXPECTED.en.experienceHeading);
     expect(html).toContain(EXPECTED.en.present);
   });
@@ -169,6 +177,8 @@ describe('build-level outputs', () => {
     expect(html).toContain(EXPECTED.company);
     expect(html).toContain(EXPECTED.es.title);
     expect(html).toContain(EXPECTED.es.bullet);
+    expect(html).toContain(EXPECTED.es.growthBullet);
+    expect(html).toContain(EXPECTED.es.releaseBullet);
     expect(html).toContain(EXPECTED.es.experienceHeading);
     expect(html).toContain(EXPECTED.es.present);
     expect(html).toContain('Remoto');
@@ -216,6 +226,7 @@ describe('build-level outputs', () => {
       expect(text, variant).toContain(EXPECTED.company);
       expect(text, variant).toContain(EXPECTED.en.title);
       expect(text, variant).toContain(EXPECTED.en.bullet);
+      expect(text, variant).toContain(EXPECTED.en.releaseBullet);
     }
   });
 
@@ -225,6 +236,7 @@ describe('build-level outputs', () => {
     expect(text).toContain(EXPECTED.company);
     expect(text).toContain(EXPECTED.en.title);
     expect(text).toContain(EXPECTED.en.bullet);
+    expect(text).toContain(EXPECTED.en.growthBullet);
     expect(text).toContain(EXPECTED.en.experienceHeading);
     expect(text).toContain(EXPECTED.en.present);
     expect(text).toContain(EXPECTED.en.location);
@@ -236,6 +248,7 @@ describe('build-level outputs', () => {
     expect(text).toContain(EXPECTED.company);
     expect(text).toContain(EXPECTED.es.title);
     expect(text).toContain(EXPECTED.es.bullet);
+    expect(text).toContain(EXPECTED.es.growthBullet);
     expect(text).toContain(EXPECTED.es.experienceHeading);
     expect(text).toContain(EXPECTED.es.present);
     expect(text).toContain(EXPECTED.es.location);
