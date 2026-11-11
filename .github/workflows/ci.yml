@@ -23,9 +23,10 @@ jobs:
           key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
 
       - name: Install Chromium for PDF generation
-        # --with-deps needs apt; when the runner's mirror is unreachable we still
-        # want the browser, and ubuntu-latest already carries most of its libraries.
-        run: npx playwright install --with-deps chromium || npx playwright install chromium
+        # No --with-deps: it runs apt, and the runner's Ubuntu mirror keeps timing
+        # out on DNS (ten minutes per job). ubuntu-latest already carries the
+        # libraries Chromium needs; the browser itself comes from the cache above.
+        run: npx playwright install chromium
 
       - run: npm run typecheck
 
