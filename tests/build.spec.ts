@@ -125,12 +125,106 @@ const MASTER_CONTENT = {
   ],
 };
 
+/**
+ * The long-form pages. Each one is asserted through the text a reader sees, so
+ * the test does not care how the page is composed.
+ */
+const DOCUMENT_PAGES = {
+  en: {
+    howIWork: {
+      kicker: 'Method',
+      title: 'How I work',
+      intro: 'I build with AI agents as part of the method',
+      sections: ['The loop', 'What I delegate', 'What I keep', 'Where it breaks'],
+      stages: ['Grilling', 'Spec', 'Tickets', 'Parallel agents', 'Review gates'],
+    },
+    workWithMe: {
+      kicker: 'Freelance',
+      title: 'Work with me',
+      intro: 'I take AI-built apps to production',
+      sections: [
+        'What I do',
+        'How an engagement runs',
+        'Recent work',
+        'Availability',
+        'Rates',
+      ],
+      services: [
+        'Code and security audit',
+        'CI/CD',
+        'Deployment',
+        'Agentic workflows for teams',
+      ],
+      availability: '20–30 hours a week',
+      cta: 'Email me about a project',
+    },
+    contact: {
+      kicker: 'Contact',
+      title: 'Contact',
+      intro: 'The fastest way to reach me is email',
+      sections: ['Direct', 'What to send', 'For recruiters', 'Freelance work'],
+    },
+  },
+  es: {
+    howIWork: {
+      kicker: 'Método',
+      title: 'Cómo trabajo',
+      intro: 'Construyo con agentes de IA como parte del método',
+      sections: [
+        'El ciclo',
+        'Qué delego',
+        'Qué me quedo',
+        'Dónde se rompe',
+      ],
+      stages: [
+        'Interrogatorio',
+        'Especificación',
+        'Tickets',
+        'Agentes en paralelo',
+        'Controles de revisión',
+      ],
+    },
+    workWithMe: {
+      kicker: 'Freelance',
+      title: 'Trabajemos juntos',
+      intro: 'Llevo a producción aplicaciones construidas con IA',
+      sections: [
+        'Qué hago',
+        'Cómo funciona un proyecto',
+        'Trabajo reciente',
+        'Disponibilidad',
+        'Tarifas',
+      ],
+      services: [
+        'Auditoría de código y seguridad',
+        'CI/CD',
+        'Despliegue',
+        'Flujos de trabajo con agentes para equipos',
+      ],
+      availability: '20–30 horas por semana',
+      cta: 'Escríbeme sobre un proyecto',
+    },
+    contact: {
+      kicker: 'Contacto',
+      title: 'Contacto',
+      intro: 'La forma más rápida de llegar a mí es el correo',
+      sections: ['Directo', 'Qué contar', 'Para reclutadores', 'Trabajo freelance'],
+    },
+  },
+} as const;
+
 /** Prerendered pages, copied out of `dist/` before the fixtures rebuild it. */
 const PAGES = [
   { source: 'index.html', artifact: 'home-en.html' },
   { source: 'es/index.html', artifact: 'home-es.html' },
   { source: 'experience/index.html', artifact: 'experience-en.html' },
   { source: 'es/experience/index.html', artifact: 'experience-es.html' },
+  { source: 'how-i-work/index.html', artifact: 'how-i-work-en.html' },
+  { source: 'es/how-i-work/index.html', artifact: 'how-i-work-es.html' },
+  { source: 'work-with-me/index.html', artifact: 'work-with-me-en.html' },
+  { source: 'es/work-with-me/index.html', artifact: 'work-with-me-es.html' },
+  { source: 'contact/index.html', artifact: 'contact-en.html' },
+  { source: 'es/contact/index.html', artifact: 'contact-es.html' },
 ];
 
 type NpmResult = ReturnType<typeof runNpmScript>;
@@ -164,6 +258,19 @@ function prerenderedFile(href: string): string {
   const relative = cleanPath.replace(/^\/|\/$/g, '');
 
   return path.join(PRERENDER_DIR, relative, 'index.html');
+}
+
+/** The links in the primary navigation, in the order a reader sees them. */
+function primaryNavHrefs(html: string): readonly string[] {
+  const nav = html.match(
+    /<nav[^>]*class="primary-nav"[^>]*>([\s\S]*?)<\/nav>/,
+  );
+
+  if (!nav) {
+    throw new Error('primary navigation not found in page');
+  }
+
+  return [...nav[1].matchAll(/href="([^"]+)"/g)].map((match) => match[1]);
 }
 
 function artifactPdfText(name: string): Promise<string> {
@@ -298,11 +405,146 @@ describe('build-level outputs', () => {
     expect(spanish).toContain('href="/cv/cv-es-fullstack-ai.pdf"');
   });
 
+  it('prerenders How I work in both languages', () => {
+    for (const [language, artifact] of [
+      ['en', 'how-i-work-en.html'],
+      ['es', 'how-i-work-es.html'],
+    ] as const) {
+      const html = readArtifact(artifact);
+      const expected = DOCUMENT_PAGES[language].howIWork;
+
+      expect(html).toContain(`<html lang="${language}">`);
+      expect(html).toContain(expected.kicker);
+      expect(html).toContain(expected.title);
+      expect(html).toContain(expected.intro);
+
+      for (const section of expected.sections) {
+        expect(html, section).toContain(section);
+      }
+
+      for (const stage of expected.stages) {
+        expect(html, stage).toContain(stage);
+      }
+    }
+  });
+
+  it('prerenders Work with me in both languages', () => {
+    for (const [language, artifact] of [
+      ['en', 'work-with-me-en.html'],
+      ['es', 'work-with-me-es.html'],
+    ] as const) {
+      const html = readArtifact(artifact);
+      const expected = DOCUMENT_PAGES[language].workWithMe;
+
+      expect(html).toContain(`<html lang="${language}">`);
+      expect(html).toContain(expected.kicker);
+      expect(html).toContain(expected.title);
+      expect(html).toContain(expected.intro);
+      expect(html).toContain(expected.availability);
+      expect(html).toContain(expected.cta);
+      expect(html).toContain(`mailto:hola@alipadron.dev`);
+
+      for (const section of expected.sections) {
+        expect(html, section).toContain(section);
+      }
+
+      for (const service of expected.services) {
+        expect(html, service).toContain(service);
+      }
+    }
+  });
+
+  it('prerenders Contact in both languages with only the three channels', () => {
+    for (const [language, artifact] of [
+      ['en', 'contact-en.html'],
+      ['es', 'contact-es.html'],
+    ] as const) {
+      const html = readArtifact(artifact);
+      const expected = DOCUMENT_PAGES[language].contact;
+
+      expect(html).toContain(`<html lang="${language}">`);
+      expect(html).toContain(expected.kicker);
+      expect(html).toContain(expected.title);
+      expect(html).toContain(expected.intro);
+
+      for (const section of expected.sections) {
+        expect(html, section).toContain(section);
+      }
+
+      expect(html).toContain('mailto:hola@alipadron.dev');
+      expect(html).toContain('linkedin.com/in/alipadron');
+      expect(html).toContain('github.com/alipadron');
+      expect(html).not.toMatch(/<form/i);
+      expect(html).not.toMatch(/href="tel:/);
+    }
+  });
+
+  it('links the three new pages from the primary navigation in both languages', () => {
+    for (const [artifact, expected] of [
+      [
+        'home-en.html',
+        [
+          '/',
+          '/experience',
+          '/how-i-work',
+          '/work-with-me',
+          '/contact',
+        ],
+      ],
+      [
+        'home-es.html',
+        [
+          '/es',
+          '/es/experience',
+          '/es/how-i-work',
+          '/es/work-with-me',
+          '/es/contact',
+        ],
+      ],
+    ] as const) {
+      expect(primaryNavHrefs(readArtifact(artifact))).toEqual(expected);
+    }
+  });
+
+  it.each([
+    { page: 'how-i-work-en.html', expectedHref: '/how-i-work' },
+    { page: 'how-i-work-es.html', expectedHref: '/es/how-i-work' },
+    { page: 'work-with-me-en.html', expectedHref: '/work-with-me' },
+    { page: 'work-with-me-es.html', expectedHref: '/es/work-with-me' },
+    { page: 'contact-en.html', expectedHref: '/contact' },
+    { page: 'contact-es.html', expectedHref: '/es/contact' },
+  ])(
+    'marks $expectedHref as the current page in the primary navigation on $page',
+    ({ page, expectedHref }) => {
+      const current = readArtifact(page).match(
+        /<a[^>]*aria-current="page"[^>]*href="([^"]+)"/,
+      );
+
+      expect(current?.[1]).toBe(expectedHref);
+    },
+  );
+
+  it('every primary navigation link resolves to a prerendered page', () => {
+    for (const { artifact } of PAGES) {
+      for (const href of primaryNavHrefs(readArtifact(artifact))) {
+        expect(existsSync(prerenderedFile(href)), `${artifact} -> ${href}`).toBe(
+          true,
+        );
+      }
+    }
+  });
+
   it.each([
     { page: 'home-en.html', expectedHref: '/es' },
     { page: 'home-es.html', expectedHref: '/' },
     { page: 'experience-en.html', expectedHref: '/es/experience' },
     { page: 'experience-es.html', expectedHref: '/experience' },
+    { page: 'how-i-work-en.html', expectedHref: '/es/how-i-work' },
+    { page: 'how-i-work-es.html', expectedHref: '/how-i-work' },
+    { page: 'work-with-me-en.html', expectedHref: '/es/work-with-me' },
+    { page: 'work-with-me-es.html', expectedHref: '/work-with-me' },
+    { page: 'contact-en.html', expectedHref: '/es/contact' },
+    { page: 'contact-es.html', expectedHref: '/contact' },
   ])(
     'the language switcher on $page links to the equivalent page ($expectedHref)',
     ({ page, expectedHref }) => {
@@ -442,6 +684,12 @@ describe('build-level outputs', () => {
       fixture: 'invalid-ui-translation',
       expectedFile: 'ui.json',
       expectedDetails: ['home.experienceLink.es'],
+      expectedMessage: 'missing Spanish translation',
+    },
+    {
+      fixture: 'invalid-pages-translation',
+      expectedFile: 'pages.json',
+      expectedDetails: ['work-with-me.intro.es'],
       expectedMessage: 'missing Spanish translation',
     },
     {

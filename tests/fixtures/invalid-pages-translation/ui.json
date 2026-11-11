@@ -1,0 +1,106 @@
+{
+  "siteName": {
+    "en": "Alí Padrón",
+    "es": "Alí Padrón"
+  },
+  "nav": {
+    "label": {
+      "en": "Primary",
+      "es": "Principal"
+    },
+    "home": {
+      "en": "Home",
+      "es": "Inicio"
+    },
+    "howIWork": {
+      "en": "How I work",
+      "es": "Cómo trabajo"
+    },
+    "workWithMe": {
+      "en": "Work with me",
+      "es": "Trabajemos juntos"
+    },
+    "contact": {
+      "en": "Contact",
+      "es": "Contacto"
+    }
+  },
+  "home": {
+    "heading": {
+      "en": "Alí Padrón",
+      "es": "Alí Padrón"
+    },
+    "kicker": {
+      "en": "Full-Stack + AI",
+      "es": "Full-Stack + AI"
+    },
+    "experienceLink": {
+      "en": "Read the experience",
+      "es": "Leer la experiencia"
+    },
+    "workWithMe": {
+      "en": "Work with me",
+      "es": "Trabajemos juntos"
+    },
+    "metricsHeading": {
+      "en": "By the numbers",
+      "es": "En cifras"
+    },
+    "readOn": {
+      "en": "Read on",
+      "es": "Seguir leyendo"
+    },
+    "photoPlaceholder": {
+      "en": "Photo",
+      "es": "Foto"
+    },
+    "photoAlt": {
+      "en": "Photo of Alí Padrón, coming later",
+      "es": "Foto de Alí Padrón, próximamente"
+    },
+    "photoCaption": {
+      "en": "Portrait to come.",
+      "es": "Retrato próximamente."
+    }
+  },
+  "experience": {
+    "heading": {
+      "en": "Experience",
+      "es": "Experiencia"
+    },
+    "kicker": {
+      "en": "Full-Stack + AI",
+      "es": "Full-Stack + AI"
+    },
+    "stackLabel": {
+      "en": "Stack",
+      "es": "Stack"
+    }
+  },
+  "projects": {
+    "heading": {
+      "en": "Projects",
+      "es": "Proyectos"
+    }
+  },
+  "languageSwitcher": {
+    "label": {
+      "en": "Choose language",
+      "es": "Elegir idioma"
+    },
+    "switchTo": {
+      "en": "Switch to",
+      "es": "Cambiar a"
+    }
+  },
+  "cv": {
+    "variantName": {
+      "en": "Full-Stack + AI",
+      "es": "Full-Stack + AI"
+    },
+    "download": {
+      "en": "Download the CV (PDF)",
+      "es": "Descargar el CV (PDF)"
+    }
+  }
+}

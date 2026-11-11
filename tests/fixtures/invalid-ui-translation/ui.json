@@ -11,6 +11,18 @@
     "home": {
       "en": "Home",
       "es": "Inicio"
+    },
+    "howIWork": {
+      "en": "How I work",
+      "es": "Cómo trabajo"
+    },
+    "workWithMe": {
+      "en": "Work with me",
+      "es": "Trabajemos juntos"
+    },
+    "contact": {
+      "en": "Contact",
+      "es": "Contacto"
     }
   },
   "home": {

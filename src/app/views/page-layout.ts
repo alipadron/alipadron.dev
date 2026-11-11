@@ -34,6 +34,21 @@ import { LanguageSwitcher } from '../components/language-switcher';
               [attr.aria-current]="isExperience() ? 'page' : null"
               >{{ ui.experience.heading[language()] }}</a
             >
+            <a
+              [routerLink]="pathFor('/how-i-work')"
+              [attr.aria-current]="current('/how-i-work')"
+              >{{ ui.nav.howIWork[language()] }}</a
+            >
+            <a
+              [routerLink]="pathFor('/work-with-me')"
+              [attr.aria-current]="current('/work-with-me')"
+              >{{ ui.nav.workWithMe[language()] }}</a
+            >
+            <a
+              [routerLink]="pathFor('/contact')"
+              [attr.aria-current]="current('/contact')"
+              >{{ ui.nav.contact[language()] }}</a
+            >
           </nav>
           <app-language-switcher [path]="path()" [language]="language()" />
         </div>
@@ -70,6 +85,16 @@ export class PageLayout implements OnInit {
   );
 
   readonly #document = inject(DOCUMENT);
+
+  /** The path of a page in the language this layout is rendering. */
+  protected pathFor(path: SitePath): string {
+    return localizedPath(path, this.language());
+  }
+
+  /** `aria-current` for the page that is being rendered, `null` otherwise. */
+  protected current(path: SitePath): 'page' | null {
+    return this.path() === path ? 'page' : null;
+  }
 
   ngOnInit(): void {
     this.#document.documentElement.lang = this.language();
