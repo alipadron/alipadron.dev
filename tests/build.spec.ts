@@ -225,7 +225,170 @@ const PAGES = [
   { source: 'es/work-with-me/index.html', artifact: 'work-with-me-es.html' },
   { source: 'contact/index.html', artifact: 'contact-en.html' },
   { source: 'es/contact/index.html', artifact: 'contact-es.html' },
+  { source: 'case-studies/index.html', artifact: 'case-studies-en.html' },
+  { source: 'es/case-studies/index.html', artifact: 'case-studies-es.html' },
+  {
+    source: 'case-studies/gofeels/index.html',
+    artifact: 'gofeels-en.html',
+  },
+  {
+    source: 'es/case-studies/gofeels/index.html',
+    artifact: 'gofeels-es.html',
+  },
+  {
+    source: 'case-studies/car-log/index.html',
+    artifact: 'car-log-en.html',
+  },
+  {
+    source: 'es/case-studies/car-log/index.html',
+    artifact: 'car-log-es.html',
+  },
+  {
+    source: 'case-studies/medication-manager/index.html',
+    artifact: 'medication-en.html',
+  },
+  {
+    source: 'es/case-studies/medication-manager/index.html',
+    artifact: 'medication-es.html',
+  },
 ];
+
+/**
+ * The case studies as a reader sees them. Kept as literals on purpose: these
+ * tests observe prerendered HTML and never import the content module.
+ */
+const CASE_STUDIES = {
+  en: {
+    index: 'case-studies-en.html',
+    intro: 'Three pieces of work',
+    read: 'Read the case study',
+    problem: 'Problem',
+    decisions: 'Decisions',
+    result: 'Result',
+    repository: 'Repository',
+    studies: [
+      {
+        page: 'gofeels-en.html',
+        title: 'A hotel PMS: overbookings, releases and hardening',
+        href: '/case-studies/gofeels',
+        snippets: [
+          'a later update could be processed before an earlier one',
+          'transactional outbox',
+          'stays in continuous sync',
+          '+150 hotels with +2,000 rooms',
+          '2/44 to 0/1',
+          'Client, hotel and channel names are withheld',
+        ],
+      },
+      {
+        page: 'car-log-en.html',
+        title: 'car-log: maintenance that works without a connection',
+        href: '/case-studies/car-log',
+        repository: 'https://github.com/alipadron/car-log',
+        snippets: [
+          'A tracker that cannot open',
+          'saved locally first and queued for sync',
+          'The source is public',
+        ],
+      },
+      {
+        page: 'medication-en.html',
+        title: 'medication-manager: schedules that survive a late dose',
+        href: '/case-studies/medication-manager',
+        repository: 'https://github.com/alipadron/medication-manager',
+        snippets: [
+          'An interval dose',
+          're-anchors on the dose actually taken',
+          'Web Push',
+          'MCP server',
+        ],
+      },
+    ],
+  },
+  es: {
+    index: 'case-studies-es.html',
+    intro: 'Tres trabajos',
+    read: 'Leer el caso de estudio',
+    problem: 'Problema',
+    decisions: 'Decisiones',
+    result: 'Resultado',
+    repository: 'Repositorio',
+    studies: [
+      {
+        page: 'gofeels-es.html',
+        title: 'Un PMS hotelero: sobreventas, releases y endurecimiento',
+        href: '/es/case-studies/gofeels',
+        snippets: [
+          'un envío podía fallar',
+          'outbox transaccional',
+          'sincronización continua',
+          '150 hoteles con más de 2.000 habitaciones',
+          'de 2/44 a 0/1',
+          'Los nombres de clientes, hoteles y canales se omiten',
+        ],
+      },
+      {
+        page: 'car-log-es.html',
+        title: 'car-log: mantenimiento que funciona sin conexión',
+        href: '/es/case-studies/car-log',
+        repository: 'https://github.com/alipadron/car-log',
+        snippets: [
+          'Una app que no abre',
+          'se guardan primero en local',
+          'El código es público',
+        ],
+      },
+      {
+        page: 'medication-es.html',
+        title: 'medication-manager: horarios que sobreviven a una dosis tardía',
+        href: '/es/case-studies/medication-manager',
+        repository: 'https://github.com/alipadron/medication-manager',
+        snippets: [
+          'Una dosis por intervalo',
+          'se reancla en la dosis realmente tomada',
+          'Web Push',
+          'servidor MCP',
+        ],
+      },
+    ],
+  },
+} as const;
+
+/**
+ * Names the GoFeels study must never expose: end customers, channels, payment
+ * providers and security vendors. The study is anonymized, so none of these
+ * can appear in either language.
+ */
+const FORBIDDEN_IN_GOFEELS = [
+  'Booking.com',
+  'Expedia',
+  'Roombeast',
+  'Despegar',
+  'Defontana',
+  'Transbank',
+  'Webpay',
+  'Stripe',
+  'PayPal',
+  'SonarQube',
+  'Datadog',
+  'SII',
+  'CVE',
+  'breach',
+  'incident',
+  'compromised',
+  'attack',
+  'brecha',
+  'incidente',
+  'comprometid',
+  'ataque',
+];
+
+/** The links an index page renders to its own language's studies. */
+function caseStudyLinks(html: string): string[] {
+  return [
+    ...html.matchAll(/href="((?:\/es)?\/case-studies\/[^"]+)"/g),
+  ].map((match) => match[1]);
+}
 
 type NpmResult = ReturnType<typeof runNpmScript>;
 
@@ -428,6 +591,20 @@ describe('build-level outputs', () => {
     }
   });
 
+  it('prerenders the case studies index in both languages', () => {
+    for (const expected of [CASE_STUDIES.en, CASE_STUDIES.es]) {
+      const html = readArtifact(expected.index);
+
+      expect(html).toContain(expected.intro);
+      expect(html).toContain(expected.read);
+
+      for (const study of expected.studies) {
+        expect(html, study.title).toContain(study.title);
+        expect(html, study.href).toContain(`href="${study.href}"`);
+      }
+    }
+  });
+
   it('prerenders Work with me in both languages', () => {
     for (const [language, artifact] of [
       ['en', 'work-with-me-en.html'],
@@ -450,6 +627,20 @@ describe('build-level outputs', () => {
 
       for (const service of expected.services) {
         expect(html, service).toContain(service);
+      }
+    }
+  });
+
+  it('links every index entry to a prerendered study in the same language', () => {
+    for (const expected of [CASE_STUDIES.en, CASE_STUDIES.es]) {
+      const links = caseStudyLinks(readArtifact(expected.index));
+
+      for (const study of expected.studies) {
+        expect(links, expected.index).toContain(study.href);
+        expect(
+          existsSync(prerenderedFile(study.href)),
+          `${expected.index} -> ${study.href}`,
+        ).toBe(true);
       }
     }
   });
@@ -479,13 +670,14 @@ describe('build-level outputs', () => {
     }
   });
 
-  it('links the three new pages from the primary navigation in both languages', () => {
+  it('links the new pages and case studies from the primary navigation in both languages', () => {
     for (const [artifact, expected] of [
       [
         'home-en.html',
         [
           '/',
           '/experience',
+          '/case-studies',
           '/how-i-work',
           '/work-with-me',
           '/contact',
@@ -496,6 +688,7 @@ describe('build-level outputs', () => {
         [
           '/es',
           '/es/experience',
+          '/es/case-studies',
           '/es/how-i-work',
           '/es/work-with-me',
           '/es/contact',
@@ -534,6 +727,61 @@ describe('build-level outputs', () => {
     }
   });
 
+  it('tells every case study as problem, decisions and result', () => {
+    for (const expected of [CASE_STUDIES.en, CASE_STUDIES.es]) {
+      for (const study of expected.studies) {
+        const html = readArtifact(study.page);
+
+        expect(html, study.page).toContain(study.title);
+
+        const headings = [
+          expected.problem,
+          expected.decisions,
+          expected.result,
+        ].map((heading) => html.indexOf(heading));
+
+        for (const [index, position] of headings.entries()) {
+          expect(position, `${study.page}: heading ${index}`).toBeGreaterThan(
+            -1,
+          );
+        }
+
+        expect(headings[0], study.page).toBeLessThan(headings[1]);
+        expect(headings[1], study.page).toBeLessThan(headings[2]);
+
+        for (const snippet of study.snippets) {
+          expect(html, `${study.page}: ${snippet}`).toContain(snippet);
+        }
+
+        if ('repository' in study) {
+          expect(html, study.page).toContain(expected.repository);
+          expect(html, study.page).toContain(`href="${study.repository}"`);
+        }
+      }
+    }
+  });
+
+  it('keeps end customers, channels and vendors out of the GoFeels study', () => {
+    for (const page of ['gofeels-en.html', 'gofeels-es.html']) {
+      const html = readArtifact(page);
+
+      for (const forbidden of FORBIDDEN_IN_GOFEELS) {
+        expect(html, `${page} leaks ${forbidden}`).not.toContain(forbidden);
+      }
+    }
+  });
+
+  it('reaches the case studies from the navigation on every page type', () => {
+    expect(readArtifact('home-en.html')).toContain('href="/case-studies"');
+    expect(readArtifact('home-es.html')).toContain('href="/es/case-studies"');
+    expect(readArtifact('experience-en.html')).toContain(
+      'href="/case-studies"',
+    );
+    expect(readArtifact('experience-es.html')).toContain(
+      'href="/es/case-studies"',
+    );
+  });
+
   it.each([
     { page: 'home-en.html', expectedHref: '/es' },
     { page: 'home-es.html', expectedHref: '/' },
@@ -545,6 +793,20 @@ describe('build-level outputs', () => {
     { page: 'work-with-me-es.html', expectedHref: '/work-with-me' },
     { page: 'contact-en.html', expectedHref: '/es/contact' },
     { page: 'contact-es.html', expectedHref: '/contact' },
+    { page: 'case-studies-en.html', expectedHref: '/es/case-studies' },
+    { page: 'case-studies-es.html', expectedHref: '/case-studies' },
+    { page: 'gofeels-en.html', expectedHref: '/es/case-studies/gofeels' },
+    { page: 'gofeels-es.html', expectedHref: '/case-studies/gofeels' },
+    { page: 'car-log-en.html', expectedHref: '/es/case-studies/car-log' },
+    { page: 'car-log-es.html', expectedHref: '/case-studies/car-log' },
+    {
+      page: 'medication-en.html',
+      expectedHref: '/es/case-studies/medication-manager',
+    },
+    {
+      page: 'medication-es.html',
+      expectedHref: '/case-studies/medication-manager',
+    },
   ])(
     'the language switcher on $page links to the equivalent page ($expectedHref)',
     ({ page, expectedHref }) => {
@@ -690,6 +952,12 @@ describe('build-level outputs', () => {
       fixture: 'invalid-pages-translation',
       expectedFile: 'pages.json',
       expectedDetails: ['work-with-me.intro.es'],
+      expectedMessage: 'missing Spanish translation',
+    },
+    {
+      fixture: 'invalid-case-study-translation',
+      expectedFile: 'case-studies.json',
+      expectedDetails: ['caseStudies.0.problem.paragraphs.0.es'],
       expectedMessage: 'missing Spanish translation',
     },
     {

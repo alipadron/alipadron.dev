@@ -4,7 +4,9 @@ import { defineConfig, type Plugin } from 'vite';
 import {
   loadCareer,
   loadPages,
+  loadCaseStudies,
   loadUi,
+  resolveCaseStudiesFile,
   resolveContentFile,
   resolvePagesFile,
   resolveUiFile,
@@ -17,6 +19,8 @@ const VIRTUAL_UI_ID = 'virtual:ui';
 const RESOLVED_VIRTUAL_UI_ID = '\0' + VIRTUAL_UI_ID;
 const VIRTUAL_PAGES_ID = 'virtual:pages';
 const RESOLVED_VIRTUAL_PAGES_ID = '\0' + VIRTUAL_PAGES_ID;
+const VIRTUAL_CASE_STUDIES_ID = 'virtual:case-studies';
+const RESOLVED_VIRTUAL_CASE_STUDIES_ID = '\0' + VIRTUAL_CASE_STUDIES_ID;
 
 /**
  * Loads, validates and inlines the career and UI content at build time. The
@@ -38,6 +42,10 @@ function contentPlugin(): Plugin {
 
       if (id === VIRTUAL_PAGES_ID) {
         return RESOLVED_VIRTUAL_PAGES_ID;
+      }
+
+      if (id === VIRTUAL_CASE_STUDIES_ID) {
+        return RESOLVED_VIRTUAL_CASE_STUDIES_ID;
       }
 
       return undefined;
@@ -65,6 +73,14 @@ function contentPlugin(): Plugin {
 
         const pages = loadPages(pagesFile);
         return `export const pages = ${JSON.stringify(pages)};`;
+      }
+
+      if (id === RESOLVED_VIRTUAL_CASE_STUDIES_ID) {
+        const caseStudiesFile = resolveCaseStudiesFile();
+        this.addWatchFile(caseStudiesFile);
+
+        const caseStudies = loadCaseStudies(caseStudiesFile);
+        return `export const caseStudies = ${JSON.stringify(caseStudies)};`;
       }
 
       return undefined;
