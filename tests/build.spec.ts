@@ -34,7 +34,10 @@ const EXPECTED = {
     bullet:
       'Lead full-stack delivery of a hotel PMS built with AngularJS and Laravel that +150 hotels with +2,000 rooms use for reservations, payments and daily operations.',
     releaseBullet: 'Cut release time from 30+ minutes to about 7 minutes',
-    growthBullet: 'Scaled the same platform to +750k room reservations',
+    growthBullet: 'Grew the platform to +750k room reservations in total',
+    paymentsBullet: 'tens of thousands of online payments a year',
+    securityBullet: 'proactive security hardening program',
+    sharedCiBullet: 'Extracted shared CI components',
     experienceHeading: 'Experience',
     present: 'Present',
     location: 'Remote',
@@ -45,7 +48,8 @@ const EXPECTED = {
     bullet:
       'Lidera el desarrollo full-stack de un PMS hotelero construido con AngularJS y Laravel que +150 hoteles con +2,000 habitaciones usan para reservas, pagos y operación diaria.',
     releaseBullet: 'Redujo el tiempo de release de más de 30 minutos a unos 7 minutos',
-    growthBullet: 'Escaló la misma plataforma a +750k reservas de habitación',
+    growthBullet: 'Escaló la plataforma a +750k reservas de habitación en total',
+    paymentsBullet: 'decenas de miles de pagos en línea al año',
     experienceHeading: 'Experiencia',
     present: 'Actualidad',
     location: 'Remoto',
@@ -166,6 +170,7 @@ describe('build-level outputs', () => {
     expect(html).toContain(EXPECTED.en.bullet);
     expect(html).toContain(EXPECTED.en.growthBullet);
     expect(html).toContain(EXPECTED.en.releaseBullet);
+    expect(html).toContain(EXPECTED.en.paymentsBullet);
     expect(html).toContain(EXPECTED.en.experienceHeading);
     expect(html).toContain(EXPECTED.en.present);
   });
@@ -179,6 +184,7 @@ describe('build-level outputs', () => {
     expect(html).toContain(EXPECTED.es.bullet);
     expect(html).toContain(EXPECTED.es.growthBullet);
     expect(html).toContain(EXPECTED.es.releaseBullet);
+    expect(html).toContain(EXPECTED.es.paymentsBullet);
     expect(html).toContain(EXPECTED.es.experienceHeading);
     expect(html).toContain(EXPECTED.es.present);
     expect(html).toContain('Remoto');
@@ -249,9 +255,36 @@ describe('build-level outputs', () => {
     expect(text).toContain(EXPECTED.es.title);
     expect(text).toContain(EXPECTED.es.bullet);
     expect(text).toContain(EXPECTED.es.growthBullet);
+    expect(text).toContain(EXPECTED.es.releaseBullet);
     expect(text).toContain(EXPECTED.es.experienceHeading);
     expect(text).toContain(EXPECTED.es.present);
     expect(text).toContain(EXPECTED.es.location);
+  });
+
+  it('keeps the payments bullet in Tech Lead only, while the site shows it', async () => {
+    const techLead = await artifactPdfText('cv-en-tech-lead.pdf');
+
+    expect(techLead).toContain(EXPECTED.en.paymentsBullet);
+    expect(await artifactPdfText('cv-en-fullstack-ai.pdf')).not.toContain(
+      EXPECTED.en.paymentsBullet,
+    );
+    expect(await artifactPdfText('cv-en-freelance.pdf')).not.toContain(
+      EXPECTED.en.paymentsBullet,
+    );
+  });
+
+  it('puts ownership and hardening first in Tech Lead and CI first in Freelance', async () => {
+    const techLead = await artifactPdfText('cv-en-tech-lead.pdf');
+
+    expect(techLead.indexOf(EXPECTED.en.securityBullet)).toBeLessThan(
+      techLead.indexOf(EXPECTED.en.bullet),
+    );
+
+    const freelance = await artifactPdfText('cv-en-freelance.pdf');
+
+    expect(freelance.indexOf(EXPECTED.en.sharedCiBullet)).toBeLessThan(
+      freelance.indexOf(EXPECTED.en.bullet),
+    );
   });
 
   it('accepts mixed year and month date granularity', () => {
