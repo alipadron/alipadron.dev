@@ -271,6 +271,7 @@ export const uiSchema = z
     experience: z
       .object({
         heading: bilingualSchema,
+        kicker: bilingualSchema,
         stackLabel: bilingualSchema,
       })
       .strict(),

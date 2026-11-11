@@ -76,7 +76,7 @@ const EXPECTED = {
       { value: '+150', label: 'hoteles en el PMS hotelero' },
       { value: '+750k', label: 'reservas de habitación' },
       { value: '~13×', label: 'reservas anuales, 2020 → 2025' },
-      { value: '7 min', label: 'release, antes 30+ min' },
+      { value: '7 min', label: 'tiempo de release, antes 30+ min' },
     ],
     photoAlt: 'Foto de Alí Padrón, próximamente',
     photoCaption: 'Retrato próximamente.',
