@@ -7,9 +7,12 @@ export type {
   Bilingual,
   Bullet,
   Career,
+  Education,
   Entry,
+  LanguageEntry,
   Placement,
   Profile,
+  SkillGroup,
   UiStrings,
   Variant,
 } from './schema';

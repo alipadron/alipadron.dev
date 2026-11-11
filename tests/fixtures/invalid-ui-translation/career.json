@@ -2,7 +2,15 @@
   "profile": {
     "email": "hola@alipadron.dev",
     "linkedin": "https://www.linkedin.com/in/alipadron",
-    "github": "https://github.com/alipadron"
+    "github": "https://github.com/alipadron",
+    "headline": {
+      "en": "Fixture headline",
+      "es": "Titular de prueba"
+    },
+    "summary": {
+      "en": "Fixture summary.",
+      "es": "Resumen de prueba."
+    }
   },
   "entries": [
     {
@@ -41,6 +49,49 @@
           ]
         }
       ]
+    }
+  ],
+  "skills": [
+    {
+      "id": "fixture-skill-group",
+      "label": {
+        "en": "Languages",
+        "es": "Lenguajes"
+      },
+      "items": [
+        {
+          "en": "TypeScript",
+          "es": "TypeScript"
+        }
+      ]
+    }
+  ],
+  "education": [
+    {
+      "id": "fixture-education",
+      "institution": {
+        "en": "Fixture University",
+        "es": "Universidad de Prueba"
+      },
+      "program": {
+        "en": "Computer Science",
+        "es": "Ciencias de la Computación"
+      },
+      "startDate": "2014",
+      "endDate": "2018"
+    }
+  ],
+  "languages": [
+    {
+      "id": "fixture-language",
+      "name": {
+        "en": "Spanish",
+        "es": "Español"
+      },
+      "level": {
+        "en": "Native",
+        "es": "Nativo"
+      }
     }
   ]
 }

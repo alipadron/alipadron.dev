@@ -69,6 +69,47 @@ const FIXTURE_TEXT = {
   concurrentLabel: 'Concurrent engagement',
 };
 
+// The rest of the English master content, asserted through the page the site
+// renders from it. Apostrophes are avoided because the markup escapes them.
+const MASTER_CONTENT = {
+  en: [
+    'Solo-built a real-time market-data and news platform',
+    'a USD-to-VES remittance platform on Laravel and Filament',
+    '~5M articles from RSS feeds and scrapers',
+    'used by 20–50 business customers',
+    'migrating a construction ERP from Silverlight to Angular 7',
+    'Google Maps geolocation module',
+    'Co-founded Tuapplicaya and run its technical side pre-launch',
+    'spatie/laravel-translatable',
+    'Offline-first vehicle maintenance PWA',
+    'Household medication PWA',
+  ],
+  es: [
+    'una plataforma de datos de mercado y noticias en tiempo real',
+    'una plataforma de remesas de USD a VES en Laravel y Filament',
+    '~5M de artículos de feeds RSS y scrapers',
+    '20–50 clientes empresariales',
+    'un ERP de construcción de Silverlight a Angular 7',
+    'módulo de geolocalización con Google Maps',
+    'Cofundó Tuapplicaya y dirige su lado técnico antes del lanzamiento',
+    'spatie/laravel-translatable',
+    'PWA de mantenimiento de vehículos con soporte offline',
+    'PWA de medicación del hogar',
+  ],
+};
+
+// Material the spec keeps out of every output, plus client names that have no
+// approval to be published.
+const FORBIDDEN = [
+  'Coursera',
+  'Banco de Venezuela',
+  'bdv-api',
+  'pentest',
+  '500 concurrent',
+  'AmourStyle',
+  'Connection Academy',
+];
+
 /** Prerendered pages, copied out of `dist/` before the fixtures rebuild it. */
 const PAGES = [
   { source: 'index.html', artifact: 'home-en.html' },
@@ -188,6 +229,29 @@ describe('build-level outputs', () => {
     expect(html).toContain(EXPECTED.es.experienceHeading);
     expect(html).toContain(EXPECTED.es.present);
     expect(html).toContain('Remoto');
+  });
+
+  it('prerenders every non-GoFeels role from the content', () => {
+    const english = readArtifact('experience-en.html');
+    const spanish = readArtifact('experience-es.html');
+
+    for (const snippet of MASTER_CONTENT.en) {
+      expect(english, snippet).toContain(snippet);
+    }
+
+    for (const snippet of MASTER_CONTENT.es) {
+      expect(spanish, snippet).toContain(snippet);
+    }
+  });
+
+  it('keeps excluded and unapproved material out of the site output', () => {
+    for (const { artifact } of PAGES) {
+      const html = readArtifact(artifact);
+
+      for (const needle of FORBIDDEN) {
+        expect(html, `${artifact} contains ${needle}`).not.toContain(needle);
+      }
+    }
   });
 
   it('prerenders both Home pages with language-specific links', () => {

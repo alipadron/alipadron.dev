@@ -78,6 +78,32 @@ const FIXTURE = {
 
 const FAKE_PHONE = '+1 555 0100';
 
+// The rest of the English master content, asserted on the document the site
+// publishes. These are literals: the tests observe build output, not content.
+const MASTER_CONTENT = [
+  'Zignox',
+  'PayGoLatam',
+  '20–50 business customers',
+  'BrickControl',
+  'NovoPles',
+  'Co-founder & Technical Lead',
+  'spatie/laravel-translatable',
+  'car-log',
+  'medication-manager',
+];
+
+// Material the spec keeps out of every output, plus client names that have no
+// approval to be published.
+const FORBIDDEN = [
+  'Coursera',
+  'Banco de Venezuela',
+  'bdv-api',
+  'pentest',
+  '500 concurrent',
+  'AmourStyle',
+  'Connection Academy',
+];
+
 const PUBLISHED = [
   {
     language: 'en',
@@ -285,6 +311,27 @@ describe('six CV documents', () => {
       );
     },
   );
+
+  it('carries the rest of the English master content in the PDF and DOCX', async () => {
+    const pdf = await pdfText('cv-en-fullstack-ai');
+    const docx = docxText('cv-en-fullstack-ai');
+
+    for (const text of [pdf, docx]) {
+      for (const snippet of MASTER_CONTENT) {
+        expect(text, snippet).toContain(snippet);
+      }
+    }
+  });
+
+  it('keeps excluded and unapproved material out of every CV', async () => {
+    for (const variant of VARIANTS) {
+      const text = await pdfText(`cv-en-${variant}`);
+
+      for (const needle of FORBIDDEN) {
+        expect(text, `${variant} contains ${needle}`).not.toContain(needle);
+      }
+    }
+  });
 
   it('publishes exactly the two Full-Stack + AI PDFs into the site output', async () => {
     expect(pdfsUnder(PUBLIC_DIR)).toEqual(PUBLISHED.map((pdf) => pdf.file));
