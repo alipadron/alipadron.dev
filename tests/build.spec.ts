@@ -32,7 +32,7 @@ const EXPECTED = {
   en: {
     title: 'Senior Full-Stack Engineer / Tech Lead',
     bullet:
-      'Lead full-stack delivery of a hotel PMS built with AngularJS and Laravel that +150 hotels with +2,000 rooms use for reservations, payments and daily operations.',
+      'Lead full-stack delivery of a hotel PMS built with AngularJS and Laravel, used by +150 hotels with +2,000 rooms for reservations, payments and daily operations.',
     releaseBullet: 'Cut release time from 30+ minutes to about 7 minutes',
     growthBullet: 'Grew the platform to +750k room reservations in total',
     paymentsBullet: 'tens of thousands of online payments a year',
@@ -46,7 +46,7 @@ const EXPECTED = {
   es: {
     title: 'Ingeniero Full-Stack Senior / Tech Lead',
     bullet:
-      'Lidera el desarrollo full-stack de un PMS hotelero construido con AngularJS y Laravel que +150 hoteles con +2,000 habitaciones usan para reservas, pagos y operación diaria.',
+      'Lidera el desarrollo full-stack de un PMS hotelero construido con AngularJS y Laravel, usado por +150 hoteles con +2,000 habitaciones para reservas, pagos y operación diaria.',
     releaseBullet: 'Redujo el tiempo de release de más de 30 minutos a unos 7 minutos',
     growthBullet: 'Escaló la plataforma a +750k reservas de habitación en total',
     paymentsBullet: 'decenas de miles de pagos en línea al año',
