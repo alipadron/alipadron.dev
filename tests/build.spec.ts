@@ -43,6 +43,19 @@ const EXPECTED = {
     present: 'Present',
     location: 'Remote',
     homeLink: 'Read the experience',
+    headline:
+      'Senior Full-Stack Engineer · Angular &amp; Laravel · AI-native delivery',
+    summary: 'Works with AI agents as part of the method',
+    workWithMe: 'Work with me',
+    metricsHeading: 'By the numbers',
+    metrics: [
+      { value: '+150', label: 'hotels on the hotel PMS' },
+      { value: '+750k', label: 'room reservations' },
+      { value: '~13×', label: 'yearly reservations, 2020 → 2025' },
+      { value: '7 min', label: 'release, down from 30+' },
+    ],
+    photoAlt: 'Photo of Alí Padrón, coming later',
+    photoCaption: 'Portrait to come.',
   },
   es: {
     title: 'Ingeniero Full-Stack Senior / Líder técnico',
@@ -55,6 +68,18 @@ const EXPECTED = {
     present: 'Actualidad',
     location: 'Remoto',
     homeLink: 'Leer la experiencia',
+    headline: 'Ingeniero Full-Stack Senior · Angular y Laravel · entrega nativa con IA',
+    summary: 'Trabaja con agentes de IA como parte del método',
+    workWithMe: 'Trabajemos juntos',
+    metricsHeading: 'En cifras',
+    metrics: [
+      { value: '+150', label: 'hoteles en el PMS hotelero' },
+      { value: '+750k', label: 'reservas de habitación' },
+      { value: '~13×', label: 'reservas anuales, 2020 → 2025' },
+      { value: '7 min', label: 'release, antes 30+ min' },
+    ],
+    photoAlt: 'Foto de Alí Padrón, próximamente',
+    photoCaption: 'Retrato próximamente.',
   },
 };
 
@@ -244,6 +269,32 @@ describe('build-level outputs', () => {
     expect(spanish).toContain('<html lang="es">');
     expect(spanish).toContain(`href="/es/experience"`);
     expect(spanish).toContain(EXPECTED.es.homeLink);
+  });
+
+  it('prerenders the Home value proposition, CTAs and metrics in both languages', () => {
+    const english = readArtifact('home-en.html');
+    const spanish = readArtifact('home-es.html');
+
+    for (const [html, expected] of [
+      [english, EXPECTED.en],
+      [spanish, EXPECTED.es],
+    ] as const) {
+      expect(html).toContain(expected.headline);
+      expect(html).toContain(expected.summary);
+      expect(html).toContain(expected.workWithMe);
+      expect(html).toContain(`mailto:hola@alipadron.dev`);
+      expect(html).toContain(expected.metricsHeading);
+      expect(html).toContain(expected.photoAlt);
+      expect(html).toContain(expected.photoCaption);
+
+      for (const metric of expected.metrics) {
+        expect(html).toContain(metric.value);
+        expect(html).toContain(metric.label);
+      }
+    }
+
+    expect(english).toContain('href="/cv/cv-en-fullstack-ai.pdf"');
+    expect(spanish).toContain('href="/cv/cv-es-fullstack-ai.pdf"');
   });
 
   it.each([
