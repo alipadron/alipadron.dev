@@ -1,4 +1,5 @@
 import type { Language } from '../content/language';
+import type { ContentPageId } from '../content/schema';
 
 /**
  * Every page the site publishes, identified by its English path. A page is
@@ -13,6 +14,17 @@ export const SITE_PAGES = [
 ] as const;
 
 export type SitePath = (typeof SITE_PAGES)[number];
+
+/**
+ * The route of every long-form content page. The `Record` is exhaustive, so a
+ * new page in `content/pages.json` fails the typecheck until it has a route,
+ * and the `SitePath` values fail it until that route is prerendered.
+ */
+export const CONTENT_PAGE_ROUTES = {
+  'how-i-work': '/how-i-work',
+  'work-with-me': '/work-with-me',
+  contact: '/contact',
+} as const satisfies Record<ContentPageId, SitePath>;
 
 /**
  * Maps a canonical page to its path in one language: the Spanish page of

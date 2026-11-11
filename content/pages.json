@@ -500,8 +500,8 @@
           {
             "type": "paragraph",
             "text": {
-              "en": "The Full-Stack + AI CV is on the home page in English and Spanish. Tell me which role you are hiring for and I will send the variant that fits.",
-              "es": "El CV Full-Stack + AI está en la página de inicio en inglés y en español. Dime para qué puesto estás contratando y te envío la variante que encaje."
+              "en": "The Full-Stack + AI CV is linked from the home page, in the language you are reading. Tell me which role you are hiring for and I will send the variant that fits.",
+              "es": "El CV Full-Stack + AI está enlazado desde la página de inicio, en el idioma que estás leyendo. Dime para qué puesto estás contratando y te envío la variante que encaje."
             }
           }
         ]

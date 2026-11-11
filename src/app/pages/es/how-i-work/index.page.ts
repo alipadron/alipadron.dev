@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 
-import { DocumentView } from '../../../views/document-view';
+import { LongFormView } from '../../../views/long-form-view';
 import { PageLayout } from '../../../views/page-layout';
 
 @Component({
   selector: 'app-how-i-work-page-es',
-  imports: [PageLayout, DocumentView],
+  imports: [PageLayout, LongFormView],
   template: `
     <app-page-layout path="/how-i-work" language="es">
-      <app-document-view page="how-i-work" language="es" />
+      <app-long-form-view page="how-i-work" language="es" />
     </app-page-layout>
   `,
 })
