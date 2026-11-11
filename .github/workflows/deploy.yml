@@ -27,9 +27,8 @@ jobs:
       - run: npm ci
 
       - name: Install Chromium for CV generation
-        # --with-deps needs apt; when the runner's mirror is unreachable we still
-        # want the browser, and ubuntu-latest already carries most of its libraries.
-        run: npx playwright install --with-deps chromium || npx playwright install chromium
+        # See ci.yml: apt is unreliable on these runners, and the browser is enough.
+        run: npx playwright install chromium
 
       - run: npm run build
 
