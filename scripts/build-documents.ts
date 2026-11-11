@@ -3,7 +3,7 @@ import path from 'node:path';
 
 import { chromium, type Browser } from 'playwright';
 
-import { isPublished } from '../src/content/contact';
+import { isPublished, type ContactOptions } from '../src/content/contact';
 import {
   buildCvDocumentModel,
   CV_DOCUMENTS,
@@ -11,6 +11,7 @@ import {
   PUBLISHED_CV_DIR,
   PUBLISHED_DOCUMENTS,
   type CvDocument,
+  type CvDocumentModel,
 } from '../src/content/documents';
 import { loadCareer, loadUi, resolveContentFile } from '../src/content/load';
 import { selectVariant } from '../src/content/presentation';
@@ -31,15 +32,15 @@ const ui = loadUi();
 
 // The local/published seam is per invocation, so every local document in one
 // run shares it. The phone is never part of the tracked content.
-const contact = {
+const contact: ContactOptions = {
   phone: process.env['CV_PHONE'],
   published: isPublished(process.env['CV_PUBLISHED']),
 };
 
 function modelFor(
   document: CvDocument,
-  options: typeof contact,
-): ReturnType<typeof buildCvDocumentModel> {
+  options: ContactOptions,
+): CvDocumentModel {
   return buildCvDocumentModel(
     selectVariant(career, document.variant),
     career.profile,
@@ -86,17 +87,17 @@ try {
 }
 
 try {
-  for (const item of documents) {
-    await writePdf(browser, item.html, item.pdfPath);
+  for (const built of documents) {
+    await writePdf(browser, built.html, built.pdfPath);
 
-    console.log(
-      `PDF written: ${item.pdfPath} (${item.model.variantLabel})`,
-    );
-    console.log(`HTML written: ${item.htmlPath}`);
+    console.log(`PDF written: ${built.pdfPath} (${built.model.variantLabel})`);
+    console.log(`HTML written: ${built.htmlPath}`);
 
     if (!pdfOnly) {
-      writeFileSync(item.docxPath, await renderCvDocx(item.model));
-      console.log(`DOCX written: ${item.docxPath}`);
+      // The DOCX renderer never carries the build-time phone number; only
+      // local PDFs do.
+      writeFileSync(built.docxPath, await renderCvDocx(built.model));
+      console.log(`DOCX written: ${built.docxPath}`);
     }
   }
 

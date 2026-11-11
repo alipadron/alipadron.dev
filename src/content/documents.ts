@@ -20,11 +20,18 @@ import { CV_VARIANTS, type Variant } from './variants';
 export interface CvDocument {
   readonly variant: Variant;
   readonly language: Language;
+  /** Whether the site links to this document's PDF. */
+  readonly published: boolean;
 }
 
 /** Every CV document the pipeline builds, in language-major order. */
-export const CV_DOCUMENTS: readonly CvDocument[] = LANGUAGES.flatMap((language) =>
-  CV_VARIANTS.map((variant) => ({ variant, language })),
+export const CV_DOCUMENTS: readonly CvDocument[] = LANGUAGES.flatMap(
+  (language) =>
+    CV_VARIANTS.map((variant) => ({
+      variant,
+      language,
+      published: variant === 'fullstack-ai',
+    })),
 );
 
 /**
@@ -32,7 +39,7 @@ export const CV_DOCUMENTS: readonly CvDocument[] = LANGUAGES.flatMap((language) 
  * site. The other four documents are built locally and never reach site output.
  */
 export const PUBLISHED_DOCUMENTS: readonly CvDocument[] = CV_DOCUMENTS.filter(
-  (document) => document.variant === 'fullstack-ai',
+  (document) => document.published,
 );
 
 /** Directory (inside the site output) that holds the downloadable PDFs. */
@@ -66,7 +73,7 @@ export interface CvEntryModel {
   readonly company: string;
   readonly title: string;
   /** Date range, location model and stack, already joined for display. */
-  readonly meta: string;
+  readonly details: string;
   readonly concurrent: string | null;
   readonly bullets: readonly string[];
 }
@@ -78,7 +85,6 @@ export interface CvSectionModel {
 
 export interface CvDocumentModel {
   readonly language: Language;
-  readonly variant: Variant;
   readonly name: string;
   readonly variantLabel: string;
   readonly contact: readonly ContactLink[];
@@ -91,13 +97,28 @@ function entryModel(entry: SelectedEntry, language: Language): CvEntryModel {
   return {
     company: entry.company[language],
     title: entry.title[language],
-    meta: [
+    details: [
       formatDateRange(entry, language),
       formatLocationModel(entry.locationModel, language),
       entry.stack.join(', '),
     ].join(' · '),
     concurrent: entry.concurrent ? CONCURRENT_LABEL[language] : null,
     bullets: entry.bullets.map((bullet) => bullet.text[language]),
+  };
+}
+
+function sectionModel(
+  heading: string,
+  entries: readonly SelectedEntry[],
+  language: Language,
+): CvSectionModel | null {
+  if (entries.length === 0) {
+    return null;
+  }
+
+  return {
+    heading,
+    entries: entries.map((entry) => entryModel(entry, language)),
   };
 }
 
@@ -112,25 +133,13 @@ export function buildCvDocumentModel(
   ui: UiStrings,
   options: ContactOptions = {},
 ): CvDocumentModel {
-  const sections: CvSectionModel[] = [];
-
-  if (cv.experience.length > 0) {
-    sections.push({
-      heading: ui.experience.heading[language],
-      entries: cv.experience.map((entry) => entryModel(entry, language)),
-    });
-  }
-
-  if (cv.projects.length > 0) {
-    sections.push({
-      heading: ui.projects.heading[language],
-      entries: cv.projects.map((entry) => entryModel(entry, language)),
-    });
-  }
+  const sections = [
+    sectionModel(ui.experience.heading[language], cv.experience, language),
+    sectionModel(ui.projects.heading[language], cv.projects, language),
+  ].filter((section): section is CvSectionModel => section !== null);
 
   return {
     language,
-    variant: cv.variant,
     name: ui.siteName[language],
     variantLabel: VARIANT_LABELS[cv.variant][language],
     contact: publicContactLinks(profile),

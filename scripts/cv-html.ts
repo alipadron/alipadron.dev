@@ -43,7 +43,7 @@ function renderEntry(entry: CvEntryModel): string {
   return `<section>
         <h3>${escapeHtml(entry.company)}</h3>
         <p><strong>${escapeHtml(entry.title)}</strong></p>
-        <p class="entry-meta">${escapeHtml(entry.meta)}</p>${concurrent}${bulletList}
+        <p class="entry-meta">${escapeHtml(entry.details)}</p>${concurrent}${bulletList}
       </section>`;
 }
 

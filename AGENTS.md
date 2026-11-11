@@ -16,12 +16,14 @@ PDF generation needs Chromium: `npx playwright install chromium`.
   fixtures must fail the build.
 - `npm run documents` — the one command that writes all six CV documents
   (`fullstack-ai`, `tech-lead`, `freelance` × `en`, `es`) to `output/` as PDF,
-  DOCX and HTML intermediates. It then copies only the two Full-Stack + AI PDFs
-  into `dist/analog/public/cv/`, which is the site output. Run `npm run build`
+  DOCX and HTML intermediates. It then renders the two Full-Stack + AI PDFs
+  again into `dist/analog/public/cv/`, which is the site output, so the
+  published copies never inherit a local phone number. Run `npm run build`
   first so the site pages and their links are present.
 - `npm run pdf` — the same six PDFs and their HTML intermediates, without DOCX
   and without publishing, for quick local iteration. Set
-  `CONTENT_DIR`/`OUTPUT_DIR` to build fixtures into another directory.
+  `CONTENT_DIR`/`OUTPUT_DIR` to build fixtures into another directory, and
+  `SITE_DIST_DIR` to publish into a site output other than `dist/analog/public`.
 - `npm run typecheck` — TypeScript checks for the app, scripts and tests.
 - `npm run build && npm run documents && npx wrangler@4.160.0 pages deploy
   dist/analog/public --project-name=alipadron-dev --branch=main` — deploys
@@ -49,11 +51,12 @@ once into a format-neutral model, so the PDF and the DOCX carry the same text in
 the same reading order. The PDF layout is single-column and ATS-friendly.
 
 Only the Full-Stack + AI PDFs (`cv-en-fullstack-ai`, `cv-es-fullstack-ai`) are
-public. `npm run documents` writes exactly those two into
+public. `npm run documents` renders exactly those two into
 `dist/analog/public/cv/` and the site links each language's home page to its own
 copy. Tech Lead and Freelance exist only in `output/`. The published copies are
 always rendered as published output, so a phone number from `CV_PHONE` can never
-reach the site.
+reach the site. A DOCX is editable and may be forwarded, so it never carries the
+build-time phone at all; only local PDFs do.
 
 ## Content
 
@@ -76,7 +79,7 @@ fictional number in the rejection fixture under
 `tests/fixtures/content-with-phone/`.
 
 - `CV_PHONE` — the phone number to print in a local PDF. Unset means no phone
-  anywhere.
+  anywhere. DOCX documents never show it.
 - `CV_PUBLISHED` — the seam between local and published output. Unset (the
   default) means local. Any other value except `0`, `false`, `no` or `off`
   marks the build as published, so a typo fails closed; a published PDF drops
