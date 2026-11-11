@@ -9,32 +9,27 @@ import {
 
 import type { CvDocumentModel } from '../src/content/documents';
 
+function pushSeparator(children: (TextRun | ExternalHyperlink)[]): void {
+  if (children.length > 0) {
+    children.push(new TextRun(' · '));
+  }
+}
+
 function contactParagraph(document: CvDocumentModel): Paragraph {
   const children: (TextRun | ExternalHyperlink)[] = [];
 
   for (const link of document.contact) {
-    if (children.length > 0) {
-      children.push(new TextRun(' · '));
-    }
-
+    pushSeparator(children);
     children.push(
       new ExternalHyperlink({
         link: link.href,
-        children: [
-          new TextRun({ text: link.text, style: 'Hyperlink' }),
-        ],
+        children: [new TextRun({ text: link.text, style: 'Hyperlink' })],
       }),
     );
   }
 
-  if (document.phone) {
-    if (children.length > 0) {
-      children.push(new TextRun(' · '));
-    }
-
-    children.push(new TextRun(document.phone));
-  }
-
+  // A DOCX is editable and may be forwarded, so it never carries the
+  // build-time phone number; only local PDFs do.
   return new Paragraph({
     children,
     spacing: { after: 240 },
@@ -83,7 +78,7 @@ export async function renderCvDocx(
         }),
         new Paragraph({
           children: [
-            new TextRun({ text: entry.meta, color: '444444', italics: true }),
+            new TextRun({ text: entry.details, color: '444444', italics: true }),
           ],
           spacing: { after: entry.concurrent ? 40 : 120 },
         }),
