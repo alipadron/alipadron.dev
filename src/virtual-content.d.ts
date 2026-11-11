@@ -9,3 +9,9 @@ declare module 'virtual:ui' {
 
   export const ui: UiStrings;
 }
+
+declare module 'virtual:pages' {
+  import type { Pages } from './content/schema';
+
+  export const pages: Pages;
+}

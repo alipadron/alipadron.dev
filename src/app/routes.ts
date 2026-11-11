@@ -4,7 +4,13 @@ import type { Language } from '../content/language';
  * Every page the site publishes, identified by its English path. A page is
  * always published in both languages: the Spanish version lives under `/es`.
  */
-export const SITE_PAGES = ['/', '/experience'] as const;
+export const SITE_PAGES = [
+  '/',
+  '/experience',
+  '/how-i-work',
+  '/work-with-me',
+  '/contact',
+] as const;
 
 export type SitePath = (typeof SITE_PAGES)[number];
 

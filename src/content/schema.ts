@@ -253,6 +253,9 @@ export const uiSchema = z
       .object({
         label: bilingualSchema,
         home: bilingualSchema,
+        howIWork: bilingualSchema,
+        workWithMe: bilingualSchema,
+        contact: bilingualSchema,
       })
       .strict(),
     home: z
@@ -295,7 +298,135 @@ export const uiSchema = z
   })
   .strict();
 
+/**
+ * The long-form pages that are not career data: How I work, Work with me and
+ * Contact. Their identifiers are also their routes, so the content key, the
+ * page component and the navigation link cannot drift apart.
+ */
+export const CONTENT_PAGES = [
+  'how-i-work',
+  'work-with-me',
+  'contact',
+] as const;
+
+export type ContentPageId = (typeof CONTENT_PAGES)[number];
+
+const contentPageIdSchema = z.enum(CONTENT_PAGES, {
+  error: `unknown page; expected one of ${CONTENT_PAGES.join(', ')}`,
+});
+
+/**
+ * A paragraph of long-form copy. Every block is bilingual, so a page cannot be
+ * built with one language missing.
+ */
+const paragraphSchema = z
+  .object({
+    type: z.literal('paragraph'),
+    text: bilingualSchema,
+  })
+  .strict();
+
+/** A bullet list, one bilingual item per line. */
+const listSchema = z
+  .object({
+    type: z.literal('list'),
+    items: z.array(bilingualSchema).min(1),
+  })
+  .strict();
+
+/** A named item with a description, rendered as a definition list or a card. */
+const termSchema = z
+  .object({
+    term: bilingualSchema,
+    description: bilingualSchema,
+  })
+  .strict();
+
+const termsSchema = z
+  .object({
+    type: z.literal('terms'),
+    items: z.array(termSchema).min(1),
+  })
+  .strict();
+
+/** The same shape as `terms`, but the order is meaningful, so it is numbered. */
+const stepsSchema = z
+  .object({
+    type: z.literal('steps'),
+    items: z.array(termSchema).min(1),
+  })
+  .strict();
+
+/**
+ * The three public contact channels, resolved from the profile at render time
+ * rather than duplicated in the page content.
+ */
+const contactSchema = z.object({ type: z.literal('contact') }).strict();
+
+/** A link to another page, localized by the renderer. */
+const pageLinkSchema = z
+  .object({
+    type: z.literal('pageLink'),
+    label: bilingualSchema,
+    page: contentPageIdSchema,
+  })
+  .strict();
+
+/** A primary action. The only action the site has is writing an email. */
+const actionSchema = z
+  .object({
+    type: z.literal('action'),
+    label: bilingualSchema,
+  })
+  .strict();
+
+const blockSchema = z.discriminatedUnion('type', [
+  paragraphSchema,
+  listSchema,
+  termsSchema,
+  stepsSchema,
+  contactSchema,
+  pageLinkSchema,
+  actionSchema,
+]);
+
+const sectionSchema = z
+  .object({
+    id: z
+      .string()
+      .regex(/^[a-z0-9-]+$/, 'must be a lowercase slug (a-z, 0-9, -)'),
+    heading: bilingualSchema,
+    blocks: z.array(blockSchema).min(1),
+  })
+  .strict();
+
+const pageSchema = z
+  .object({
+    kicker: bilingualSchema,
+    title: bilingualSchema,
+    intro: bilingualSchema,
+    sections: z.array(sectionSchema).min(1),
+  })
+  .strict();
+
+/**
+ * The long-form pages. The keys are the English routes, so a page cannot be
+ * published without content and every string follows the same `{ en, es }`
+ * rule as the rest of the site.
+ */
+export const pagesSchema = z
+  .object({
+    'how-i-work': pageSchema,
+    'work-with-me': pageSchema,
+    contact: pageSchema,
+  })
+  .strict();
+
 export type Bilingual = z.infer<typeof bilingualSchema>;
+export type PageBlock = z.infer<typeof blockSchema>;
+export type PageSection = z.infer<typeof sectionSchema>;
+export type ContentPage = z.infer<typeof pageSchema>;
+export type Pages = z.infer<typeof pagesSchema>;
 export type Bullet = z.infer<typeof bulletSchema>;
 export type Metric = z.infer<typeof metricSchema>;
 export type Entry = z.infer<typeof entrySchema>;
@@ -343,4 +474,8 @@ export function validateCareer(input: unknown, source: string): Career {
 
 export function validateUi(input: unknown, source: string): UiStrings {
   return validate(uiSchema, input, source);
+}
+
+export function validatePages(input: unknown, source: string): Pages {
+  return validate(pagesSchema, input, source);
 }

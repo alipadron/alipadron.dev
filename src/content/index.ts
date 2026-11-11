@@ -1,16 +1,22 @@
 import { career as validatedCareer } from 'virtual:career';
+import { pages as validatedPages } from 'virtual:pages';
 import { ui as validatedUi } from 'virtual:ui';
 
-import type { Career, UiStrings } from './schema';
+import type { Career, Pages, UiStrings } from './schema';
 
 export type {
   Bilingual,
   Bullet,
   Career,
+  ContentPage,
+  ContentPageId,
   Education,
   Entry,
   LanguageEntry,
   Metric,
+  PageBlock,
+  PageSection,
+  Pages,
   Placement,
   Profile,
   SkillGroup,
@@ -25,3 +31,4 @@ export type {
  */
 export const content: Career = validatedCareer;
 export const ui: UiStrings = validatedUi;
+export const pages: Pages = validatedPages;
