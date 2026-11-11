@@ -1,5 +1,6 @@
 import { z } from 'zod';
 
+import { CASE_STUDY_IDS } from './case-studies';
 import { CV_VARIANTS, type Variant } from './variants';
 
 /**
@@ -242,6 +243,74 @@ export const careerSchema = z
   .strict();
 
 /**
+ * One part of a case study. A study is always told as problem, decisions and
+ * result, so the schema fixes those three keys instead of accepting arbitrary
+ * sections. Paragraphs carry the argument; bullets are optional supporting
+ * facts.
+ */
+export const caseStudySectionSchema = z
+  .object({
+    paragraphs: z.array(bilingualSchema).min(1),
+    bullets: z.array(bilingualSchema).min(1).optional(),
+  })
+  .strict();
+
+export const caseStudySchema = z
+  .object({
+    id: z.enum(CASE_STUDY_IDS, {
+      error: `unknown case study; expected one of ${CASE_STUDY_IDS.join(', ')}`,
+    }),
+    title: bilingualSchema,
+    summary: bilingualSchema,
+    /** Role, employer and period, rendered as the page kicker. */
+    meta: bilingualSchema,
+    stack: z.array(z.string().trim().min(1)).min(1),
+    /** The public repository, for studies whose code is open. */
+    repository: z.url().optional(),
+    /** A note that names what the study deliberately leaves out. */
+    confidentiality: bilingualSchema.optional(),
+    problem: caseStudySectionSchema,
+    decisions: caseStudySectionSchema,
+    result: caseStudySectionSchema,
+  })
+  .strict();
+
+/**
+ * Every known case study must be present, so the index and the three pages
+ * cannot disagree, and duplicate ids cannot make two pages render one study.
+ */
+export const caseStudiesSchema = z
+  .object({
+    caseStudies: z.array(caseStudySchema),
+  })
+  .strict()
+  .superRefine((data, context) => {
+    const seen = new Set<string>();
+
+    data.caseStudies.forEach((study, index) => {
+      if (seen.has(study.id)) {
+        context.addIssue({
+          code: 'custom',
+          path: ['caseStudies', index, 'id'],
+          message: 'duplicate case study id',
+        });
+      }
+
+      seen.add(study.id);
+    });
+
+    for (const id of CASE_STUDY_IDS) {
+      if (!seen.has(id)) {
+        context.addIssue({
+          code: 'custom',
+          path: ['caseStudies'],
+          message: `missing case study: ${id}`,
+        });
+      }
+    }
+  });
+
+/**
  * Site chrome that is not tied to a career entry. Every user-facing string is
  * bilingual, so `content/ui.json` follows the same `{ en, es }` shape as the
  * career content and a missing translation names its own entry.
@@ -281,6 +350,19 @@ export const uiSchema = z
     projects: z
       .object({
         heading: bilingualSchema,
+      })
+      .strict(),
+    caseStudies: z
+      .object({
+        heading: bilingualSchema,
+        kicker: bilingualSchema,
+        intro: bilingualSchema,
+        problem: bilingualSchema,
+        decisions: bilingualSchema,
+        result: bilingualSchema,
+        readStudy: bilingualSchema,
+        backToIndex: bilingualSchema,
+        repository: bilingualSchema,
       })
       .strict(),
     languageSwitcher: z
@@ -435,6 +517,9 @@ export type SkillGroup = z.infer<typeof skillGroupSchema>;
 export type Education = z.infer<typeof educationSchema>;
 export type LanguageEntry = z.infer<typeof languageEntrySchema>;
 export type Career = z.infer<typeof careerSchema>;
+export type CaseStudySection = z.infer<typeof caseStudySectionSchema>;
+export type CaseStudy = z.infer<typeof caseStudySchema>;
+export type CaseStudies = z.infer<typeof caseStudiesSchema>;
 export type UiStrings = z.infer<typeof uiSchema>;
 
 export class ContentValidationError extends Error {
@@ -478,4 +563,11 @@ export function validateUi(input: unknown, source: string): UiStrings {
 
 export function validatePages(input: unknown, source: string): Pages {
   return validate(pagesSchema, input, source);
+}
+
+export function validateCaseStudies(
+  input: unknown,
+  source: string,
+): CaseStudies {
+  return validate(caseStudiesSchema, input, source);
 }

@@ -83,6 +83,44 @@
       "es": "Proyectos"
     }
   },
+  "caseStudies": {
+    "heading": {
+      "en": "Case studies",
+      "es": "Casos de estudio"
+    },
+    "kicker": {
+      "en": "Selected work",
+      "es": "Trabajo seleccionado"
+    },
+    "intro": {
+      "en": "Three pieces of work, each written as problem, decisions and result: a hotel PMS at scale and two personal PWAs whose code is public.",
+      "es": "Tres trabajos, cada uno escrito como problema, decisiones y resultado: un PMS hotelero a escala y dos PWA personales cuyo código es público."
+    },
+    "problem": {
+      "en": "Problem",
+      "es": "Problema"
+    },
+    "decisions": {
+      "en": "Decisions",
+      "es": "Decisiones"
+    },
+    "result": {
+      "en": "Result",
+      "es": "Resultado"
+    },
+    "readStudy": {
+      "en": "Read the case study",
+      "es": "Leer el caso de estudio"
+    },
+    "backToIndex": {
+      "en": "All case studies",
+      "es": "Todos los casos de estudio"
+    },
+    "repository": {
+      "en": "Repository",
+      "es": "Repositorio"
+    }
+  },
   "languageSwitcher": {
     "label": {
       "en": "Choose language",

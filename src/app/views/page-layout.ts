@@ -1,5 +1,11 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, inject, input, type OnInit } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  input,
+  type OnInit,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { publicContactLinks } from '../../content/contact';
@@ -33,6 +39,11 @@ import { LanguageSwitcher } from '../components/language-switcher';
               [routerLink]="pathFor('/experience')"
               [attr.aria-current]="current('/experience')"
               >{{ ui.experience.heading[language()] }}</a
+            >
+            <a
+              [routerLink]="pathFor('/case-studies')"
+              [attr.aria-current]="isCaseStudies() ? 'page' : null"
+              >{{ ui.caseStudies.heading[language()] }}</a
             >
             <a
               [routerLink]="pathFor('/how-i-work')"
@@ -73,6 +84,9 @@ export class PageLayout implements OnInit {
 
   protected readonly ui = ui;
   protected readonly contact = publicContactLinks(content.profile);
+  protected readonly isCaseStudies = computed(() =>
+    this.path().startsWith('/case-studies'),
+  );
 
   readonly #document = inject(DOCUMENT);
 
