@@ -35,7 +35,7 @@ export const cvHref = '/cv/cv-en-fullstack-ai.pdf';
 export const metrics = [
   { value: '+150', label: 'hotels on the hotel PMS' },
   { value: '+750k', label: 'room reservations' },
-  { value: '13×', label: 'yearly reservations, 2020 → 2025' },
+  { value: '~13×', label: 'yearly reservations, 2020 → 2025' },
   { value: '7 min', label: 'release, down from 30+' },
 ];
 

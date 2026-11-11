@@ -22,9 +22,9 @@ function header(current, path) {
       if (href === null) {
         return `<span class="planned">${text}</span>`;
       }
-      const current_ = href === current ? ' aria-current="page"' : '';
+      const active = href === current ? ' aria-current="page"' : '';
 
-      return `<a href="${href}"${current_}>${text}</a>`;
+      return `<a href="${href}"${active}>${text}</a>`;
     })
     .join('\n        ');
 
@@ -96,6 +96,14 @@ export function home() {
 
         <p class="call"><span class="dollar">$</span> ./work-with-me <a class="button" href="mailto:${profile.email}">hire --remote</a> <a class="button" href="${cvHref}">cv.pdf</a></p>
 
+        <figure class="portrait">
+          <div class="portrait-frame" role="img" aria-label="Photo of Alí Padrón, coming later">
+            <span>photo.jpg</span>
+            <span class="comment">not uploaded yet</span>
+          </div>
+          <figcaption class="comment"># reserved, 4:5</figcaption>
+        </figure>
+
         ${promptLine('cat metrics.txt')}
         <dl class="metrics">
           ${metrics
@@ -127,12 +135,12 @@ export function experiencePage() {
 
         ${promptLine('cat experience.log', 'current first')}
         <section aria-label="Roles">
-        ${experience.map((entry_, index) => entry(entry_, 2, index + 1)).join('\n\n        ')}
+        ${experience.map((item, index) => entry(item, 2, index + 1)).join('\n\n        ')}
         </section>
 
         ${promptLine('cat projects.log')}
         <section aria-label="Projects">
-        ${projects.map((entry_, index) => entry(entry_, 3, index + 1)).join('\n\n        ')}
+        ${projects.map((item, index) => entry(item, 3, index + 1)).join('\n\n        ')}
         </section>
 
         <p class="prompt"><span class="dollar">$</span> <span class="cursor" aria-hidden="true">▌</span></p>

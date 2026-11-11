@@ -43,18 +43,20 @@ for (const prototype of prototypes) {
         const file = `${prototype}-${target.name}-${theme}-${width.name}.png`;
 
         if (target.name === 'experience') {
-          // The experience page is ~7,000px tall with every bullet. The first
-          // screen and first role are what the direction has to answer for.
+          // The experience page runs to ~7,000px with every bullet. A fixed
+          // clip shows the page head and the start of the first role, which is
+          // what the direction has to answer for.
           const height = await page.evaluate(
             () => document.documentElement.scrollHeight,
           );
           await page.screenshot({
             path: join(out, file),
+            fullPage: true,
             clip: {
               x: 0,
               y: 0,
               width: width.width,
-              height: Math.min(height, width.width < 500 ? 1600 : 2100),
+              height: Math.min(height, width.width < 500 ? 2000 : 2100),
             },
           });
         } else {

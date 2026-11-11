@@ -29,9 +29,9 @@ function header(current) {
       if (href === null) {
         return `<span class="planned"><span class="n">${number}</span>${text}</span>`;
       }
-      const current_ = href === current ? ' aria-current="page"' : '';
+      const active = href === current ? ' aria-current="page"' : '';
 
-      return `<a href="${href}"${current_}><span class="n">${number}</span>${text}</a>`;
+      return `<a href="${href}"${active}><span class="n">${number}</span>${text}</a>`;
     })
     .join('\n        ');
 
@@ -152,13 +152,13 @@ export function experiencePage() {
       </header>
 
       <section class="entries" aria-label="Roles">
-        ${experience.map((entry_) => card(entry_, 2)).join('\n\n        ')}
+        ${experience.map((item) => card(item, 2)).join('\n\n        ')}
       </section>
 
       <section class="block" aria-labelledby="projects-heading">
         <h2 id="projects-heading">Projects</h2>
         <div class="entries">
-          ${projects.map((entry_) => card(entry_, 3)).join('\n\n          ')}
+          ${projects.map((item) => card(item, 3)).join('\n\n          ')}
         </div>
       </section>
 

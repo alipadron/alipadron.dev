@@ -5,7 +5,8 @@ content in `content/career.json`. They are evidence for the choice in issue
 #13, not the site: nothing here is imported by the app, and the whole folder is
 deleted once #14 has implemented the chosen direction.
 
-- [Gallery](index.html) — all three side by side
+- [Gallery](index.html) — all three side by side for local browsing; the
+  committed `screenshots/` are the side-by-side record
 - `editorial/` — Prototype A, typographic minimal
 - `terminal/` — Prototype B, terminal-flavoured
 - `dossier/` — Prototype C, index-first
@@ -25,8 +26,9 @@ node docs/design/prototypes/screenshots.mjs  # 24 PNGs → screenshots/
 
 `build.mjs` reads `content/career.json` directly, so the mocks cannot drift
 from the site content while the design is being picked. The Experience
-screenshots are clipped to the first screen and first role; the full pages are
-the committed HTML.
+screenshots are clipped to the page head and the start of the first role
+(2,100 CSS px on desktop, 2,000 on a phone); the full pages are the committed
+HTML.
 
 ## What is not real
 
@@ -143,10 +145,12 @@ tabular-nums`.
 
 - Bullets are the content, not decoration: keep them at 1.0625rem/1.65 and let
   the page be long.
-- The metric strip is Home's above-the-fold evidence. It reads from figures
-  already present in the content module; it must not become a second copy of
-  the career numbers in `ui.json` unless the content model grows a field for it.
+- The metric strip is Home's above-the-fold evidence. In these prototypes the
+  four figures are copied by hand from sentences in `career.json` (and `13×` is
+  `~13×` in the source); #14 should decide whether the content model grows a
+  `metrics` field or the strip is dropped. Do not duplicate the numbers into
+  `ui.json`.
 - The photo placeholder is reserved space, not a decorative frame: keep the
   `4:5` desktop / `3:2` phone ratio so the layout does not jump when the photo
-  arrives.
+  arrives. All three prototypes carry one.
 - Dark mode is a token swap only; no component changes.
