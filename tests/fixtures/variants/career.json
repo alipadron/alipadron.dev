@@ -10,6 +10,16 @@
     "summary": {
       "en": "Fixture summary.",
       "es": "Resumen de prueba."
+    },
+    "summaryByVariant": {
+      "tech-lead": {
+        "en": "Fixture tech lead summary.",
+        "es": "Resumen de prueba para Tech Lead."
+      },
+      "freelance": {
+        "en": "Fixture freelance summary.",
+        "es": "Resumen de prueba para Freelance."
+      }
     }
   },
   "entries": [

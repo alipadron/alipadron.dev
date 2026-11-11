@@ -203,8 +203,9 @@ export const languageEntrySchema = z
  * number is deliberately absent because it is injected at build time and never
  * tracked (see `src/content/contact.ts`).
  *
- * The headline and summary carry the Full-Stack + AI narrative. Variant
- * overrides are layered on top of them by the variant content ticket.
+ * The headline and summary carry the Full-Stack + AI narrative. A variant can
+ * replace the summary with its own framing; the master summary stays the
+ * fallback, so the site keeps one voice and no text is duplicated.
  */
 export const profileSchema = z
   .object({
@@ -213,6 +214,7 @@ export const profileSchema = z
     github: z.url(),
     headline: bilingualSchema,
     summary: bilingualSchema,
+    summaryByVariant: variantRecord(bilingualSchema).optional(),
   })
   .strict();
 

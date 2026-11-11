@@ -109,7 +109,11 @@ export function renderCvHtml(document: CvDocumentModel): string {
       .contact {
         color: #444;
         font-size: 10pt;
-        margin-bottom: 1.5rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .summary {
+        margin-bottom: 1.25rem;
       }
 
       .entry-meta,
@@ -136,6 +140,7 @@ export function renderCvHtml(document: CvDocumentModel): string {
       <h1>${escapeHtml(document.name)}</h1>
       <p class="variant">${escapeHtml(document.variantLabel)}</p>
       <p class="contact">${renderContact(document)}</p>
+      <p class="summary">${escapeHtml(document.summary)}</p>
     </header>
 
     <main>

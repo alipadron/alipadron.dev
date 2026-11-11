@@ -57,6 +57,33 @@ const EXPECTED = {
   },
 };
 
+// Titles and summaries are variant data; the site keeps the base title.
+const CV_TITLES = {
+  en: {
+    'fullstack-ai': 'Senior Full-Stack Engineer',
+    'tech-lead': 'Tech Lead / Senior Full-Stack Engineer',
+    freelance: 'Senior Full-Stack Engineer',
+  },
+  es: {
+    'fullstack-ai': 'Ingeniero Full-Stack Senior',
+    'tech-lead': 'Tech Lead / Ingeniero Full-Stack Senior',
+    freelance: 'Ingeniero Full-Stack Senior',
+  },
+} as const;
+
+const CV_SUMMARIES = {
+  en: {
+    'fullstack-ai': 'Senior full-stack engineer with 8+ years building and scaling',
+    'tech-lead': 'Owns releases, production migrations, the self-hosted GitLab',
+    freelance: 'I take AI-built apps to production',
+  },
+  es: {
+    'fullstack-ai': 'Ingeniero full-stack senior con más de 8 años',
+    'tech-lead': 'Es responsable de los releases, las migraciones en producción',
+    freelance: 'Llevo a producción aplicaciones construidas con IA',
+  },
+} as const;
+
 const FIXTURE_TEXT = {
   shared: 'Shared engagement bullet shown in every CV.',
   reordered: 'Shared engagement bullet moved first for Tech Lead.',
@@ -272,17 +299,45 @@ describe('build-level outputs', () => {
       const text = await artifactPdfText(`cv-en-${variant}.pdf`);
 
       expect(text, variant).toContain(EXPECTED.company);
-      expect(text, variant).toContain(EXPECTED.en.title);
+      expect(text, variant).toContain(CV_TITLES.en[variant]);
+      expect(text, variant).toContain(CV_SUMMARIES.en[variant]);
       expect(text, variant).toContain(EXPECTED.en.bullet);
       expect(text, variant).toContain(EXPECTED.en.releaseBullet);
     }
+  });
+
+  it('gives the three English CVs different summaries and titles', async () => {
+    const documents = await Promise.all(
+      CV_VARIANTS.map((variant) =>
+        artifactPdfText(`cv-en-${variant}.pdf`).then((text) => ({
+          variant,
+          text,
+        })),
+      ),
+    );
+
+    for (const { variant, text } of documents) {
+      for (const other of CV_VARIANTS) {
+        if (other === variant) {
+          continue;
+        }
+
+        expect(text, `${variant} vs ${other}`).not.toContain(
+          CV_SUMMARIES.en[other],
+        );
+      }
+    }
+
+    expect(documents[0].text).not.toContain(CV_TITLES.en['tech-lead']);
+    expect(documents[2].text).not.toContain(CV_TITLES.en['tech-lead']);
   });
 
   it('produces the English Full-Stack + AI PDF with the role text', async () => {
     const text = await artifactPdfText('cv-en-fullstack-ai.pdf');
 
     expect(text).toContain(EXPECTED.company);
-    expect(text).toContain(EXPECTED.en.title);
+    expect(text).toContain(CV_TITLES.en['fullstack-ai']);
+    expect(text).toContain(CV_SUMMARIES.en['fullstack-ai']);
     expect(text).toContain(EXPECTED.en.bullet);
     expect(text).toContain(EXPECTED.en.growthBullet);
     expect(text).toContain(EXPECTED.en.experienceHeading);
@@ -294,7 +349,8 @@ describe('build-level outputs', () => {
     const text = await artifactPdfText('cv-es-fullstack-ai.pdf');
 
     expect(text).toContain(EXPECTED.company);
-    expect(text).toContain(EXPECTED.es.title);
+    expect(text).toContain(CV_TITLES.es['fullstack-ai']);
+    expect(text).toContain(CV_SUMMARIES.es['fullstack-ai']);
     expect(text).toContain(EXPECTED.es.bullet);
     expect(text).toContain(EXPECTED.es.growthBullet);
     expect(text).toContain(EXPECTED.es.releaseBullet);
@@ -459,6 +515,22 @@ describe('variant engine with fixture content', () => {
         text.indexOf('Experience'),
       );
     }
+  });
+
+  it('applies per-variant summaries and falls back to the master summary', () => {
+    expect(pdfTexts['fullstack-ai']).toContain('Fixture summary.');
+    expect(pdfTexts['fullstack-ai']).not.toContain(
+      'Fixture tech lead summary.',
+    );
+    expect(pdfTexts['fullstack-ai']).not.toContain(
+      'Fixture freelance summary.',
+    );
+
+    expect(pdfTexts['tech-lead']).toContain('Fixture tech lead summary.');
+    expect(pdfTexts['tech-lead']).not.toContain('Fixture freelance summary.');
+
+    expect(pdfTexts.freelance).toContain('Fixture freelance summary.');
+    expect(pdfTexts.freelance).not.toContain('Fixture tech lead summary.');
   });
 
   it('applies per-variant role titles', () => {
