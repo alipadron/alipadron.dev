@@ -20,7 +20,6 @@
       "locationModel": "remote",
       "stack": [
         "AngularJS",
-        "Angular",
         "Laravel",
         "MySQL",
         "Redis",
@@ -41,8 +40,20 @@
           "id": "gofeels-reservation-growth",
           "order": 200,
           "text": {
-            "en": "Scaled the same platform to +750k room reservations and ~13× growth in yearly reservations from 2020 to 2025.",
-            "es": "Escaló la misma plataforma a +750k reservas de habitación y un crecimiento de ~13× en reservas anuales entre 2020 y 2025."
+            "en": "Grew the platform to +750k room reservations in total and ~13× its 2020 yearly reservation volume by 2025.",
+            "es": "Escaló la plataforma a +750k reservas de habitación en total y a ~13× su volumen anual de reservas de 2020 para 2025."
+          }
+        },
+        {
+          "id": "gofeels-online-payments",
+          "order": 250,
+          "variants": ["tech-lead"],
+          "orderByVariant": {
+            "tech-lead": 25
+          },
+          "text": {
+            "en": "Own the online payments stack (Webpay, Stripe, PayPal) and the booking engine and payment links behind tens of thousands of online payments a year.",
+            "es": "Es responsable de la plataforma de pagos en línea (Webpay, Stripe, PayPal) y del motor de reservas y los links de pago detrás de decenas de miles de pagos en línea al año."
           }
         },
         {
@@ -50,8 +61,8 @@
           "order": 300,
           "variants": ["fullstack-ai", "tech-lead"],
           "text": {
-            "en": "Diagnosed overbookings to stale availability in the outbound OTA sync, then rebuilt the channel manager to keep availability and rates in continuous sync with Booking.com, Expedia and Roombeast.",
-            "es": "Diagnosticó que los sobrecupos venían de disponibilidad desactualizada en la sincronización saliente con OTAs, y reconstruyó el channel manager para mantener disponibilidad y tarifas en sincronización continua con Booking.com, Expedia y Roombeast."
+            "en": "Traced overbookings to stale availability in the outbound OTA sync, then rebuilt the channel manager to keep availability and rates in continuous sync with Booking.com, Expedia and Roombeast.",
+            "es": "Rastreó los sobrecupos hasta disponibilidad desactualizada en la sincronización saliente con OTAs, y reconstruyó el channel manager para mantener disponibilidad y tarifas en sincronización continua con Booking.com, Expedia y Roombeast."
           }
         },
         {
@@ -100,17 +111,8 @@
           }
         },
         {
-          "id": "gofeels-angularjs-exit-plan",
-          "order": 900,
-          "variants": ["fullstack-ai", "tech-lead"],
-          "text": {
-            "en": "Plan the AngularJS exit for the PMS frontend (still on AngularJS today) with a phased migration path and a Tailwind and DaisyUI design foundation.",
-            "es": "Planifica la salida de AngularJS del frontend del PMS (hoy todavía en AngularJS) con una ruta de migración por fases y una base de diseño con Tailwind y DaisyUI."
-          }
-        },
-        {
           "id": "gofeels-release-time",
-          "order": 1000,
+          "order": 900,
           "orderByVariant": {
             "tech-lead": 30,
             "freelance": 20
@@ -122,7 +124,7 @@
         },
         {
           "id": "gofeels-shared-ci",
-          "order": 1100,
+          "order": 1000,
           "orderByVariant": {
             "tech-lead": 40,
             "freelance": 10
@@ -134,7 +136,7 @@
         },
         {
           "id": "gofeels-security-hardening",
-          "order": 1200,
+          "order": 1100,
           "orderByVariant": {
             "tech-lead": 10,
             "freelance": 30
@@ -146,7 +148,7 @@
         },
         {
           "id": "gofeels-production-ownership",
-          "order": 1300,
+          "order": 1200,
           "orderByVariant": {
             "tech-lead": 20,
             "freelance": 40
@@ -158,7 +160,7 @@
         },
         {
           "id": "gofeels-tech-lead",
-          "order": 1400,
+          "order": 1300,
           "orderByVariant": {
             "tech-lead": 50,
             "freelance": 50
@@ -166,6 +168,15 @@
           "text": {
             "en": "Act as technical lead: co-design with product, review merge requests, mentor developers and set the team's AI-assisted workflow from spec to tickets, implementation and review.",
             "es": "Ejerce como líder técnico: co-diseña con producto, revisa merge requests, mentoriza desarrolladores y define el flujo asistido por IA del equipo, de la especificación a los tickets, la implementación y la revisión."
+          }
+        },
+        {
+          "id": "gofeels-angularjs-exit-plan",
+          "order": 1400,
+          "variants": ["fullstack-ai", "tech-lead"],
+          "text": {
+            "en": "Plan the AngularJS exit for the PMS frontend (still on AngularJS today) with a phased migration path and a Tailwind and DaisyUI design foundation.",
+            "es": "Planifica la salida de AngularJS del frontend del PMS (hoy todavía en AngularJS) con una ruta de migración por fases y una base de diseño con Tailwind y DaisyUI."
           }
         }
       ]
