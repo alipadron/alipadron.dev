@@ -344,48 +344,50 @@ describe('build-level outputs', () => {
     {
       fixture: 'invalid-date',
       expectedFile: 'career.json',
-      expectedDetail: 'startDate',
+      expectedDetails: ['startDate'],
       expectedMessage: 'must be a year (YYYY) or a month (YYYY-MM)',
     },
     {
       fixture: 'invalid-translation',
       expectedFile: 'career.json',
-      expectedDetail: 'title.es',
+      expectedDetails: ['title.es'],
       expectedMessage: 'missing Spanish translation',
     },
     {
       fixture: 'invalid-ui-translation',
       expectedFile: 'ui.json',
-      expectedDetail: 'home.experienceLink.es',
+      expectedDetails: ['home.experienceLink.es'],
       expectedMessage: 'missing Spanish translation',
     },
     {
       fixture: 'unknown-variant',
       expectedFile: 'career.json',
-      expectedDetail: 'entries.0.variants.0',
+      expectedDetails: ['entries.0.variants.0'],
       expectedMessage: 'unknown variant',
     },
     {
       fixture: 'mismatched-override',
       expectedFile: 'career.json',
-      expectedDetail: 'entries.0.placementByVariant.fullstack-ai',
+      expectedDetails: ['entries.0.placementByVariant.fullstack-ai'],
       expectedMessage: 'must belong to one of the entry variants',
     },
     {
       fixture: 'invalid-education-date',
       expectedFile: 'career.json',
-      expectedDetail: 'education.0.endDate',
+      expectedDetails: ['education.0.endDate'],
       expectedMessage: 'must not be earlier than startDate',
     },
     {
+      // The fixture drops all three sections the schema requires, so every
+      // missing section has to be named in the error.
       fixture: 'missing-sections',
       expectedFile: 'career.json',
-      expectedDetail: 'skills',
+      expectedDetails: ['skills', 'education', 'languages'],
       expectedMessage: 'expected array',
     },
   ])(
     'fails the build with a clear message for the $fixture fixture',
-    ({ fixture, expectedFile, expectedDetail, expectedMessage }) => {
+    ({ fixture, expectedFile, expectedDetails, expectedMessage }) => {
       const result = runNpmScript('build', {
         CONTENT_DIR: path.join(PROJECT_ROOT, 'tests/fixtures', fixture),
       });
@@ -393,7 +395,11 @@ describe('build-level outputs', () => {
       expect(result.status, result.output).not.toBe(0);
       expect(result.output).toContain('Invalid content in');
       expect(result.output).toContain(expectedFile);
-      expect(result.output).toContain(expectedDetail);
+
+      for (const detail of expectedDetails) {
+        expect(result.output, detail).toContain(detail);
+      }
+
       expect(result.output).toContain(expectedMessage);
     },
   );
