@@ -5,7 +5,7 @@
 //
 // Nothing here runs in the site build and nothing here is imported by the app.
 // Once issue #14 picks a direction these files are deleted.
-import { writeFileSync } from 'node:fs';
+import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -41,6 +41,7 @@ const prototypes = [
 
 for (const prototype of prototypes) {
   const target = join(here, prototype.dir);
+  mkdirSync(target, { recursive: true });
 
   writeFileSync(join(target, 'index.html'), prototype.home());
   writeFileSync(join(target, 'experience.html'), prototype.experience());

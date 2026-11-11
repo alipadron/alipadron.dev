@@ -22,9 +22,9 @@ function header(current) {
       if (href === null) {
         return `<span class="planned">${text}</span>`;
       }
-      const current_ = href === current ? ' aria-current="page"' : '';
+      const active = href === current ? ' aria-current="page"' : '';
 
-      return `<a href="${href}"${current_}>${text}</a>`;
+      return `<a href="${href}"${active}>${text}</a>`;
     })
     .join('\n          ');
 
@@ -40,11 +40,9 @@ function header(current) {
 function footer() {
   return `<footer class="foot">
       <p class="foot-contact">
-        <a href="mailto:${profile.email}">${profile.email}</a>
-        <span aria-hidden="true">·</span>
-        <a href="${profile.linkedin}">LinkedIn</a>
-        <span aria-hidden="true">·</span>
-        <a href="${profile.github}">GitHub</a>
+        ${contact
+          .map(({ label: text, href }) => `<a href="${href}">${text}</a>`)
+          .join('\n        <span aria-hidden="true">·</span>\n        ')}
       </p>
       <p class="foot-meta">English <span aria-hidden="true">·</span> <span class="planned">Español</span></p>
     </footer>`;
@@ -143,12 +141,12 @@ export function experiencePage() {
       </header>
 
       <section aria-label="Roles">
-        ${experience.map((entry_) => entry(entry_, 2)).join('\n\n        ')}
+        ${experience.map((item) => entry(item, 2)).join('\n\n        ')}
       </section>
 
       <section class="projects" aria-labelledby="projects-heading">
         <h2 id="projects-heading" class="section-label">Projects</h2>
-        ${projects.map((entry_) => entry(entry_, 3)).join('\n\n        ')}
+        ${projects.map((item) => entry(item, 3)).join('\n\n        ')}
       </section>
 
       <section class="closing">
