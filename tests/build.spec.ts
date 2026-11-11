@@ -45,11 +45,11 @@ const EXPECTED = {
     homeLink: 'Read the experience',
   },
   es: {
-    title: 'Ingeniero Full-Stack Senior / Tech Lead',
+    title: 'Ingeniero Full-Stack Senior / Líder técnico',
     bullet:
-      'Lidera el desarrollo full-stack de un PMS hotelero construido con AngularJS y Laravel, usado por +150 hoteles con +2,000 habitaciones para reservas, pagos y operación diaria.',
-    releaseBullet: 'Redujo el tiempo de release de más de 30 minutos a unos 7 minutos',
-    growthBullet: 'Escaló la plataforma a +750k reservas de habitación en total',
+      'Lidera el desarrollo full-stack de un PMS hotelero construido con AngularJS y Laravel, usado por más de 150 hoteles con más de 2.000 habitaciones para reservas, pagos y operación diaria.',
+    releaseBullet: 'Redujo el tiempo de publicación de más de 30 minutos a unos 7 minutos',
+    growthBullet: 'Llevó la plataforma a más de 750.000 reservas de habitaciones acumuladas',
     paymentsBullet: 'decenas de miles de pagos en línea al año',
     experienceHeading: 'Experiencia',
     present: 'Actualidad',
@@ -87,15 +87,15 @@ const MASTER_CONTENT = {
   ],
   es: [
     'una plataforma de datos de mercado y noticias en tiempo real',
-    'una plataforma de remesas de USD a VES en Laravel y Filament',
-    '~5M de artículos de feeds RSS y scrapers',
-    '20–50 clientes empresariales',
+    'una plataforma de remesas de USD a VES sobre Laravel y Filament',
+    '~5 millones de artículos de fuentes RSS y scrapers',
+    'entre 20 y 50 clientes empresariales',
     'un ERP de construcción de Silverlight a Angular 7',
     'módulo de geolocalización con Google Maps',
-    'Cofundó Tuapplicaya y dirige su lado técnico antes del lanzamiento',
+    'Cofundó Tuapplicaya y dirige su área técnica antes del lanzamiento',
     'spatie/laravel-translatable',
     'PWA de mantenimiento de vehículos con soporte offline',
-    'PWA de medicación del hogar',
+    'PWA de gestión de medicamentos para el hogar',
   ],
 };
 

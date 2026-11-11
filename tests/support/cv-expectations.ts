@@ -13,9 +13,9 @@ export const CV_TITLES = {
     freelance: 'Senior Full-Stack Engineer / Tech Lead',
   },
   es: {
-    'fullstack-ai': 'Ingeniero Full-Stack Senior / Tech Lead',
-    'tech-lead': 'Tech Lead / Ingeniero Full-Stack Senior',
-    freelance: 'Ingeniero Full-Stack Senior / Tech Lead',
+    'fullstack-ai': 'Ingeniero Full-Stack Senior / Líder técnico',
+    'tech-lead': 'Líder técnico / Ingeniero Full-Stack Senior',
+    freelance: 'Ingeniero Full-Stack Senior / Líder técnico',
   },
 } as const;
 
@@ -27,8 +27,8 @@ export const CV_SUMMARIES = {
     freelance: 'I take AI-built apps to production',
   },
   es: {
-    'fullstack-ai': 'Trabaja con agentes de IA como parte del método',
-    'tech-lead': 'Es responsable de los releases, las migraciones en producción',
+    'fullstack-ai': 'Integra agentes de IA en su método de trabajo',
+    'tech-lead': 'Es responsable de las publicaciones, las migraciones en producción',
     freelance: 'Llevo a producción aplicaciones construidas con IA',
   },
 } as const;
@@ -53,7 +53,7 @@ export const ORDER_MARKERS = {
   },
   es: {
     pms: 'Lidera el desarrollo full-stack de un PMS hotelero',
-    security: 'Ejecutó un programa proactivo de endurecimiento de seguridad',
+    security: 'Ejecutó un programa proactivo de fortalecimiento de la seguridad',
     agentic: 'Ejerce como líder técnico',
     sharedCi: 'Extrajo componentes de CI compartidos',
   },

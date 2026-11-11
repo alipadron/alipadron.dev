@@ -52,7 +52,7 @@ const EXPECTED = {
   },
   es: {
     bullet:
-      'Lidera el desarrollo full-stack de un PMS hotelero construido con AngularJS y Laravel, usado por +150 hoteles con +2,000 habitaciones para reservas, pagos y operación diaria.',
+      'Lidera el desarrollo full-stack de un PMS hotelero construido con AngularJS y Laravel, usado por más de 150 hoteles con más de 2.000 habitaciones para reservas, pagos y operación diaria.',
     details:
       '2020 – Actualidad · Remoto · AngularJS, Laravel, MySQL, Redis, Docker, GitLab CI',
     experienceHeading: 'Experiencia',
