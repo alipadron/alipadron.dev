@@ -46,7 +46,7 @@ const EXPECTED = {
     bullet:
       'Lead full-stack delivery of a hotel PMS built with AngularJS and Laravel, used by +150 hotels with +2,000 rooms for reservations, payments and daily operations.',
     details:
-      '2020 – Present · Remote · AngularJS, Laravel, MySQL, Redis, Docker, GitLab CI',
+      '2020-02 – Present · Remote · AngularJS, Laravel, MySQL, Redis, Docker, GitLab CI',
     experienceHeading: 'Experience',
     projectsHeading: 'Projects',
   },
@@ -54,7 +54,7 @@ const EXPECTED = {
     bullet:
       'Lidera el desarrollo full-stack de un PMS hotelero construido con AngularJS y Laravel, usado por más de 150 hoteles con más de 2.000 habitaciones para reservas, pagos y operación diaria.',
     details:
-      '2020 – Actualidad · Remoto · AngularJS, Laravel, MySQL, Redis, Docker, GitLab CI',
+      '2020-02 – Actualidad · Remoto · AngularJS, Laravel, MySQL, Redis, Docker, GitLab CI',
     experienceHeading: 'Experiencia',
     projectsHeading: 'Proyectos',
   },

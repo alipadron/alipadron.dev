@@ -73,7 +73,7 @@
           "es": "Líder técnico / Ingeniero Full-Stack Senior"
         }
       },
-      "startDate": "2020",
+      "startDate": "2020-02",
       "endDate": null,
       "locationModel": "remote",
       "stack": [
@@ -100,6 +100,14 @@
           "text": {
             "en": "Grew the platform to +750k room reservations in total and ~13× its 2020 yearly reservation volume by 2025.",
             "es": "Llevó la plataforma a más de 750.000 reservas de habitaciones acumuladas y, para 2025, a unas 13 veces su volumen anual de reservas de 2020."
+          }
+        },
+        {
+          "id": "gofeels-booking-engine-v1",
+          "order": 220,
+          "text": {
+            "en": "Built the first booking engine (Angular + Laravel), in production from 2020 until its 2024 rebuild and the start of a direct sales channel that now brings in +25k reservations a year.",
+            "es": "Construyó la primera versión del motor de reservas (Angular + Laravel), en producción desde 2020 hasta su reconstrucción en 2024 y punto de partida de un canal de venta directa que hoy genera más de 25.000 reservas al año."
           }
         },
         {
@@ -300,13 +308,19 @@
         "en": "Freelance Full-Stack Engineer",
         "es": "Ingeniero Full-Stack Freelance"
       },
-      "startDate": "2026-09",
-      "endDate": "2026-10",
+      "startDate": "2023-10",
+      "endDate": null,
       "locationModel": "remote",
       "stack": [
+        "WordPress",
+        "PHP",
+        "Leaflet",
+        "Chart.js",
         "React",
         "Firebase",
         "Next.js",
+        "Laravel",
+        "Angular",
         "PostgreSQL",
         "Docker",
         "GitHub Actions"
@@ -314,27 +328,84 @@
       "concurrentIn": ["freelance"],
       "bullets": [
         {
-          "id": "independent-erp-rescue",
+          "id": "independent-caracol-plugin",
           "order": 100,
+          "variants": ["fullstack-ai", "tech-lead", "freelance"],
+          "text": {
+            "en": "Caracol de Tinta (literary magazine): built a custom WordPress plugin for paid workshop registrations, with manual payment verification, timed seat holds, 12 transactional emails and 79 PHPUnit + 33 Vitest tests.",
+            "es": "Caracol de Tinta (revista literaria): construyó un plugin de WordPress a medida para inscripciones pagadas a talleres, con verificación manual de pagos, reserva temporal de cupos, 12 correos transaccionales y 79 tests de PHPUnit y 33 de Vitest."
+          }
+        },
+        {
+          "id": "independent-caracol-ops",
+          "order": 150,
+          "variants": ["tech-lead", "freelance"],
+          "text": {
+            "en": "Set up and run Caracol de Tinta's server from scratch (nginx, PHP, MariaDB, Redis): security audit and hardening with 2FA and a fail2ban jail against password spraying, encrypted offsite backups to Cloudflare R2 with a tested restore, GA4 consent-mode funnel and SPF/DKIM/DMARC.",
+            "es": "Montó desde cero y opera el servidor de Caracol de Tinta (nginx, PHP, MariaDB, Redis): auditoría y endurecimiento de seguridad con 2FA y una jaula de fail2ban contra password spraying, copias de seguridad cifradas fuera del servidor en Cloudflare R2 con restauración probada, embudo de GA4 con modo de consentimiento y SPF/DKIM/DMARC."
+          }
+        },
+        {
+          "id": "independent-americas-quarterly",
+          "order": 200,
+          "variants": ["fullstack-ai", "freelance"],
+          "text": {
+            "en": "Americas Quarterly: built interactive maps for three articles (Leaflet, Chart.js) with custom markers, detail cards and per-country layers, embedded in the articles and revised with the editorial team on publishing deadlines.",
+            "es": "Americas Quarterly: construyó mapas interactivos para tres artículos (Leaflet, Chart.js) con marcadores personalizados, fichas de detalle y capas por país, incrustados en los artículos y ajustados con el equipo editorial en plazos de publicación."
+          }
+        },
+        {
+          "id": "independent-miami-vet-group",
+          "order": 250,
+          "variants": ["freelance"],
+          "text": {
+            "en": "Miami Vet Group: replaced a previous developer's static Next.js site with a WordPress site the clinic manages itself, with appointment and careers forms; +250 appointment requests since the November 2025 relaunch.",
+            "es": "Miami Vet Group: reemplazó el sitio estático en Next.js de un desarrollador anterior por un sitio en WordPress que la clínica administra por sí misma, con formularios de citas y de empleo; más de 250 solicitudes de cita desde el relanzamiento de noviembre de 2025."
+          }
+        },
+        {
+          "id": "independent-erp-rescue",
+          "order": 300,
           "text": {
             "en": "Rescued an education ERP a client had built with AI: found the right Firestore database among four auto-created ones, restored production data into local emulators and moved state that only lived in the browser into real persistence.",
             "es": "Rescató un ERP educativo que un cliente había construido con IA: identificó la base de datos correcta de Firestore entre cuatro creadas automáticamente, restauró los datos de producción en emuladores locales y llevó a persistencia real el estado que solo existía en el navegador."
-          }
+          },
+          "variants": ["fullstack-ai", "tech-lead", "freelance"]
         },
         {
           "id": "independent-payroll",
-          "order": 200,
+          "order": 400,
           "text": {
             "en": "Built the payroll features the client needed in production: employee loans, payroll corrections, period closing, mid-month advances and BCV exchange rates.",
             "es": "Implementó en producción las funciones de nómina que el cliente necesitaba: préstamos a empleados, correcciones de nómina, cierre de período, anticipos de mitad de mes y tasas del BCV."
-          }
+          },
+          "variants": ["freelance"]
         },
         {
           "id": "independent-courses-platform",
-          "order": 300,
+          "order": 500,
           "text": {
             "en": "Shipped a courses platform end to end (Next.js, PostgreSQL, Docker on a VPS) with authentication, progress tracking, PDF certificates, coupons, Stripe and invoicing export.",
             "es": "Entregó de punta a punta una plataforma de cursos (Next.js, PostgreSQL, Docker en un VPS) con autenticación, seguimiento del progreso, certificados en PDF, cupones, Stripe y exportación de facturas."
+          },
+          "variants": ["fullstack-ai", "freelance"]
+        },
+        {
+          "id": "independent-mentoring-platform",
+          "order": 600,
+          "variants": ["freelance"],
+          "text": {
+            "en": "Built a mentoring social platform (Laravel + Angular) with real-time chat, HubSpot sync and CI/CD to DigitalOcean, and handed it over to the client.",
+            "es": "Construyó una plataforma social de mentorías (Laravel + Angular) con chat en tiempo real, sincronización con HubSpot y CI/CD hacia DigitalOcean, y la entregó al cliente."
+          }
+        },
+        {
+          "id": "independent-warehouse-module",
+          "order": 700,
+          "variants": ["freelance"],
+          "text": {
+            "en": "Built a warehouse module for a cargo company: package intake with photos, deliveries and per-package status history.",
+            "es": "Construyó un módulo de almacén para una empresa de carga: recepción de paquetes con fotos, entregas e historial de estado por paquete."
           }
         }
       ]
@@ -349,7 +420,7 @@
         "en": "Software Engineer",
         "es": "Ingeniero de Software"
       },
-      "startDate": "2021-02",
+      "startDate": "2021-01",
       "endDate": "2026-05",
       "locationModel": "remote",
       "stack": [
@@ -502,14 +573,14 @@
     {
       "id": "brickcontrol",
       "company": {
-        "en": "BrickControl",
-        "es": "BrickControl"
+        "en": "BrickControl (Desarrollos Informáticos SHM SL)",
+        "es": "BrickControl (Desarrollos Informáticos SHM SL)"
       },
       "title": {
         "en": "Frontend Developer",
         "es": "Desarrollador Frontend"
       },
-      "startDate": "2019-03",
+      "startDate": "2019-05",
       "endDate": "2019-12",
       "locationModel": "remote",
       "stack": [
@@ -555,12 +626,16 @@
         "en": "Junior Software Engineer",
         "es": "Ingeniero de Software Junior"
       },
-      "startDate": "2018-11",
+      "startDate": "2018-10",
       "endDate": "2020-01",
       "locationModel": "onsite",
       "stack": [
         "Angular",
         "PHP",
+        "Laravel",
+        "Node.js",
+        "AWS Lambda",
+        "DynamoDB",
         "Google Maps"
       ],
       "bullets": [
@@ -578,6 +653,22 @@
           "text": {
             "en": "Implemented a Google Maps geolocation module that simplified the billing process for clients.",
             "es": "Implementó un módulo de geolocalización con Google Maps que simplificó el proceso de facturación para los clientes."
+          }
+        },
+        {
+          "id": "novoples-municipal-taxes",
+          "order": 300,
+          "text": {
+            "en": "Built a municipal tax collection system for a municipality in Argentina, delivered through an Argentine software partner.",
+            "es": "Construyó un sistema de recaudación de impuestos municipales para un municipio de Argentina, entregado a través de un socio de software argentino."
+          }
+        },
+        {
+          "id": "novoples-serverless",
+          "order": 400,
+          "text": {
+            "en": "Built serverless systems on AWS (Lambda, DynamoDB) for an ERP and an insurance policy platform, plus a pawn-shop management system in Laravel.",
+            "es": "Construyó sistemas serverless en AWS (Lambda, DynamoDB) para un ERP y una plataforma de pólizas de seguro, además de un sistema de gestión para casas de empeño en Laravel."
           }
         }
       ]
@@ -958,7 +1049,7 @@
         "es": "Estudios de Ciencias de la Computación"
       },
       "startDate": "2014",
-      "endDate": "2018"
+      "endDate": "2019"
     }
   ],
   "languages": [
@@ -980,8 +1071,8 @@
         "es": "Inglés"
       },
       "level": {
-        "en": "B2 (EF SET in progress)",
-        "es": "B2 (EF SET en curso)"
+        "en": "Professional — fluent written technical English; technical interviews in English",
+        "es": "Profesional — inglés técnico fluido por escrito; entrevistas técnicas en inglés"
       }
     }
   ]
