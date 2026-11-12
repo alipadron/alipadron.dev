@@ -168,7 +168,28 @@ export function formatDateRange(
   entry: Pick<SelectedEntry, 'startDate' | 'endDate'>,
   language: Language = 'en',
 ): string {
-  return `${entry.startDate} – ${entry.endDate ?? PRESENT_LABEL[language]}`;
+  const end = entry.endDate
+    ? formatMonthOrYear(entry.endDate, language)
+    : PRESENT_LABEL[language];
+  return `${formatMonthOrYear(entry.startDate, language)} – ${end}`;
+}
+
+/** Short month names, fixed per language so output never depends on ICU data. */
+const MONTH_LABELS: Record<Language, readonly string[]> = {
+  en: [
+    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+  ],
+  es: [
+    'ene', 'feb', 'mar', 'abr', 'may', 'jun',
+    'jul', 'ago', 'sep', 'oct', 'nov', 'dic',
+  ],
+};
+
+/** "2020-02" → "Feb 2020" (en) / "feb 2020" (es); a year-only date stays as is. */
+function formatMonthOrYear(value: string, language: Language): string {
+  const [year, month] = value.split('-');
+  return month ? `${MONTH_LABELS[language][Number(month) - 1]} ${year}` : year;
 }
 
 export function formatLocationModel(
