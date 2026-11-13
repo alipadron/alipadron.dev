@@ -15,8 +15,11 @@
 
 @media (min-width: 900px) {
   .hero {
-    grid-template-columns: minmax(0, 1fr) 17rem;
     padding-top: var(--space-9);
+  }
+
+  .hero.with-photo {
+    grid-template-columns: minmax(0, 1fr) 17rem;
   }
 }
 

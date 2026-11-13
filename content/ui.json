@@ -38,17 +38,9 @@
       "en": "Read on",
       "es": "Seguir leyendo"
     },
-    "photoPlaceholder": {
-      "en": "Photo",
-      "es": "Foto"
-    },
     "photoAlt": {
-      "en": "Photo of Alí Padrón, coming later",
-      "es": "Foto de Alí Padrón, próximamente"
-    },
-    "photoCaption": {
-      "en": "Portrait to come.",
-      "es": "Retrato próximamente."
+      "en": "Photo of Alí Padrón",
+      "es": "Foto de Alí Padrón"
     }
   },
   "experience": {
