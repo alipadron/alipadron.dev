@@ -22,13 +22,13 @@ export const CV_TITLES = {
 /** A distinctive phrase from each variant's summary. */
 export const CV_SUMMARIES = {
   en: {
-    'fullstack-ai': 'Senior full-stack engineer with 8+ years building and scaling',
-    'tech-lead': 'Owns releases, production migrations, the self-hosted GitLab',
+    'fullstack-ai': '8+ years building and scaling web products',
+    'tech-lead': 'tech lead and senior full-stack engineer with 8+ years',
     freelance: 'I take AI-built apps to production',
   },
   es: {
-    'fullstack-ai': 'Integra agentes de IA en su método de trabajo',
-    'tech-lead': 'Es responsable de los lanzamientos, las migraciones en producción',
+    'fullstack-ai': 'Trabajo con agentes de IA en el día a día',
+    'tech-lead': 'Soy líder técnico e ingeniero full-stack senior',
     freelance: 'Llevo a producción aplicaciones construidas con IA',
   },
 } as const;
@@ -38,23 +38,21 @@ export const CONCURRENT_LABELS = {
   es: 'Compromiso simultáneo',
 } as const;
 
-export const PAYMENTS_LINES = {
-  en: 'tens of thousands of online payments a year',
-  es: 'decenas de miles de pagos en línea al año',
+export const WAREHOUSE_LINES = {
+  en: 'warehouse and package-tracking system',
+  es: 'sistema de almacén y rastreo de paquetes',
 } as const;
 
 /** Phrases that reveal bullet order in the real content, per language. */
 export const ORDER_MARKERS = {
   en: {
-    pms: 'Lead full-stack delivery of a hotel PMS',
-    security: 'Ran a proactive security hardening program',
-    agentic: 'Act as technical lead',
-    sharedCi: 'Extracted shared CI components',
+    pms: 'Contribute to the full-stack development of a hotel PMS',
+    release: 'Cut release time from 30+ minutes to about 7',
+    techLead: 'Act as technical lead',
   },
   es: {
-    pms: 'Lidera el desarrollo full-stack de un PMS hotelero',
-    security: 'Ejecutó un programa proactivo de endurecimiento de la seguridad',
-    agentic: 'Ejerce como líder técnico',
-    sharedCi: 'Extrajo componentes de CI compartidos',
+    pms: 'Contribuyo al desarrollo full-stack de un PMS hotelero',
+    release: 'Reduje el tiempo de lanzamiento de más de 30 minutos a unos 7',
+    techLead: 'Ejerzo como líder técnico',
   },
 } as const;

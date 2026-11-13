@@ -1,13 +1,7 @@
 import type { Language } from '../content/language';
-import type { CaseStudies, UiStrings } from '../content/schema';
+import type { UiStrings } from '../content/schema';
 import { otherLanguage } from './i18n';
-import {
-  CASE_STUDIES_PATH,
-  SITE_PAGES,
-  localizedPath,
-  type CaseStudyPath,
-  type SitePath,
-} from './routes';
+import { SITE_PAGES, localizedPath, type SitePath } from './routes';
 
 /**
  * The public origin. Canonical, sharing and sitemap URLs always use it, even
@@ -30,7 +24,7 @@ const OG_LOCALES: Record<Language, string> = {
   es: 'es_ES',
 };
 
-/** The page whose copy a route uses. Case study pages take theirs from the study. */
+/** The page whose copy a route uses. */
 export type SeoPageKey = keyof UiStrings['seo']['pages'];
 
 /** The URLs of one page in every language it is published in. */
@@ -48,7 +42,7 @@ export interface PageMetadata {
   readonly description: string;
   readonly canonical: string;
   readonly alternates: PageAlternates;
-  readonly ogType: 'website' | 'article';
+  readonly ogType: 'website';
   readonly ogImage: string;
   readonly imageAlt: string;
   readonly siteName: string;
@@ -72,46 +66,15 @@ export function pageAlternates(path: SitePath): PageAlternates {
   return { en, es, xDefault: en };
 }
 
-function isCaseStudyPath(path: SitePath): path is CaseStudyPath {
-  return path.startsWith(`${CASE_STUDIES_PATH}/`);
-}
-
-function staticSeoKey(path: Exclude<SitePath, CaseStudyPath>): SeoPageKey {
+function seoKey(path: SitePath): SeoPageKey {
   switch (path) {
     case '/':
       return 'home';
     case '/experience':
       return 'experience';
-    case CASE_STUDIES_PATH:
-      return 'case-studies';
-    case '/how-i-work':
-      return 'how-i-work';
-    case '/work-with-me':
-      return 'work-with-me';
     case '/contact':
       return 'contact';
   }
-}
-
-function caseStudySeo(
-  path: CaseStudyPath,
-  language: Language,
-  ui: UiStrings,
-  caseStudies: CaseStudies,
-): { title: string; description: string } {
-  const id = path.slice(CASE_STUDIES_PATH.length + 1);
-  const study = caseStudies.caseStudies.find((entry) => entry.id === id);
-
-  if (study === undefined) {
-    throw new Error(`No case study content for ${path}`);
-  }
-
-  return {
-    // The study's own title is body copy, so the site name keeps the page
-    // identifiable in a tab or a search result.
-    title: `${study.title[language]} — ${ui.siteName[language]}`,
-    description: study.summary[language],
-  };
 }
 
 /**
@@ -123,13 +86,8 @@ function pageCopy(
   path: SitePath,
   language: Language,
   ui: UiStrings,
-  caseStudies: CaseStudies,
 ): { title: string; description: string } {
-  if (isCaseStudyPath(path)) {
-    return caseStudySeo(path, language, ui, caseStudies);
-  }
-
-  const page = ui.seo.pages[staticSeoKey(path)];
+  const page = ui.seo.pages[seoKey(path)];
 
   return {
     title: page.title[language],
@@ -140,10 +98,10 @@ function pageCopy(
 export function pageMetadata(
   path: SitePath,
   language: Language,
-  content: { readonly ui: UiStrings; readonly caseStudies: CaseStudies },
+  content: { readonly ui: UiStrings },
 ): PageMetadata {
-  const { ui, caseStudies } = content;
-  const copy = pageCopy(path, language, ui, caseStudies);
+  const { ui } = content;
+  const copy = pageCopy(path, language, ui);
   const alternates = pageAlternates(path);
 
   return {
@@ -152,7 +110,7 @@ export function pageMetadata(
     description: copy.description,
     canonical: language === 'en' ? alternates.en : alternates.es,
     alternates,
-    ogType: isCaseStudyPath(path) ? 'article' : 'website',
+    ogType: 'website',
     ogImage: absoluteUrl(OG_IMAGE_PATH),
     imageAlt: ui.seo.imageAlt[language],
     siteName: ui.siteName[language],

@@ -1,37 +1,13 @@
-import { CASE_STUDY_IDS, type CaseStudyId } from '../content/case-studies';
 import type { Language } from '../content/language';
 import type { ContentPageId } from '../content/schema';
-
-export const CASE_STUDIES_PATH = '/case-studies' as const;
-
-/** The page of one case study: `/case-studies/<id>`. */
-export type CaseStudyPath = `${typeof CASE_STUDIES_PATH}/${CaseStudyId}`;
-
-export function caseStudyPath(id: CaseStudyId): CaseStudyPath {
-  return `${CASE_STUDIES_PATH}/${id}`;
-}
 
 /**
  * Every page the site publishes, identified by its English path. A page is
  * always published in both languages: the Spanish version lives under `/es`.
- * The case studies come from the same id list as the content, so an index entry
- * and its page cannot drift apart.
  */
-export const SITE_PAGES: readonly (
-  | '/'
-  | '/experience'
-  | '/how-i-work'
-  | '/work-with-me'
-  | '/contact'
-  | typeof CASE_STUDIES_PATH
-  | CaseStudyPath
-)[] = [
+export const SITE_PAGES: readonly ('/' | '/experience' | '/contact')[] = [
   '/',
   '/experience',
-  CASE_STUDIES_PATH,
-  ...CASE_STUDY_IDS.map(caseStudyPath),
-  '/how-i-work',
-  '/work-with-me',
   '/contact',
 ];
 
@@ -43,8 +19,6 @@ export type SitePath = (typeof SITE_PAGES)[number];
  * and the `SitePath` values fail it until that route is prerendered.
  */
 export const CONTENT_PAGE_ROUTES = {
-  'how-i-work': '/how-i-work',
-  'work-with-me': '/work-with-me',
   contact: '/contact',
 } as const satisfies Record<ContentPageId, SitePath>;
 

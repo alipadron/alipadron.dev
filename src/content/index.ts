@@ -1,23 +1,18 @@
 import { career as validatedCareer } from 'virtual:career';
-import { caseStudies as validatedCaseStudies } from 'virtual:case-studies';
 import { pages as validatedPages } from 'virtual:pages';
 import { ui as validatedUi } from 'virtual:ui';
 
-import type { Career, CaseStudies, Pages, UiStrings } from './schema';
+import type { Career, Pages, UiStrings } from './schema';
 
 export type {
   Bilingual,
   Bullet,
   Career,
-  CaseStudy,
-  CaseStudySection,
-  CaseStudies,
   ContentPage,
   ContentPageId,
   Education,
   Entry,
   LanguageEntry,
-  Metric,
   PageBlock,
   PageSection,
   Pages,
@@ -35,5 +30,4 @@ export type {
  */
 export const content: Career = validatedCareer;
 export const ui: UiStrings = validatedUi;
-export const caseStudies: CaseStudies = validatedCaseStudies;
 export const pages: Pages = validatedPages;

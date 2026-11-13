@@ -1,15 +1,9 @@
 import { DOCUMENT } from '@angular/common';
-import {
-  Component,
-  computed,
-  inject,
-  input,
-  type OnInit,
-} from '@angular/core';
+import { Component, inject, input, type OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { publicContactLinks } from '../../content/contact';
-import { caseStudies, content, ui } from '../../content/index';
+import { content, ui } from '../../content/index';
 import type { Language } from '../../content/language';
 import { applyPageMetadata } from '../head';
 import { localizedPath, type SitePath } from '../routes';
@@ -43,21 +37,6 @@ import { LanguageSwitcher } from '../components/language-switcher';
               >{{ ui.experience.heading[language()] }}</a
             >
             <a
-              [routerLink]="pathFor('/case-studies')"
-              [attr.aria-current]="isCaseStudies() ? 'page' : null"
-              >{{ ui.caseStudies.heading[language()] }}</a
-            >
-            <a
-              [routerLink]="pathFor('/how-i-work')"
-              [attr.aria-current]="current('/how-i-work')"
-              >{{ ui.nav.howIWork[language()] }}</a
-            >
-            <a
-              [routerLink]="pathFor('/work-with-me')"
-              [attr.aria-current]="current('/work-with-me')"
-              >{{ ui.nav.workWithMe[language()] }}</a
-            >
-            <a
               [routerLink]="pathFor('/contact')"
               [attr.aria-current]="current('/contact')"
               >{{ ui.nav.contact[language()] }}</a
@@ -86,9 +65,6 @@ export class PageLayout implements OnInit {
 
   protected readonly ui = ui;
   protected readonly contact = publicContactLinks(content.profile);
-  protected readonly isCaseStudies = computed(() =>
-    this.path().startsWith('/case-studies'),
-  );
 
   readonly #document = inject(DOCUMENT);
 
@@ -105,7 +81,7 @@ export class PageLayout implements OnInit {
   ngOnInit(): void {
     applyPageMetadata(
       this.#document,
-      pageMetadata(this.path(), this.language(), { ui, caseStudies }),
+      pageMetadata(this.path(), this.language(), { ui }),
     );
   }
 }

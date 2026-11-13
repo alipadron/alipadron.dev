@@ -3,11 +3,9 @@ import path from 'node:path';
 
 import {
   validateCareer,
-  validateCaseStudies,
   validatePages,
   validateUi,
   type Career,
-  type CaseStudies,
   type Pages,
   type UiStrings,
 } from './schema.ts';
@@ -39,10 +37,6 @@ export function resolveUiFile(): string {
   return path.join(resolveContentDir(), 'ui.json');
 }
 
-export function resolveCaseStudiesFile(): string {
-  return path.join(resolveContentDir(), 'case-studies.json');
-}
-
 export function resolvePagesFile(): string {
   return path.join(resolveContentDir(), 'pages.json');
 }
@@ -69,10 +63,6 @@ export function loadCareer(file = resolveContentFile()): Career {
 
 export function loadUi(file = resolveUiFile()): UiStrings {
   return readJson(file, validateUi);
-}
-
-export function loadCaseStudies(file = resolveCaseStudiesFile()): CaseStudies {
-  return readJson(file, validateCaseStudies);
 }
 
 export function loadPages(file = resolvePagesFile()): Pages {

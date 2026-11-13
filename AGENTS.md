@@ -9,8 +9,8 @@ PDF generation needs Chromium: `npx playwright install chromium`.
 
 - `npm run dev` — Analog dev server (Vite) at `http://localhost:5173`.
 - `npm run build` — validates the career, UI and page content and prerenders
-  every route into `dist/analog/public`: Home, Experience, How I work, Work
-  with me and Contact, in English at the root and in Spanish under `/es`.
+  every route into `dist/analog/public`: Home, Experience and Contact, in
+  English at the root and in Spanish under `/es`.
   Every page exists in both languages.
 - `npm run test` — build-level tests. They run the build and the document
   pipeline and assert on the generated HTML, PDF and DOCX text; invalid-content
@@ -66,14 +66,14 @@ build-time phone at all; only local PDFs do.
 
 Everything the site and the CVs render lives under `content/`: `career.json`
 for structured career data, `ui.json` for site labels, and `pages.json` for the
-long-form pages (How I work, Work with me, Contact). All three are bilingual
+long-form pages (currently only Contact). All three are bilingual
 `{ en, es }` and validated at build time, so a missing translation fails the
 build naming the entry (for example `home.experienceLink.es` or
-`work-with-me.intro.es`).
+`contact.intro.es`).
 
 The long-form pages are typed data, not markup: each page is a title, an intro
 and a list of sections whose blocks are a closed vocabulary (paragraph, list,
-terms, steps, contact channels, page link, email action). The schema is in
+terms, steps, contact channels, email action). The schema is in
 `src/content/schema.ts` and the one renderer is `src/app/views/long-form-view.ts`,
 so both languages come from the same structure and no page can ship with only
 one translation.
@@ -86,9 +86,9 @@ URL, an `hreflang` pair pointing at the same page in the other language, and
 copy and point at `public/og-image.png`.
 
 The search and sharing copy is part of the content module: `content/ui.json`
-holds one title and description per page under `seo.pages`, and case study pages
-use the study's own title and summary. A missing translation fails the build
-like any other content. `src/app/seo.ts` resolves the copy and builds every URL
+holds one title and description per page under `seo.pages`. A missing
+translation fails the build like any other content. `src/app/seo.ts` resolves
+the copy and builds every URL
 from `SITE_PAGES`; `src/app/head.ts` writes the tags, and `PageLayout` applies
 them, so the prerendered head and a client-side navigation agree.
 

@@ -22,7 +22,7 @@ import {
   CV_SUMMARIES,
   CV_TITLES,
   ORDER_MARKERS,
-  PAYMENTS_LINES,
+  WAREHOUSE_LINES,
 } from './support/cv-expectations';
 
 const PUBLIC_DIR = path.join(PROJECT_ROOT, 'dist/analog/public');
@@ -44,7 +44,7 @@ const COMPANY = 'GoFeels';
 const EXPECTED = {
   en: {
     bullet:
-      'Lead full-stack delivery of a hotel PMS built with AngularJS and Laravel, used by +150 hotels with +2,000 rooms for reservations, payments and daily operations.',
+      'Contribute to the full-stack development of a hotel PMS built with AngularJS and Laravel, as part of a small team; it is used by +150 hotels with +2,000 rooms.',
     details:
       'Feb 2020 – Present · Remote · AngularJS, Laravel, MySQL, Redis, Docker, GitLab CI',
     experienceHeading: 'Experience',
@@ -52,7 +52,7 @@ const EXPECTED = {
   },
   es: {
     bullet:
-      'Lidera el desarrollo full-stack de un PMS hotelero construido con AngularJS y Laravel, usado por más de 150 hoteles con más de 2.000 habitaciones para reservas, pagos y operación diaria.',
+      'Contribuyo al desarrollo full-stack de un PMS hotelero construido con AngularJS y Laravel, como parte de un equipo pequeño; lo usan más de 150 hoteles con más de 2.000 habitaciones.',
     details:
       'feb 2020 – Actualidad · Remoto · AngularJS, Laravel, MySQL, Redis, Docker, GitLab CI',
     experienceHeading: 'Experiencia',
@@ -88,11 +88,11 @@ const FAKE_PHONE = '+1 555 0100';
 const DOCUMENT_CONTENT = [
   'Zignox',
   'PayGoLatam',
-  '20–50 business customers',
+  'dozens of business customers',
   'BrickControl',
   'NovoPles',
   'Co-founder & Technical Lead',
-  'spatie/laravel-translatable',
+  'Americas Quarterly',
   'car-log',
   'medication-manager',
 ];
@@ -363,15 +363,21 @@ describe('six CV documents', () => {
       const freelance = await pdfText(`cv-${language}-freelance`);
 
       expect(fullstack.indexOf(markers.pms), language).toBeLessThan(
-        fullstack.indexOf(markers.security),
+        fullstack.indexOf(markers.release),
       );
-      expect(techLead.indexOf(markers.security), language).toBeLessThan(
+      expect(fullstack.indexOf(markers.release), language).toBeLessThan(
+        fullstack.indexOf(markers.techLead),
+      );
+      expect(techLead.indexOf(markers.techLead), language).toBeLessThan(
+        techLead.indexOf(markers.release),
+      );
+      expect(techLead.indexOf(markers.release), language).toBeLessThan(
         techLead.indexOf(markers.pms),
       );
-      expect(freelance.indexOf(markers.agentic), language).toBeLessThan(
-        freelance.indexOf(markers.pms),
+      expect(freelance.indexOf(markers.techLead), language).toBeLessThan(
+        freelance.indexOf(markers.release),
       );
-      expect(freelance.indexOf(markers.sharedCi), language).toBeLessThan(
+      expect(freelance.indexOf(markers.release), language).toBeLessThan(
         freelance.indexOf(markers.pms),
       );
     }
@@ -415,19 +421,19 @@ describe('six CV documents', () => {
     }
   });
 
-  it('keeps the online payments line in Tech Lead only', async () => {
+  it('keeps the warehouse line in Freelance only', async () => {
     for (const language of LANGUAGES) {
-      const payments = PAYMENTS_LINES[language];
+      const warehouse = WAREHOUSE_LINES[language];
 
       for (const variant of VARIANTS) {
         for (const text of [
           await pdfText(`cv-${language}-${variant}`),
           docxText(`cv-${language}-${variant}`),
         ]) {
-          if (variant === 'tech-lead') {
-            expect(text, `${language} ${variant}`).toContain(payments);
+          if (variant === 'freelance') {
+            expect(text, `${language} ${variant}`).toContain(warehouse);
           } else {
-            expect(text, `${language} ${variant}`).not.toContain(payments);
+            expect(text, `${language} ${variant}`).not.toContain(warehouse);
           }
         }
       }

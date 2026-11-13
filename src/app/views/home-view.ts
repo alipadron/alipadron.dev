@@ -28,8 +28,8 @@ import { localizedPath } from '../routes';
                 ui.cv.download[language()]
               }}</a>
             }
-            <a class="link" [href]="workWithMeHref()">{{
-              ui.home.workWithMe[language()]
+            <a class="link" [routerLink]="contactLink()">{{
+              ui.home.contact[language()]
             }}</a>
           </p>
         </div>
@@ -41,20 +41,6 @@ import { localizedPath } from '../routes';
         />
       </section>
 
-      <section class="numbers" aria-labelledby="numbers-heading">
-        <h2 id="numbers-heading" class="section-label">
-          {{ ui.home.metricsHeading[language()] }}
-        </h2>
-        <dl>
-          @for (metric of content.metrics; track metric.id) {
-            <div>
-              <dt>{{ metric.value }}</dt>
-              <dd>{{ metric.label[language()] }}</dd>
-            </div>
-          }
-        </dl>
-      </section>
-
       <section class="closing" aria-labelledby="read-on-heading">
         <h2 id="read-on-heading" class="section-label">
           {{ ui.home.readOn[language()] }}
@@ -63,7 +49,7 @@ import { localizedPath } from '../routes';
           <a [routerLink]="experienceLink()">{{
             ui.home.experienceLink[language()]
           }}</a>
-          <a [href]="workWithMeHref()">{{ content.profile.email }}</a>
+          <a [href]="emailHref">{{ content.profile.email }}</a>
         </p>
       </section>
     </main>
@@ -85,12 +71,13 @@ export class HomeView {
   protected readonly experienceLink = computed(() =>
     localizedPath('/experience', this.language()),
   );
+  protected readonly contactLink = computed(() =>
+    localizedPath('/contact', this.language()),
+  );
   protected readonly cvHref = computed(() => {
     const document = publishedDocumentFor(this.language());
 
     return document ? publishedCvHref(document) : null;
   });
-  protected readonly workWithMeHref = computed(
-    () => `mailto:${content.profile.email}`,
-  );
+  protected readonly emailHref = `mailto:${content.profile.email}`;
 }
