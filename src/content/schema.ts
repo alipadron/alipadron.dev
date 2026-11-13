@@ -279,9 +279,7 @@ export const uiSchema = z
         experienceLink: bilingualSchema,
         contact: bilingualSchema,
         readOn: bilingualSchema,
-        photoPlaceholder: bilingualSchema,
         photoAlt: bilingualSchema,
-        photoCaption: bilingualSchema,
       })
       .strict(),
     experience: z

@@ -49,8 +49,6 @@ const EXPECTED = {
     summary: 'AI agents are part of how I work every day',
     contact: 'Contact',
     contactHref: '/contact',
-    photoAlt: 'Photo of Alí Padrón, coming later',
-    photoCaption: 'Portrait to come.',
   },
   es: {
     title: 'Ingeniero Full-Stack Senior / Líder técnico',
@@ -68,8 +66,6 @@ const EXPECTED = {
     summary: 'Trabajo con agentes de IA en el día a día',
     contact: 'Contacto',
     contactHref: '/es/contact',
-    photoAlt: 'Foto de Alí Padrón, próximamente',
-    photoCaption: 'Retrato próximamente.',
   },
 };
 
@@ -448,8 +444,8 @@ describe('build-level outputs', () => {
       );
       expect(html).toContain(`>${expected.contact}</a>`);
       expect(html).toContain(`href="mailto:hola@alipadron.dev"`);
-      expect(html).toContain(expected.photoAlt);
-      expect(html).toContain(expected.photoCaption);
+      expect(html).not.toContain('app-portrait');
+      expect(html).not.toContain('portrait-frame');
     }
 
     expect(english).toContain('href="/cv/cv-en-fullstack-ai.pdf"');

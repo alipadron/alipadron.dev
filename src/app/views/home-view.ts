@@ -16,7 +16,7 @@ import { localizedPath } from '../routes';
   styleUrl: './home-view.css',
   template: `
     <main class="wrap">
-      <section class="hero">
+      <section class="hero" [class.with-photo]="photoSrc">
         <div class="hero-copy">
           <p class="kicker">{{ ui.home.kicker[language()] }}</p>
           <h1 class="display">{{ ui.home.heading[language()] }}</h1>
@@ -33,12 +33,9 @@ import { localizedPath } from '../routes';
             }}</a>
           </p>
         </div>
-        <app-portrait
-          [src]="photoSrc"
-          [alt]="ui.home.photoAlt[language()]"
-          [caption]="ui.home.photoCaption[language()]"
-          [placeholder]="ui.home.photoPlaceholder[language()]"
-        />
+        @if (photoSrc; as src) {
+          <app-portrait [src]="src" [alt]="ui.home.photoAlt[language()]" />
+        }
       </section>
 
       <section class="closing" aria-labelledby="read-on-heading">
@@ -62,9 +59,9 @@ export class HomeView {
   protected readonly ui = ui;
 
   /**
-   * Replace with the public path of a real photo (for example
-   * `/img/ali-padron.jpg`). The Portrait component reserves the frame either
-   * way, so the layout does not shift when the image arrives.
+   * Set to the public path of a real photo (for example `/img/ali-padron.jpg`)
+   * to show the portrait. While it is null the hero is a single column with no
+   * placeholder.
    */
   protected readonly photoSrc: string | null = null;
 
