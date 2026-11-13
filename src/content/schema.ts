@@ -1,6 +1,5 @@
 import { z } from 'zod';
 
-import { CASE_STUDY_IDS } from './case-studies';
 import { CV_VARIANTS, type Variant } from './variants';
 
 /**
@@ -53,18 +52,6 @@ const bilingualSchema = z
 function variantRecord<T extends z.ZodType>(value: T) {
   return z.partialRecord(variantSchema, value);
 }
-
-/**
- * A headline figure on the Home page. The value is language-neutral, while the
- * label describes the achievement it comes from.
- */
-export const metricSchema = z
-  .object({
-    id: z.string().trim().min(1),
-    value: z.string().trim().min(1),
-    label: bilingualSchema,
-  })
-  .strict();
 
 export const bulletSchema = z
   .object({
@@ -234,81 +221,12 @@ export const profileSchema = z
 export const careerSchema = z
   .object({
     profile: profileSchema,
-    metrics: z.array(metricSchema).min(1),
     entries: z.array(entrySchema).min(1),
     skills: z.array(skillGroupSchema).min(1),
     education: z.array(educationSchema).min(1),
     languages: z.array(languageEntrySchema).min(1),
   })
   .strict();
-
-/**
- * One part of a case study. A study is always told as problem, decisions and
- * result, so the schema fixes those three keys instead of accepting arbitrary
- * sections. Paragraphs carry the argument; bullets are optional supporting
- * facts.
- */
-export const caseStudySectionSchema = z
-  .object({
-    paragraphs: z.array(bilingualSchema).min(1),
-    bullets: z.array(bilingualSchema).min(1).optional(),
-  })
-  .strict();
-
-export const caseStudySchema = z
-  .object({
-    id: z.enum(CASE_STUDY_IDS, {
-      error: `unknown case study; expected one of ${CASE_STUDY_IDS.join(', ')}`,
-    }),
-    title: bilingualSchema,
-    summary: bilingualSchema,
-    /** Role, employer and period, rendered as the page kicker. */
-    meta: bilingualSchema,
-    stack: z.array(z.string().trim().min(1)).min(1),
-    /** The public repository, for studies whose code is open. */
-    repository: z.url().optional(),
-    /** A note that names what the study deliberately leaves out. */
-    confidentiality: bilingualSchema.optional(),
-    problem: caseStudySectionSchema,
-    decisions: caseStudySectionSchema,
-    result: caseStudySectionSchema,
-  })
-  .strict();
-
-/**
- * Every known case study must be present, so the index and the three pages
- * cannot disagree, and duplicate ids cannot make two pages render one study.
- */
-export const caseStudiesSchema = z
-  .object({
-    caseStudies: z.array(caseStudySchema),
-  })
-  .strict()
-  .superRefine((data, context) => {
-    const seen = new Set<string>();
-
-    data.caseStudies.forEach((study, index) => {
-      if (seen.has(study.id)) {
-        context.addIssue({
-          code: 'custom',
-          path: ['caseStudies', index, 'id'],
-          message: 'duplicate case study id',
-        });
-      }
-
-      seen.add(study.id);
-    });
-
-    for (const id of CASE_STUDY_IDS) {
-      if (!seen.has(id)) {
-        context.addIssue({
-          code: 'custom',
-          path: ['caseStudies'],
-          message: `missing case study: ${id}`,
-        });
-      }
-    }
-  });
 
 /**
  * The search and sharing copy for one page: the document title a search result
@@ -323,8 +241,7 @@ const seoPageSchema = z
 
 /**
  * Per-page metadata. Every page the site publishes has an entry here, so a page
- * cannot ship without a title and a description in both languages; case study
- * pages take theirs from the study itself.
+ * cannot ship without a title and a description in both languages.
  */
 const seoSchema = z
   .object({
@@ -332,9 +249,6 @@ const seoSchema = z
       .object({
         home: seoPageSchema,
         experience: seoPageSchema,
-        'case-studies': seoPageSchema,
-        'how-i-work': seoPageSchema,
-        'work-with-me': seoPageSchema,
         contact: seoPageSchema,
       })
       .strict(),
@@ -355,8 +269,6 @@ export const uiSchema = z
       .object({
         label: bilingualSchema,
         home: bilingualSchema,
-        howIWork: bilingualSchema,
-        workWithMe: bilingualSchema,
         contact: bilingualSchema,
       })
       .strict(),
@@ -365,8 +277,7 @@ export const uiSchema = z
         heading: bilingualSchema,
         kicker: bilingualSchema,
         experienceLink: bilingualSchema,
-        workWithMe: bilingualSchema,
-        metricsHeading: bilingualSchema,
+        contact: bilingualSchema,
         readOn: bilingualSchema,
         photoPlaceholder: bilingualSchema,
         photoAlt: bilingualSchema,
@@ -383,19 +294,6 @@ export const uiSchema = z
     projects: z
       .object({
         heading: bilingualSchema,
-      })
-      .strict(),
-    caseStudies: z
-      .object({
-        heading: bilingualSchema,
-        kicker: bilingualSchema,
-        intro: bilingualSchema,
-        problem: bilingualSchema,
-        decisions: bilingualSchema,
-        result: bilingualSchema,
-        readStudy: bilingualSchema,
-        backToIndex: bilingualSchema,
-        repository: bilingualSchema,
       })
       .strict(),
     languageSwitcher: z
@@ -415,21 +313,13 @@ export const uiSchema = z
   .strict();
 
 /**
- * The long-form pages that are not career data: How I work, Work with me and
- * Contact. Their identifiers are also their routes, so the content key, the
- * page component and the navigation link cannot drift apart.
+ * The long-form pages that are not career data: for now, only Contact. Their
+ * identifiers are also their routes, so the content key, the page component
+ * and the navigation link cannot drift apart.
  */
-export const CONTENT_PAGES = [
-  'how-i-work',
-  'work-with-me',
-  'contact',
-] as const;
+export const CONTENT_PAGES = ['contact'] as const;
 
 export type ContentPageId = (typeof CONTENT_PAGES)[number];
-
-const contentPageIdSchema = z.enum(CONTENT_PAGES, {
-  error: `unknown page; expected one of ${CONTENT_PAGES.join(', ')}`,
-});
 
 /**
  * A paragraph of long-form copy. Every block is bilingual, so a page cannot be
@@ -479,15 +369,6 @@ const stepsSchema = z
  */
 const contactSchema = z.object({ type: z.literal('contact') }).strict();
 
-/** A link to another page, localized by the renderer. */
-const pageLinkSchema = z
-  .object({
-    type: z.literal('pageLink'),
-    label: bilingualSchema,
-    page: contentPageIdSchema,
-  })
-  .strict();
-
 /** A primary action. The only action the site has is writing an email. */
 const actionSchema = z
   .object({
@@ -502,7 +383,6 @@ const blockSchema = z.discriminatedUnion('type', [
   termsSchema,
   stepsSchema,
   contactSchema,
-  pageLinkSchema,
   actionSchema,
 ]);
 
@@ -532,8 +412,6 @@ const pageSchema = z
  */
 export const pagesSchema = z
   .object({
-    'how-i-work': pageSchema,
-    'work-with-me': pageSchema,
     contact: pageSchema,
   })
   .strict();
@@ -544,16 +422,12 @@ export type PageSection = z.infer<typeof sectionSchema>;
 export type ContentPage = z.infer<typeof pageSchema>;
 export type Pages = z.infer<typeof pagesSchema>;
 export type Bullet = z.infer<typeof bulletSchema>;
-export type Metric = z.infer<typeof metricSchema>;
 export type Entry = z.infer<typeof entrySchema>;
 export type Profile = z.infer<typeof profileSchema>;
 export type SkillGroup = z.infer<typeof skillGroupSchema>;
 export type Education = z.infer<typeof educationSchema>;
 export type LanguageEntry = z.infer<typeof languageEntrySchema>;
 export type Career = z.infer<typeof careerSchema>;
-export type CaseStudySection = z.infer<typeof caseStudySectionSchema>;
-export type CaseStudy = z.infer<typeof caseStudySchema>;
-export type CaseStudies = z.infer<typeof caseStudiesSchema>;
 export type UiStrings = z.infer<typeof uiSchema>;
 
 export class ContentValidationError extends Error {
@@ -597,11 +471,4 @@ export function validateUi(input: unknown, source: string): UiStrings {
 
 export function validatePages(input: unknown, source: string): Pages {
   return validate(pagesSchema, input, source);
-}
-
-export function validateCaseStudies(
-  input: unknown,
-  source: string,
-): CaseStudies {
-  return validate(caseStudiesSchema, input, source);
 }

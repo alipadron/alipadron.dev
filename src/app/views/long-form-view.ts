@@ -1,14 +1,12 @@
 import { Component, computed, input } from '@angular/core';
-import { RouterLink } from '@angular/router';
 
 import { publicContactLinks } from '../../content/contact';
 import { content, pages } from '../../content/index';
 import type { Language } from '../../content/language';
 import type { ContentPageId } from '../../content/schema';
-import { CONTENT_PAGE_ROUTES, localizedPath } from '../routes';
 
 /**
- * Renders one of the long-form pages: How I work, Work with me or Contact.
+ * Renders a long-form page, such as Contact.
  *
  * The page content is validated data, not markup, so both languages come from
  * the same structure and a missing translation fails the build. Blocks are a
@@ -17,7 +15,6 @@ import { CONTENT_PAGE_ROUTES, localizedPath } from '../routes';
  */
 @Component({
   selector: 'app-long-form-view',
-  imports: [RouterLink],
   styleUrl: './long-form-view.css',
   template: `
     <main class="wrap">
@@ -79,13 +76,6 @@ import { CONTENT_PAGE_ROUTES, localizedPath } from '../routes';
                   }
                 </ul>
               }
-              @case ('pageLink') {
-                <p class="prose">
-                  <a [routerLink]="pageHref(block.page)">{{
-                    block.label[language()]
-                  }}</a>
-                </p>
-              }
               @case ('action') {
                 <p class="actions">
                   <a class="button" [href]="emailHref">{{
@@ -107,8 +97,4 @@ export class LongFormView {
   protected readonly pageContent = computed(() => pages[this.page()]);
   protected readonly contactLinks = publicContactLinks(content.profile);
   protected readonly emailHref = `mailto:${content.profile.email}`;
-
-  protected pageHref(page: ContentPageId): string {
-    return localizedPath(CONTENT_PAGE_ROUTES[page], this.language());
-  }
 }

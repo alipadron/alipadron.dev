@@ -15,9 +15,3 @@ declare module 'virtual:pages' {
 
   export const pages: Pages;
 }
-
-declare module 'virtual:case-studies' {
-  import type { CaseStudies } from './content/schema';
-
-  export const caseStudies: CaseStudies;
-}

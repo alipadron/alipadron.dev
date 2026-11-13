@@ -33,52 +33,41 @@ const EXPECTED = {
   en: {
     title: 'Senior Full-Stack Engineer / Tech Lead',
     bullet:
-      'Lead full-stack delivery of a hotel PMS built with AngularJS and Laravel, used by +150 hotels with +2,000 rooms for reservations, payments and daily operations.',
-    releaseBullet: 'Cut release time from 30+ minutes to about 7 minutes',
-    growthBullet: 'Grew the platform to +750k room reservations in total',
-    paymentsBullet: 'tens of thousands of online payments a year',
-    securityBullet: 'proactive security hardening program',
-    sharedCiBullet: 'Extracted shared CI components',
+      'Contribute to the full-stack development of a hotel PMS built with AngularJS and Laravel, as part of a small team; it is used by +150 hotels with +2,000 rooms.',
+    releaseBullet: 'Cut release time from 30+ minutes to about 7',
+    growthBullet: 'past +750k reservations in total',
+    paymentsBullet:
+      'Built the online payments (Webpay, Stripe, PayPal) for the booking engine',
+    techLeadBullet: 'Act as technical lead',
+    warehouseBullet: 'Built a warehouse and package-tracking system',
     experienceHeading: 'Experience',
     present: 'Present',
     location: 'Remote',
     homeLink: 'Read the experience',
     headline:
       'Senior Full-Stack Engineer · Angular &amp; Laravel · AI-native delivery',
-    summary: 'Works with AI agents as part of the method',
-    workWithMe: 'Work with me',
-    metricsHeading: 'By the numbers',
-    metrics: [
-      { value: '+150', label: 'hotels on the hotel PMS' },
-      { value: '+750k', label: 'room reservations' },
-      { value: '~13×', label: 'yearly reservations, 2020 → 2025' },
-      { value: '7 min', label: 'release, down from 30+' },
-    ],
+    summary: 'AI agents are part of how I work every day',
+    contact: 'Contact',
+    contactHref: '/contact',
     photoAlt: 'Photo of Alí Padrón, coming later',
     photoCaption: 'Portrait to come.',
   },
   es: {
     title: 'Ingeniero Full-Stack Senior / Líder técnico',
     bullet:
-      'Lidera el desarrollo full-stack de un PMS hotelero construido con AngularJS y Laravel, usado por más de 150 hoteles con más de 2.000 habitaciones para reservas, pagos y operación diaria.',
-    releaseBullet: 'Redujo el tiempo de lanzamiento de más de 30 minutos a unos 7 minutos',
-    growthBullet: 'Llevó la plataforma a más de 750.000 reservas de habitaciones acumuladas',
-    paymentsBullet: 'decenas de miles de pagos en línea al año',
+      'Contribuyo al desarrollo full-stack de un PMS hotelero construido con AngularJS y Laravel, como parte de un equipo pequeño; lo usan más de 150 hoteles con más de 2.000 habitaciones.',
+    releaseBullet: 'Reduje el tiempo de lanzamiento de más de 30 minutos a unos 7',
+    growthBullet: 'hasta superar las 750.000 reservas acumuladas',
+    paymentsBullet: 'Implementé los pagos en línea (Webpay, Stripe, PayPal)',
     experienceHeading: 'Experiencia',
     present: 'Actualidad',
     location: 'Remoto',
     homeLink: 'Leer la experiencia',
     headline:
       'Ingeniero Full-Stack Senior · Angular y Laravel · entrega con IA nativa',
-    summary: 'Integra agentes de IA en su método de trabajo',
-    workWithMe: 'Trabajemos juntos',
-    metricsHeading: 'En cifras',
-    metrics: [
-      { value: '+150', label: 'hoteles en el PMS hotelero' },
-      { value: '+750k', label: 'reservas de habitación' },
-      { value: '~13×', label: 'reservas anuales, 2020 → 2025' },
-      { value: '7 min', label: 'tiempo de release, antes 30+ min' },
-    ],
+    summary: 'Trabajo con agentes de IA en el día a día',
+    contact: 'Contacto',
+    contactHref: '/es/contact',
     photoAlt: 'Foto de Alí Padrón, próximamente',
     photoCaption: 'Retrato próximamente.',
   },
@@ -100,26 +89,28 @@ const FIXTURE_TEXT = {
 // renders from it. Apostrophes are avoided because the markup escapes them.
 const MASTER_CONTENT = {
   en: [
-    'Solo-built a real-time market-data and news platform',
-    'a USD-to-VES remittance platform on Laravel and Filament',
-    '~5M articles from RSS feeds and scrapers',
-    'used by 20–50 business customers',
-    'migrating a construction ERP from Silverlight to Angular 7',
+    'Built a real-time market-data and news platform',
+    'PayGoLatam, a USD-to-VES remittance platform',
+    'articles from RSS feeds, scrapers and third-party APIs',
+    'used by dozens of business customers',
+    'migrating a construction ERP from Silverlight to Angular',
     'Google Maps geolocation module',
-    'Co-founded Tuapplicaya and run its technical side pre-launch',
-    'spatie/laravel-translatable',
+    'Co-founded Tuapplicaya and lead its technical side',
+    'Caracol de Tinta (literary magazine)',
+    'Americas Quarterly: built interactive maps',
     'Offline-first vehicle maintenance PWA',
     'Household medication PWA',
   ],
   es: [
     'una plataforma de datos de mercado y noticias en tiempo real',
-    'una plataforma de remesas de USD a VES sobre Laravel y Filament',
-    'unos 5 millones de artículos de fuentes RSS y scrapers',
-    'entre 20 y 50 clientes empresariales',
-    'un ERP de construcción de Silverlight a Angular 7',
+    'PayGoLatam, una plataforma de remesas de USD a VES',
+    'artículos de fuentes RSS, scrapers y APIs de terceros',
+    'decenas de clientes empresariales',
+    'un ERP de construcción de Silverlight a Angular',
     'módulo de geolocalización con Google Maps',
-    'Cofundó Tuapplicaya y dirige su área técnica antes del lanzamiento',
-    'spatie/laravel-translatable',
+    'Cofundé Tuapplicaya y dirijo su área técnica',
+    'Caracol de Tinta (revista literaria)',
+    'Americas Quarterly: construí mapas interactivos',
     'PWA de mantenimiento de vehículos con soporte offline',
     'PWA de gestión de medicamentos para el hogar',
   ],
@@ -131,79 +122,14 @@ const MASTER_CONTENT = {
  */
 const DOCUMENT_PAGES = {
   en: {
-    howIWork: {
-      kicker: 'Method',
-      title: 'How I work',
-      intro: 'I build with AI agents as part of the method',
-      sections: ['The loop', 'What I delegate', 'What I keep', 'Where it breaks'],
-      stages: ['Grilling', 'Spec', 'Tickets', 'Parallel agents', 'Review gates'],
-    },
-    workWithMe: {
-      kicker: 'Freelance',
-      title: 'Work with me',
-      intro: 'I take AI-built apps to production',
-      sections: [
-        'What I do',
-        'How an engagement runs',
-        'Recent work',
-        'Availability',
-        'Rates',
-      ],
-      services: [
-        'Code and security audit',
-        'CI/CD',
-        'Deployment',
-        'Agentic workflows for teams',
-      ],
-      availability: '20–30 hours a week',
-      cta: 'Email me about a project',
-    },
     contact: {
       kicker: 'Contact',
       title: 'Contact',
-      intro: 'The fastest way to reach me is email',
+      intro: 'Email is the fastest way to reach me',
       sections: ['Direct', 'What to send', 'For recruiters', 'Freelance work'],
     },
   },
   es: {
-    howIWork: {
-      kicker: 'Método',
-      title: 'Cómo trabajo',
-      intro: 'Construyo con agentes de IA como parte del método',
-      sections: [
-        'El ciclo',
-        'Qué delego',
-        'Qué me quedo',
-        'Dónde se rompe',
-      ],
-      stages: [
-        'Interrogatorio',
-        'Especificación',
-        'Tickets',
-        'Agentes en paralelo',
-        'Controles de revisión',
-      ],
-    },
-    workWithMe: {
-      kicker: 'Freelance',
-      title: 'Trabajemos juntos',
-      intro: 'Llevo a producción aplicaciones construidas con IA',
-      sections: [
-        'Qué hago',
-        'Cómo funciona un proyecto',
-        'Trabajo reciente',
-        'Disponibilidad',
-        'Tarifas',
-      ],
-      services: [
-        'Auditoría de código y seguridad',
-        'CI/CD',
-        'Despliegue',
-        'Flujos de trabajo con agentes para equipos',
-      ],
-      availability: '20–30 horas por semana',
-      cta: 'Escríbeme sobre un proyecto',
-    },
     contact: {
       kicker: 'Contacto',
       title: 'Contacto',
@@ -235,30 +161,6 @@ const PAGES = [
     language: 'es',
   },
   {
-    source: 'how-i-work/index.html',
-    artifact: 'how-i-work-en.html',
-    path: '/how-i-work',
-    language: 'en',
-  },
-  {
-    source: 'es/how-i-work/index.html',
-    artifact: 'how-i-work-es.html',
-    path: '/how-i-work',
-    language: 'es',
-  },
-  {
-    source: 'work-with-me/index.html',
-    artifact: 'work-with-me-en.html',
-    path: '/work-with-me',
-    language: 'en',
-  },
-  {
-    source: 'es/work-with-me/index.html',
-    artifact: 'work-with-me-es.html',
-    path: '/work-with-me',
-    language: 'es',
-  },
-  {
     source: 'contact/index.html',
     artifact: 'contact-en.html',
     path: '/contact',
@@ -268,54 +170,6 @@ const PAGES = [
     source: 'es/contact/index.html',
     artifact: 'contact-es.html',
     path: '/contact',
-    language: 'es',
-  },
-  {
-    source: 'case-studies/index.html',
-    artifact: 'case-studies-en.html',
-    path: '/case-studies',
-    language: 'en',
-  },
-  {
-    source: 'es/case-studies/index.html',
-    artifact: 'case-studies-es.html',
-    path: '/case-studies',
-    language: 'es',
-  },
-  {
-    source: 'case-studies/gofeels/index.html',
-    artifact: 'gofeels-en.html',
-    path: '/case-studies/gofeels',
-    language: 'en',
-  },
-  {
-    source: 'es/case-studies/gofeels/index.html',
-    artifact: 'gofeels-es.html',
-    path: '/case-studies/gofeels',
-    language: 'es',
-  },
-  {
-    source: 'case-studies/car-log/index.html',
-    artifact: 'car-log-en.html',
-    path: '/case-studies/car-log',
-    language: 'en',
-  },
-  {
-    source: 'es/case-studies/car-log/index.html',
-    artifact: 'car-log-es.html',
-    path: '/case-studies/car-log',
-    language: 'es',
-  },
-  {
-    source: 'case-studies/medication-manager/index.html',
-    artifact: 'medication-en.html',
-    path: '/case-studies/medication-manager',
-    language: 'en',
-  },
-  {
-    source: 'es/case-studies/medication-manager/index.html',
-    artifact: 'medication-es.html',
-    path: '/case-studies/medication-manager',
     language: 'es',
   },
 ] as const;
@@ -329,236 +183,37 @@ const PAGE_SEO: Record<string, { title: string; description: string }> = {
   'home-en.html': {
     title: 'Alí Padrón — Senior Full-Stack Engineer, Angular &amp; Laravel',
     description:
-      'Senior full-stack engineer working remotely in Angular and Laravel. I ship with AI agents: written specs, parallel tickets and review gates.',
+      'Senior full-stack engineer working remotely in Angular and Laravel, with AI agents as part of my daily work.',
   },
   'home-es.html': {
     title: 'Alí Padrón — Ingeniero Full-Stack Senior, Angular y Laravel',
     description:
-      'Ingeniero full-stack senior, remoto, en Angular y Laravel. Entrego con agentes de IA: especificaciones escritas, tickets en paralelo y revisión.',
+      'Ingeniero full-stack senior, remoto, en Angular y Laravel, con agentes de IA como parte de mi trabajo diario.',
   },
   'experience-en.html': {
     title: 'Experience — Alí Padrón',
     description:
-      'Roles at GoFeels, Tuapplicaya and more: a hotel PMS used by 150+ hotels, releases cut from 30+ minutes to about 7, and open-source Laravel work.',
+      'Roles at GoFeels, Tuapplicaya and more: a hotel PMS used by +150 hotels, freelance work for independent clients, and earlier frontend and full-stack roles.',
   },
   'experience-es.html': {
     title: 'Experiencia — Alí Padrón',
     description:
-      'Roles en GoFeels, Tuapplicaya y más: un PMS hotelero usado por más de 150 hoteles, releases de más de 30 minutos a unos 7 y código abierto en Laravel.',
-  },
-  'case-studies-en.html': {
-    title: 'Case studies — Alí Padrón',
-    description:
-      'Three case studies written as problem, decisions and result: a hotel PMS at scale, plus car-log and medication-manager, my two public PWAs.',
-  },
-  'case-studies-es.html': {
-    title: 'Casos de estudio — Alí Padrón',
-    description:
-      'Tres casos de estudio escritos como problema, decisiones y resultado: un PMS hotelero a escala y car-log y medication-manager, mis dos PWA públicas.',
-  },
-  'how-i-work-en.html': {
-    title: 'How I work — Alí Padrón',
-    description:
-      'How I build with agents: grill the idea, write the spec, cut it into tickets, run independent tickets in parallel, and review everything that ships.',
-  },
-  'how-i-work-es.html': {
-    title: 'Cómo trabajo — Alí Padrón',
-    description:
-      'Cómo construyo con agentes: interrogar la idea, escribir la especificación, dividirla en tickets, ejecutarlos en paralelo y revisar todo lo que se entrega.',
-  },
-  'work-with-me-en.html': {
-    title: 'Work with me — Alí Padrón',
-    description:
-      'Freelance help taking AI-built apps to production: code and security audits, CI/CD, deployment and agentic workflows for teams. 20–30 hours a week.',
-  },
-  'work-with-me-es.html': {
-    title: 'Trabajemos juntos — Alí Padrón',
-    description:
-      'Ayuda freelance para llevar aplicaciones construidas con IA a producción: auditorías de código y seguridad, CI/CD, despliegue y flujos con agentes. 20–30 horas por semana.',
+      'Roles en GoFeels, Tuapplicaya y más: un PMS hotelero usado por más de 150 hoteles, trabajo freelance para clientes independientes y roles anteriores de frontend y full-stack.',
   },
   'contact-en.html': {
     title: 'Contact — Alí Padrón',
     description:
-      'The fastest way to reach Alí Padrón is email. LinkedIn and GitHub are here too. For freelance work, tell me what you are building and when.',
+      'The fastest way to reach Alí Padrón is email. LinkedIn and GitHub are here too, plus freelance work.',
   },
   'contact-es.html': {
     title: 'Contacto — Alí Padrón',
     description:
-      'La forma más rápida de llegar a Alí Padrón es el correo. LinkedIn y GitHub también están aquí. Para trabajo freelance, cuéntame qué construyes y cuándo.',
-  },
-  'gofeels-en.html': {
-    title: 'A hotel PMS: overbookings, releases and hardening — Alí Padrón',
-    description:
-      'I traced overbookings to stale availability in the outbound channel sync, rebuilt the release pipeline from 30+ minutes to about 7, and ran a proactive security hardening program on a PMS used by +150 hotels.',
-  },
-  'gofeels-es.html': {
-    title: 'Un PMS hotelero: sobreventas, releases y endurecimiento — Alí Padrón',
-    description:
-      'Rastreé sobreventas hasta una sincronización saliente de disponibilidad obsoleta, reconstruí el pipeline de release de más de 30 minutos a unos 7 y ejecuté un programa proactivo de endurecimiento de seguridad en un PMS usado por más de 150 hoteles.',
-  },
-  'car-log-en.html': {
-    title: 'car-log: maintenance that works without a connection — Alí Padrón',
-    description:
-      'An offline-first vehicle maintenance PWA that keeps recording history when the network is down and reconciles when it returns.',
-  },
-  'car-log-es.html': {
-    title: 'car-log: mantenimiento que funciona sin conexión — Alí Padrón',
-    description:
-      'Una PWA de mantenimiento de vehículos offline-first que sigue registrando el historial cuando no hay red y se reconcilia al volver.',
-  },
-  'medication-en.html': {
-    title: 'medication-manager: schedules that survive a late dose — Alí Padrón',
-    description:
-      'A household medication PWA that re-anchors interval doses, forecasts refills and pushes reminders to every device.',
-  },
-  'medication-es.html': {
-    title:
-      'medication-manager: horarios que sobreviven a una dosis tardía — Alí Padrón',
-    description:
-      'Una PWA de medicamentos para el hogar que reancla las dosis por intervalo, proyecta reposiciones y envía recordatorios a todos los dispositivos.',
+      'La forma más rápida de llegar a Alí Padrón es el correo. También LinkedIn, GitHub y trabajo freelance.',
   },
 };
 
 const SITE_ORIGIN = 'https://alipadron.dev';
 const OG_IMAGE_URL = `${SITE_ORIGIN}/og-image.png`;
-
-
-/**
- * The case studies as a reader sees them. Kept as literals on purpose: these
- * tests observe prerendered HTML and never import the content module.
- */
-const CASE_STUDIES = {
-  en: {
-    index: 'case-studies-en.html',
-    intro: 'Three pieces of work',
-    read: 'Read the case study',
-    problem: 'Problem',
-    decisions: 'Decisions',
-    result: 'Result',
-    repository: 'Repository',
-    studies: [
-      {
-        page: 'gofeels-en.html',
-        title: 'A hotel PMS: overbookings, releases and hardening',
-        href: '/case-studies/gofeels',
-        snippets: [
-          'a later update could be processed before an earlier one',
-          'transactional outbox',
-          'stays in continuous sync',
-          '+150 hotels with +2,000 rooms',
-          '2/44 to 0/1',
-          'Client, hotel and channel names are withheld',
-        ],
-      },
-      {
-        page: 'car-log-en.html',
-        title: 'car-log: maintenance that works without a connection',
-        href: '/case-studies/car-log',
-        repository: 'https://github.com/alipadron/car-log',
-        snippets: [
-          'A tracker that cannot open',
-          'saved locally first and queued for sync',
-          'The source is public',
-        ],
-      },
-      {
-        page: 'medication-en.html',
-        title: 'medication-manager: schedules that survive a late dose',
-        href: '/case-studies/medication-manager',
-        repository: 'https://github.com/alipadron/medication-manager',
-        snippets: [
-          'An interval dose',
-          're-anchors on the dose actually taken',
-          'Web Push',
-          'MCP server',
-        ],
-      },
-    ],
-  },
-  es: {
-    index: 'case-studies-es.html',
-    intro: 'Tres trabajos',
-    read: 'Leer el caso de estudio',
-    problem: 'Problema',
-    decisions: 'Decisiones',
-    result: 'Resultado',
-    repository: 'Repositorio',
-    studies: [
-      {
-        page: 'gofeels-es.html',
-        title: 'Un PMS hotelero: sobreventas, releases y endurecimiento',
-        href: '/es/case-studies/gofeels',
-        snippets: [
-          'un envío podía fallar',
-          'outbox transaccional',
-          'sincronización continua',
-          '150 hoteles con más de 2.000 habitaciones',
-          'de 2/44 a 0/1',
-          'Los nombres de clientes, hoteles y canales se omiten',
-        ],
-      },
-      {
-        page: 'car-log-es.html',
-        title: 'car-log: mantenimiento que funciona sin conexión',
-        href: '/es/case-studies/car-log',
-        repository: 'https://github.com/alipadron/car-log',
-        snippets: [
-          'Una app que no abre',
-          'se guardan primero en local',
-          'El código es público',
-        ],
-      },
-      {
-        page: 'medication-es.html',
-        title: 'medication-manager: horarios que sobreviven a una dosis tardía',
-        href: '/es/case-studies/medication-manager',
-        repository: 'https://github.com/alipadron/medication-manager',
-        snippets: [
-          'Una dosis por intervalo',
-          'se reancla en la dosis realmente tomada',
-          'Web Push',
-          'servidor MCP',
-        ],
-      },
-    ],
-  },
-} as const;
-
-/**
- * Names the GoFeels study must never expose: end customers, channels, payment
- * providers and security vendors. The study is anonymized, so none of these
- * can appear in either language.
- */
-const FORBIDDEN_IN_GOFEELS = [
-  'Booking.com',
-  'Expedia',
-  'Roombeast',
-  'Despegar',
-  'Defontana',
-  'Transbank',
-  'Webpay',
-  'Stripe',
-  'PayPal',
-  'SonarQube',
-  'Datadog',
-  'SII',
-  'CVE',
-  'breach',
-  'incident',
-  'compromised',
-  'attack',
-  'brecha',
-  'incidente',
-  'comprometid',
-  'ataque',
-];
-
-/** The links an index page renders to its own language's studies. */
-function caseStudyLinks(html: string): string[] {
-  return [
-    ...html.matchAll(/href="((?:\/es)?\/case-studies\/[^"]+)"/g),
-  ].map((match) => match[1]);
-}
 
 type NpmResult = ReturnType<typeof runNpmScript>;
 
@@ -778,7 +433,7 @@ describe('build-level outputs', () => {
     expect(spanish).toContain(EXPECTED.es.homeLink);
   });
 
-  it('prerenders the Home value proposition, CTAs and metrics in both languages', () => {
+  it('prerenders the Home value proposition and CTAs in both languages', () => {
     const english = readArtifact('home-en.html');
     const spanish = readArtifact('home-es.html');
 
@@ -788,97 +443,17 @@ describe('build-level outputs', () => {
     ] as const) {
       expect(html).toContain(expected.headline);
       expect(html).toContain(expected.summary);
-      expect(html).toContain(expected.workWithMe);
-      expect(html).toContain(`mailto:hola@alipadron.dev`);
-      expect(html).toContain(expected.metricsHeading);
+      expect(html).toContain(
+        `class="link" href="${expected.contactHref}"`,
+      );
+      expect(html).toContain(`>${expected.contact}</a>`);
+      expect(html).toContain(`href="mailto:hola@alipadron.dev"`);
       expect(html).toContain(expected.photoAlt);
       expect(html).toContain(expected.photoCaption);
-
-      for (const metric of expected.metrics) {
-        expect(html).toContain(metric.value);
-        expect(html).toContain(metric.label);
-      }
     }
 
     expect(english).toContain('href="/cv/cv-en-fullstack-ai.pdf"');
     expect(spanish).toContain('href="/cv/cv-es-fullstack-ai.pdf"');
-  });
-
-  it('prerenders How I work in both languages', () => {
-    for (const [language, artifact] of [
-      ['en', 'how-i-work-en.html'],
-      ['es', 'how-i-work-es.html'],
-    ] as const) {
-      const html = readArtifact(artifact);
-      const expected = DOCUMENT_PAGES[language].howIWork;
-
-      expect(html).toContain(`<html lang="${language}">`);
-      expect(html).toContain(expected.kicker);
-      expect(html).toContain(expected.title);
-      expect(html).toContain(expected.intro);
-
-      for (const section of expected.sections) {
-        expect(html, section).toContain(section);
-      }
-
-      for (const stage of expected.stages) {
-        expect(html, stage).toContain(stage);
-      }
-    }
-  });
-
-  it('prerenders the case studies index in both languages', () => {
-    for (const expected of [CASE_STUDIES.en, CASE_STUDIES.es]) {
-      const html = readArtifact(expected.index);
-
-      expect(html).toContain(expected.intro);
-      expect(html).toContain(expected.read);
-
-      for (const study of expected.studies) {
-        expect(html, study.title).toContain(study.title);
-        expect(html, study.href).toContain(`href="${study.href}"`);
-      }
-    }
-  });
-
-  it('prerenders Work with me in both languages', () => {
-    for (const [language, artifact] of [
-      ['en', 'work-with-me-en.html'],
-      ['es', 'work-with-me-es.html'],
-    ] as const) {
-      const html = readArtifact(artifact);
-      const expected = DOCUMENT_PAGES[language].workWithMe;
-
-      expect(html).toContain(`<html lang="${language}">`);
-      expect(html).toContain(expected.kicker);
-      expect(html).toContain(expected.title);
-      expect(html).toContain(expected.intro);
-      expect(html).toContain(expected.availability);
-      expect(html).toContain(expected.cta);
-      expect(html).toContain(`mailto:hola@alipadron.dev`);
-
-      for (const section of expected.sections) {
-        expect(html, section).toContain(section);
-      }
-
-      for (const service of expected.services) {
-        expect(html, service).toContain(service);
-      }
-    }
-  });
-
-  it('links every index entry to a prerendered study in the same language', () => {
-    for (const expected of [CASE_STUDIES.en, CASE_STUDIES.es]) {
-      const links = caseStudyLinks(readArtifact(expected.index));
-
-      for (const study of expected.studies) {
-        expect(links, expected.index).toContain(study.href);
-        expect(
-          existsSync(prerenderedFile(study.href)),
-          `${expected.index} -> ${study.href}`,
-        ).toBe(true);
-      }
-    }
   });
 
   it('prerenders Contact in both languages with only the three channels', () => {
@@ -906,40 +481,18 @@ describe('build-level outputs', () => {
     }
   });
 
-  it('links the new pages and case studies from the primary navigation in both languages', () => {
+  it('links every page from the primary navigation in both languages', () => {
     for (const [artifact, expected] of [
-      [
-        'home-en.html',
-        [
-          '/',
-          '/experience',
-          '/case-studies',
-          '/how-i-work',
-          '/work-with-me',
-          '/contact',
-        ],
-      ],
-      [
-        'home-es.html',
-        [
-          '/es',
-          '/es/experience',
-          '/es/case-studies',
-          '/es/how-i-work',
-          '/es/work-with-me',
-          '/es/contact',
-        ],
-      ],
+      ['home-en.html', ['/', '/experience', '/contact']],
+      ['home-es.html', ['/es', '/es/experience', '/es/contact']],
     ] as const) {
       expect(primaryNavHrefs(readArtifact(artifact))).toEqual(expected);
     }
   });
 
   it.each([
-    { page: 'how-i-work-en.html', expectedHref: '/how-i-work' },
-    { page: 'how-i-work-es.html', expectedHref: '/es/how-i-work' },
-    { page: 'work-with-me-en.html', expectedHref: '/work-with-me' },
-    { page: 'work-with-me-es.html', expectedHref: '/es/work-with-me' },
+    { page: 'experience-en.html', expectedHref: '/experience' },
+    { page: 'experience-es.html', expectedHref: '/es/experience' },
     { page: 'contact-en.html', expectedHref: '/contact' },
     { page: 'contact-es.html', expectedHref: '/es/contact' },
   ])(
@@ -963,86 +516,13 @@ describe('build-level outputs', () => {
     }
   });
 
-  it('tells every case study as problem, decisions and result', () => {
-    for (const expected of [CASE_STUDIES.en, CASE_STUDIES.es]) {
-      for (const study of expected.studies) {
-        const html = readArtifact(study.page);
-
-        expect(html, study.page).toContain(study.title);
-
-        const headings = [
-          expected.problem,
-          expected.decisions,
-          expected.result,
-        ].map((heading) => html.indexOf(heading));
-
-        for (const [index, position] of headings.entries()) {
-          expect(position, `${study.page}: heading ${index}`).toBeGreaterThan(
-            -1,
-          );
-        }
-
-        expect(headings[0], study.page).toBeLessThan(headings[1]);
-        expect(headings[1], study.page).toBeLessThan(headings[2]);
-
-        for (const snippet of study.snippets) {
-          expect(html, `${study.page}: ${snippet}`).toContain(snippet);
-        }
-
-        if ('repository' in study) {
-          expect(html, study.page).toContain(expected.repository);
-          expect(html, study.page).toContain(`href="${study.repository}"`);
-        }
-      }
-    }
-  });
-
-  it('keeps end customers, channels and vendors out of the GoFeels study', () => {
-    for (const page of ['gofeels-en.html', 'gofeels-es.html']) {
-      const html = readArtifact(page);
-
-      for (const forbidden of FORBIDDEN_IN_GOFEELS) {
-        expect(html, `${page} leaks ${forbidden}`).not.toContain(forbidden);
-      }
-    }
-  });
-
-  it('reaches the case studies from the navigation on every page type', () => {
-    expect(readArtifact('home-en.html')).toContain('href="/case-studies"');
-    expect(readArtifact('home-es.html')).toContain('href="/es/case-studies"');
-    expect(readArtifact('experience-en.html')).toContain(
-      'href="/case-studies"',
-    );
-    expect(readArtifact('experience-es.html')).toContain(
-      'href="/es/case-studies"',
-    );
-  });
-
   it.each([
     { page: 'home-en.html', expectedHref: '/es' },
     { page: 'home-es.html', expectedHref: '/' },
     { page: 'experience-en.html', expectedHref: '/es/experience' },
     { page: 'experience-es.html', expectedHref: '/experience' },
-    { page: 'how-i-work-en.html', expectedHref: '/es/how-i-work' },
-    { page: 'how-i-work-es.html', expectedHref: '/how-i-work' },
-    { page: 'work-with-me-en.html', expectedHref: '/es/work-with-me' },
-    { page: 'work-with-me-es.html', expectedHref: '/work-with-me' },
     { page: 'contact-en.html', expectedHref: '/es/contact' },
     { page: 'contact-es.html', expectedHref: '/contact' },
-    { page: 'case-studies-en.html', expectedHref: '/es/case-studies' },
-    { page: 'case-studies-es.html', expectedHref: '/case-studies' },
-    { page: 'gofeels-en.html', expectedHref: '/es/case-studies/gofeels' },
-    { page: 'gofeels-es.html', expectedHref: '/case-studies/gofeels' },
-    { page: 'car-log-en.html', expectedHref: '/es/case-studies/car-log' },
-    { page: 'car-log-es.html', expectedHref: '/case-studies/car-log' },
-    {
-      page: 'medication-en.html',
-      expectedHref: '/es/case-studies/medication-manager',
-    },
-    {
-      page: 'medication-es.html',
-      expectedHref: '/case-studies/medication-manager',
-    },
   ])(
     'the language switcher on $page links to the equivalent page ($expectedHref)',
     ({ page, expectedHref }) => {
@@ -1120,7 +600,6 @@ describe('build-level outputs', () => {
     for (const page of PAGES) {
       const html = readArtifact(page.artifact);
       const seo = PAGE_SEO[page.artifact];
-      const isCaseStudyPage = /^\/case-studies\/./.test(page.path);
       const imageAlt =
         page.language === 'en'
           ? 'Alí Padrón, Senior Full-Stack Engineer'
@@ -1129,7 +608,7 @@ describe('build-level outputs', () => {
         page.language === 'en' ? ['en_US', 'es_ES'] : ['es_ES', 'en_US'];
 
       const expectedMeta: [string, 'name' | 'property', string][] = [
-        ['og:type', 'property', isCaseStudyPage ? 'article' : 'website'],
+        ['og:type', 'property', 'website'],
         ['og:site_name', 'property', 'Alí Padrón'],
         ['og:title', 'property', seo.title],
         ['og:description', 'property', seo.description],
@@ -1267,30 +746,44 @@ describe('build-level outputs', () => {
     expect(text).toContain(EXPECTED.es.location);
   });
 
-  it('keeps the payments bullet in Tech Lead only, while the site shows it', async () => {
-    const techLead = await artifactPdfText('cv-en-tech-lead.pdf');
-
-    expect(techLead).toContain(EXPECTED.en.paymentsBullet);
-    expect(await artifactPdfText('cv-en-fullstack-ai.pdf')).not.toContain(
-      EXPECTED.en.paymentsBullet,
+  it('keeps the warehouse bullet in Freelance only, while the site shows it', async () => {
+    expect(readArtifact('experience-en.html')).toContain(
+      EXPECTED.en.warehouseBullet,
     );
-    expect(await artifactPdfText('cv-en-freelance.pdf')).not.toContain(
-      EXPECTED.en.paymentsBullet,
+    expect(await artifactPdfText('cv-en-freelance.pdf')).toContain(
+      EXPECTED.en.warehouseBullet,
+    );
+    expect(await artifactPdfText('cv-en-fullstack-ai.pdf')).not.toContain(
+      EXPECTED.en.warehouseBullet,
+    );
+    expect(await artifactPdfText('cv-en-tech-lead.pdf')).not.toContain(
+      EXPECTED.en.warehouseBullet,
     );
   });
 
-  it('puts ownership and hardening first in Tech Lead and CI first in Freelance', async () => {
+  it('puts leadership, payments and releases first in Tech Lead and leadership and releases first in Freelance', async () => {
     const techLead = await artifactPdfText('cv-en-tech-lead.pdf');
 
-    expect(techLead.indexOf(EXPECTED.en.securityBullet)).toBeLessThan(
-      techLead.indexOf(EXPECTED.en.bullet),
-    );
+    for (const bullet of [
+      EXPECTED.en.techLeadBullet,
+      EXPECTED.en.paymentsBullet,
+      EXPECTED.en.releaseBullet,
+    ]) {
+      expect(techLead.indexOf(bullet), bullet).toBeLessThan(
+        techLead.indexOf(EXPECTED.en.bullet),
+      );
+    }
 
     const freelance = await artifactPdfText('cv-en-freelance.pdf');
 
-    expect(freelance.indexOf(EXPECTED.en.sharedCiBullet)).toBeLessThan(
-      freelance.indexOf(EXPECTED.en.bullet),
-    );
+    for (const bullet of [
+      EXPECTED.en.techLeadBullet,
+      EXPECTED.en.releaseBullet,
+    ]) {
+      expect(freelance.indexOf(bullet), bullet).toBeLessThan(
+        freelance.indexOf(EXPECTED.en.bullet),
+      );
+    }
   });
 
   it('accepts mixed year and month date granularity', () => {
@@ -1326,19 +819,13 @@ describe('build-level outputs', () => {
     {
       fixture: 'invalid-pages-translation',
       expectedFile: 'pages.json',
-      expectedDetails: ['work-with-me.intro.es'],
+      expectedDetails: ['contact.intro.es'],
       expectedMessage: 'missing Spanish translation',
     },
     {
       fixture: 'invalid-seo-translation',
       expectedFile: 'ui.json',
       expectedDetails: ['seo.pages.experience.description.es'],
-      expectedMessage: 'missing Spanish translation',
-    },
-    {
-      fixture: 'invalid-case-study-translation',
-      expectedFile: 'case-studies.json',
-      expectedDetails: ['caseStudies.0.problem.paragraphs.0.es'],
       expectedMessage: 'missing Spanish translation',
     },
     {
