@@ -31,7 +31,7 @@ Alternativa:
 > I also take freelance work: taking AI-built apps to production with code and security audits,
 > CI/CD pipelines and AI workflows your team can keep using after I leave.
 >
-> Remote · hola@alipadron.dev · https://alipadron.dev
+> Remote · hello@alipadron.dev · https://alipadron.dev
 
 ## About (ES)
 
@@ -46,7 +46,7 @@ Alternativa:
 > auditorías de código y de seguridad, pipelines de CI/CD y flujos de trabajo con IA que tu equipo
 > puede seguir usando cuando yo me vaya.
 >
-> Remoto · hola@alipadron.dev · https://alipadron.dev
+> Remoto · hello@alipadron.dev · https://alipadron.dev
 
 ## Experiencia (EN)
 

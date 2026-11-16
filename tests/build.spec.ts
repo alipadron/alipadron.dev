@@ -443,7 +443,7 @@ describe('build-level outputs', () => {
         `class="link" href="${expected.contactHref}"`,
       );
       expect(html).toContain(`>${expected.contact}</a>`);
-      expect(html).toContain(`href="mailto:hola@alipadron.dev"`);
+      expect(html).toContain(`href="mailto:hello@alipadron.dev"`);
       expect(html).not.toContain('app-portrait');
       expect(html).not.toContain('portrait-frame');
     }
@@ -469,7 +469,7 @@ describe('build-level outputs', () => {
         expect(html, section).toContain(section);
       }
 
-      expect(html).toContain('mailto:hola@alipadron.dev');
+      expect(html).toContain('mailto:hello@alipadron.dev');
       expect(html).toContain('linkedin.com/in/alipadron');
       expect(html).toContain('github.com/alipadron');
       expect(html).not.toMatch(/<form/i);

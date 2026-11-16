@@ -101,7 +101,7 @@ every page, the sharing tags, the image and the sitemap.
 ## Contact policy and privacy
 
 Public output — the site HTML and any published PDF — carries exactly three
-contact channels from `content/career.json`: `hola@alipadron.dev`, LinkedIn and
+contact channels from `content/career.json`: `hello@alipadron.dev`, LinkedIn and
 GitHub. The site build never reads the variables below, so a phone number cannot
 reach the site.
 
