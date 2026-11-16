@@ -20,7 +20,7 @@ const FAKE_PHONE = '+1 555 0100';
 // Kept as literals on purpose: these tests observe build outputs and never
 // import the content module or its schema.
 const PUBLIC_CONTACT = [
-  'hola@alipadron.dev',
+  'hello@alipadron.dev',
   'linkedin.com/in/alipadron',
   'github.com/alipadron',
 ];
